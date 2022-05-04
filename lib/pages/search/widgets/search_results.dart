@@ -75,10 +75,6 @@ class _SearchResultItem extends StatelessWidget {
           context.push("/word/" + _word);
         },
         child: Card(
-          // TODO: CardTheme
-          margin: EdgeInsets.zero,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: const EdgeInsets.all(kPadding),
             child: Row(

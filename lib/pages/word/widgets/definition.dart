@@ -43,10 +43,8 @@ class _Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        // TODO: CardTheme
         margin: EdgeInsets.zero,
         color: Colors.black12,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: LayoutBuilder(
           builder: (context, constraints) => SizedBox(
             height: constraints.maxWidth * 2 / 3,
