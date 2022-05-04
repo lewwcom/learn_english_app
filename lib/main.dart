@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:learn_english_app/pages/decks/decks_page.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 
@@ -13,8 +14,9 @@ void main() {
 
 class App extends StatelessWidget {
   final GoRouter _router = GoRouter(
-    initialLocation: "/search",
+    initialLocation: "/decks",
     routes: [
+      GoRoute(path: "/decks", builder: (context, state) => DecksPage()),
       GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
       GoRoute(
         path: "/word/:word",

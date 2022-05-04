@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/search/widgets/search_history.dart';
+import 'package:learn_english_app/widgets/word_card.dart';
 import 'package:provider/provider.dart';
 
 class WordsOfTheDay extends StatelessWidget {
@@ -29,71 +30,38 @@ class WordsOfTheDay extends StatelessWidget {
             ),
             SizedBox(
               height: 200,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: kPadding,
-                  vertical: kPadding,
-                ),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(width: kPadding / 2),
-                itemCount: _words.length,
-                itemBuilder: (context, index) => _WordCard(
-                  _words[index].word,
-                  _words[index].defintions.first.meaning,
-                ),
-              ),
+              child: _WordCards(_words),
             ),
           ],
         ),
       );
 }
 
-class _WordCard extends StatelessWidget {
-  final String _word;
-  final String _meaning;
+class _WordCards extends StatelessWidget {
+  final List<Word> _words;
 
-  const _WordCard(this._word, this._meaning, {Key? key}) : super(key: key);
+  const _WordCards(this._words, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: 300,
-        child: GestureDetector(
-          onTap: () {
-            context.read<SearchHistoryNotifier>().add(_word);
-            context.push("/word/" + _word);
-          },
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(2 * kPadding),
-              // To pass right constraint to IntrinsicWidth
-              child: Center(
-                child: IntrinsicWidth(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        _word,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                        overflow: TextOverflow.fade,
-                        softWrap: false,
-                        textAlign: TextAlign.end,
-                      ),
-                      Text(
-                        _meaning,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        textAlign: TextAlign.end,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+  Widget build(BuildContext context) => ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(
+          horizontal: kPadding,
+          vertical: kPadding,
+        ),
+        separatorBuilder: (context, index) =>
+            const SizedBox(width: kPadding / 2),
+        itemCount: _words.length,
+        itemBuilder: (context, index) => SizedBox(
+          width: 300,
+          child: GestureDetector(
+            onTap: () {
+              context.read<SearchHistoryNotifier>().add(_words[index].word);
+              context.push("/word/" + _words[index].word);
+            },
+            child: WordCard(
+              _words[index].word,
+              _words[index].defintions.first.meaning,
             ),
           ),
         ),
