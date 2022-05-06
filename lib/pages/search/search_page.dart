@@ -4,8 +4,9 @@ import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/search/widgets/search_history.dart';
 import 'package:learn_english_app/pages/search/widgets/search_result_item.dart';
 import 'package:learn_english_app/pages/search/widgets/words_of_the_day.dart';
-import 'package:learn_english_app/widgets/header.dart';
-import 'package:learn_english_app/widgets/header_search.dart';
+import 'package:learn_english_app/widgets/header/header.dart';
+import 'package:learn_english_app/widgets/header/header_search.dart';
+import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:learn_english_app/widgets/search_results.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +49,7 @@ class SearchPage extends StatelessWidget {
           return Scaffold(
             body: CustomScrollView(
               slivers: [
-                const Header(HeaderSearch<String>(_title)),
+                const Header(HeaderSearch<String>(title: _title)),
                 SliverPadding(
                   padding: const EdgeInsets.all(kPadding),
                   sliver: query.isEmpty

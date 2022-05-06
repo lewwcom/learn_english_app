@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/decks/widget/deck_list_item.dart';
-import 'package:learn_english_app/widgets/header.dart';
-import 'package:learn_english_app/widgets/header_search.dart';
+import 'package:learn_english_app/widgets/header/header.dart';
+import 'package:learn_english_app/widgets/header/header_search.dart';
+import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:learn_english_app/widgets/search_results.dart';
 import 'package:provider/provider.dart';
 
@@ -34,8 +36,11 @@ class DecksPage extends StatelessWidget {
         builder: (context, child) => Scaffold(
           body: CustomScrollView(
             slivers: [
-              // TODO: New deck button
-              const Header(HeaderSearch<Deck>(_title)),
+              Header(HeaderSearch<Deck>(
+                title: _title,
+                buttonText: "New deck",
+                onButtonPressed: () => context.push("/create-deck"),
+              )),
               SliverPadding(
                 padding: const EdgeInsets.all(kPadding),
                 sliver: SearchResults<Deck>(
