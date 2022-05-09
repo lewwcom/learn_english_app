@@ -21,15 +21,20 @@ class Definition extends StatelessWidget {
         [
           Text("Definitions", style: titleStyle),
           const SizedBox(height: kPadding / 2),
+          // TODO: Add lexical category
           Text(_word.defintions[_defIndex].meaning, style: bodyStyle),
-          const SizedBox(height: kPadding),
-          Text("Examples", style: titleStyle),
-          const SizedBox(height: kPadding / 2),
-          Text(_word.defintions[_defIndex].example, style: bodyStyle),
-          const SizedBox(height: kPadding),
-          Text("Image", style: titleStyle),
-          const SizedBox(height: kPadding / 2),
-          _Image(_word.inclusionImageUrl),
+          if (_word.defintions[_defIndex].example != null) ...[
+            const SizedBox(height: kPadding),
+            Text("Examples", style: titleStyle),
+            const SizedBox(height: kPadding / 2),
+            Text(_word.defintions[_defIndex].example!, style: bodyStyle)
+          ],
+          if (_word.imgUrl != null) ...[
+            const SizedBox(height: kPadding),
+            Text("Image", style: titleStyle),
+            const SizedBox(height: kPadding / 2),
+            _Image(_word.imgUrl!)
+          ],
         ],
       ),
     );
