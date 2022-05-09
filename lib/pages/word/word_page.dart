@@ -3,7 +3,7 @@ import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/word/widgets/definition.dart';
 import 'package:learn_english_app/pages/word/widgets/header_content.dart';
-import 'package:learn_english_app/widgets/header.dart';
+import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:provider/provider.dart';
 
 class WordPage extends StatelessWidget {

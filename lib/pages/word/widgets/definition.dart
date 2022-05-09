@@ -49,7 +49,7 @@ class _Image extends StatelessWidget {
           builder: (context, constraints) => SizedBox(
             height: constraints.maxWidth * 2 / 3,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(kRadius),
               child: CachedNetworkImage(
                 imageUrl: _imageUrl,
                 fit: BoxFit.cover,
