@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:learn_english_app/api/api_client.dart' as api_client;
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/pages/deck/deck_page.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
@@ -13,7 +14,26 @@ import 'models/word.dart';
 // TODO: TextTheme
 
 void main() {
+  testApiClient();
   runApp(App());
+}
+
+// TODO: Remove it
+Future<void> testApiClient() async {
+  await api_client.post(
+    "auth/signup",
+    {
+      "username": "test_account",
+      "password": "12345678",
+      "password_confirmation": "12345678",
+    },
+  );
+  await api_client.post(
+    "auth/login",
+    {"username": "test_account", "password": "12345678", "remember_me": "true"},
+  );
+  List<Word> words = await api_client.get("words/?word=ca", WordsSerializer());
+  debugPrint(words.first.word);
 }
 
 class App extends StatelessWidget {

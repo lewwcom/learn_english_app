@@ -32,11 +32,12 @@ class HeaderContent extends StatelessWidget {
                     .titleLarge
                     ?.copyWith(color: Colors.white70),
               ),
-              IconButton(
-                icon: const Icon(Icons.volume_up_rounded),
-                color: Colors.white70,
-                onPressed: () => audioPlayer.play(_word.audioUrl),
-              ),
+              if (_word.audioUrl != null)
+                IconButton(
+                  icon: const Icon(Icons.volume_up_rounded),
+                  color: Colors.white70,
+                  onPressed: () => audioPlayer.play(_word.audioUrl!),
+                ),
               const Spacer(),
               AnimatedSmoothIndicator(
                 activeIndex: context.watch<ValueNotifier<int>>().value,
