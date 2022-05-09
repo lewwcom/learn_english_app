@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:learn_english_app/constants.dart';
 
 class Header extends StatelessWidget {
-  static const expandedHeight = kToolbarHeight * 4.5;
+  static const _expandedHeight = kToolbarHeight * 5;
 
   final Widget _child;
+  final double _bottomHeight;
 
-  const Header(this._child, {Key? key}) : super(key: key);
+  const Header(
+    this._child, {
+    Key? key,
+    double bottomHeight = kToolbarHeight * 3,
+  })  : _bottomHeight = bottomHeight,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) => SliverAppBar(
-        // automaticallyImplyLeading: false, => disable back button
         pinned: true,
         floating: true,
-        expandedHeight: expandedHeight,
+        expandedHeight: _expandedHeight,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight * 3),
+          preferredSize: Size.fromHeight(_bottomHeight),
           child: Container(
             alignment: Alignment.bottomLeft,
             padding: const EdgeInsets.all(kPadding),

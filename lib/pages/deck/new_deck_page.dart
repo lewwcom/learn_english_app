@@ -26,7 +26,7 @@ class NewDeckPage extends StatelessWidget {
                   fillColor: Theme.of(context).cardColor,
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(kRadius),
                   ),
                   hintText: "Awesome Name",
                 ),

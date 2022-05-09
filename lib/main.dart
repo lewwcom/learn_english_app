@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
-import 'package:learn_english_app/pages/decks/decks_page.dart';
-import 'package:learn_english_app/pages/decks/new_deck_page.dart';
+import 'package:learn_english_app/pages/deck/deck_page.dart';
+import 'package:learn_english_app/pages/deck/decks_page.dart';
+import 'package:learn_english_app/pages/deck/new_deck_page.dart';
+import 'package:learn_english_app/pages/deck/words_in_deck_page.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 
@@ -20,11 +22,31 @@ class App extends StatelessWidget {
     routes: [
       GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
       GoRoute(
-        path: "/word/:word",
+        path: "/words/:word",
         builder: (context, state) =>
             WordPage(Word.fromString(state.params["word"]!)),
       ),
-      GoRoute(path: "/decks", builder: (context, state) => DecksPage()),
+      GoRoute(
+        path: "/decks",
+        builder: (context, state) => const DecksPage(),
+        routes: [
+          GoRoute(
+            path: ":deck",
+            builder: (context, state) => DeckPage(DecksPage.decks.firstWhere(
+                (deck) => deck.name.compareTo(state.params["deck"]!) == 0)),
+            routes: [
+              GoRoute(
+                path: "words",
+                builder: (context, state) => WordsInDeckPage(
+                  DecksPage.decks.firstWhere((deck) =>
+                      deck.name.compareTo(state.params["deck"]!) == 0),
+                  searchBoxAutoFocus: state.queryParams["query"] != null,
+                ),
+              )
+            ],
+          )
+        ],
+      ),
       GoRoute(
         path: "/create-deck",
         builder: (context, state) => const NewDeckPage(),
@@ -46,7 +68,7 @@ class App extends StatelessWidget {
         cardTheme: CardTheme(
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(kRadius),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(

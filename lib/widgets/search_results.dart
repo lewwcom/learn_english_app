@@ -51,7 +51,7 @@ class _EmptyResult extends StatelessWidget {
             children: [
               const TextSpan(text: "Sorry, your search"),
               TextSpan(
-                  text: _query != null ? " \"" + _query! + "\"" : "",
+                  text: _query != null ? " \"$_query\"" : "",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               const TextSpan(text: " did not match anything we known :("),
             ],

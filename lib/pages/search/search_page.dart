@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/search/widgets/search_history.dart';
-import 'package:learn_english_app/pages/search/widgets/search_result_item.dart';
-import 'package:learn_english_app/pages/search/widgets/words_of_the_day.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/header/header_search.dart';
 import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:learn_english_app/widgets/search_results.dart';
+import 'package:learn_english_app/widgets/word_card/word_cards_row.dart';
+import 'package:learn_english_app/widgets/word_list_entry.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   static const String _title = "Lookup";
 
+  // TODO: remove it
   static const List<String> _words = [
     "hello",
     "goodbye",
@@ -61,14 +63,32 @@ class SearchPage extends StatelessWidget {
                               .map((word) => Word.fromString(word))
                               .toList(),
                           childBuilder: (context, results, index) =>
-                              SearchResultItem(
-                            results[index].word,
-                            results[index].defintions.first.meaning,
+                              GestureDetector(
+                            onTap: () {
+                              context
+                                  .read<SearchHistoryNotifier>()
+                                  .add(results[index].word);
+                              context.push("/words/${results[index].word}");
+                            },
+                            child: WordListEntry(
+                              results[index].word,
+                              results[index].defintions.first.meaning,
+                            ),
                           ),
                           spaceBetweenItem: kPadding / 2,
                         ),
                 ),
-                WordsOfTheDay()
+                WordCardsRow(
+                  title: "Words of the day",
+                  words: _words
+                      .sublist(0, 5)
+                      .map((word) => Word.fromString(word))
+                      .toList(),
+                  onTapWord: (word) {
+                    context.read<SearchHistoryNotifier>().add(word.word);
+                    context.push("/words/${word.word}");
+                  },
+                )
               ],
             ),
           );

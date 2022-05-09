@@ -16,7 +16,7 @@ class SearchHistory extends StatelessWidget {
               .map((word) => TextButton.icon(
                     onPressed: () {
                       context.read<SearchHistoryNotifier>().add(word);
-                      context.push("/word/" + word);
+                      context.push("/words/$word");
                     },
                     icon: const Icon(
                       Icons.history,
