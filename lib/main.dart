@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/api/api_client.dart' as api_client;
+import 'package:learn_english_app/api/api_exception.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/pages/deck/deck_page.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
@@ -20,20 +21,41 @@ void main() {
 
 // TODO: Remove it
 Future<void> testApiClient() async {
-  await api_client.post(
-    "auth/signup",
-    {
-      "username": "test_account",
-      "password": "12345678",
-      "password_confirmation": "12345678",
-    },
-  );
-  await api_client.post(
-    "auth/login",
-    {"username": "test_account", "password": "12345678", "remember_me": "true"},
-  );
-  List<Word> words = await api_client.get("words/?word=ca", WordsSerializer());
-  debugPrint(words.first.word);
+  try {
+    await api_client.post(
+      "auth/signup",
+      api_client.DiscardResponseContentSerializer(),
+      formData: {
+        "username": "test_account",
+        "password": "12345678",
+        "password_confirmation": "12345678",
+      },
+    );
+  } on ApiException catch (e) {
+    debugPrint(e.toString());
+  }
+
+  try {
+    await api_client.post(
+      "auth/login",
+      api_client.DiscardResponseContentSerializer(),
+      formData: {
+        "username": "test_account",
+        "password": "12345678",
+        "remember_me": "true"
+      },
+    );
+  } on ApiException catch (e) {
+    debugPrint(e.toString());
+  }
+
+  try {
+    List<Word> words =
+        await api_client.get("words/?word=ca", WordsSerializer());
+    debugPrint(words.first.word);
+  } on ApiException catch (e) {
+    debugPrint(e.toString());
+  }
 }
 
 class App extends StatelessWidget {
