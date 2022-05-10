@@ -1,4 +1,4 @@
-import 'package:learn_english_app/models/serializer.dart';
+import 'package:learn_english_app/api/serializer.dart';
 
 class Definition {
   final String lexicalCategory;
@@ -10,6 +10,6 @@ class Definition {
 
 class DefinitionSerializer implements Serializer<Definition> {
   @override
-  Definition fromJson(Map<String, dynamic> json) =>
-      Definition(json["lexical_category"], json["meaning"], json["example"]);
+  Definition fromJsonContentKey(dynamic content) => Definition(
+      content["lexical_category"], content["meaning"], content["example"]);
 }

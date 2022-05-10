@@ -1,5 +1,5 @@
 import 'package:learn_english_app/models/definition.dart';
-import 'package:learn_english_app/models/serializer.dart';
+import 'package:learn_english_app/api/serializer.dart';
 
 class Word {
   final String word;
@@ -34,13 +34,13 @@ class Word {
 
 class WordSerializer implements Serializer<Word> {
   @override
-  Word fromJson(Map<String, dynamic> json) {
-    Word word =
-        Word(json["word"], json["ipa"], json["audio_url"], json["img_url"]);
+  Word fromJsonContentKey(dynamic content) {
+    Word word = Word(content["word"], content["ipa"], content["audio_url"],
+        content["img_url"]);
 
     final DefinitionSerializer definitionSerializer = DefinitionSerializer();
-    word._defintions.addAll((json["sys_defs"] as List<dynamic>)
-        .map((def) => definitionSerializer.fromJson(def))
+    word._defintions.addAll((content["sys_defs"] as List<dynamic>)
+        .map((def) => definitionSerializer.fromJsonContentKey(def))
         .toList());
     return word;
   }
@@ -48,10 +48,10 @@ class WordSerializer implements Serializer<Word> {
 
 class WordsSerializer implements Serializer<List<Word>> {
   @override
-  List<Word> fromJson(Map<String, dynamic> json) {
+  List<Word> fromJsonContentKey(dynamic content) {
     final WordSerializer wordSerializer = WordSerializer();
-    return (json["content"] as List<dynamic>)
-        .map((word) => wordSerializer.fromJson(word))
+    return (content as List<dynamic>)
+        .map((word) => wordSerializer.fromJsonContentKey(word))
         .toList();
   }
 }
