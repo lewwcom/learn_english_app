@@ -5,7 +5,9 @@ class SearchNotifier<T> extends ChangeNotifier {
   final Future<List<T>> Function(String query) _fetchResult;
   String _query = "";
   List<T> _results = List.empty();
-  CancelableOperation? _cancelableOperation;
+  CancelableOperation<List<T>>? _cancelableOperation;
+  bool _isLoading = false;
+  Object? _error;
 
   /// Passing [query] will make instance fetches result at contruction time.
   SearchNotifier(this._fetchResult, {String? query}) {
@@ -15,7 +17,12 @@ class SearchNotifier<T> extends ChangeNotifier {
     }
   }
 
-  List<T> get results => List.unmodifiable(_results);
+  List<T> get results {
+    if (_error != null) {
+      throw _error!;
+    }
+    return List.unmodifiable(_results);
+  }
 
   String get query => _query;
 
@@ -26,8 +33,10 @@ class SearchNotifier<T> extends ChangeNotifier {
   set query(String query) {
     _query = query;
     _fetchAfterDelay(const Duration(milliseconds: 500));
-    notifyListeners();
+    // notifyListeners();
   }
+
+  bool get isLoading => _isLoading;
 
   void _fetchAfterDelay(Duration duration) {
     _cancelableOperation?.cancel();
@@ -35,10 +44,22 @@ class SearchNotifier<T> extends ChangeNotifier {
       Future.delayed(
         duration,
         () async {
-          _results = await _fetchResult(_query);
+          _isLoading = true;
           notifyListeners();
+          return await _fetchResult(_query);
         },
       ),
-    );
+    ).then((result) {
+      _results = result;
+      _isLoading = false;
+      _error = null;
+      notifyListeners();
+      return result;
+    }, onError: (error, stackTrace) {
+      _error = error;
+      _isLoading = false;
+      notifyListeners();
+      return _results;
+    });
   }
 }

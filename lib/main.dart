@@ -21,6 +21,8 @@ void main() {
 
 // TODO: Remove it
 Future<void> testApiClient() async {
+  await api_client.removeCookie();
+
   try {
     await api_client.post(
       "auth/signup",
@@ -49,18 +51,18 @@ Future<void> testApiClient() async {
     debugPrint(e.toString());
   }
 
-  try {
+  /* try {
     List<Word> words =
         await api_client.get("words/?word=ca", WordsSerializer());
     debugPrint(words.first.word);
   } on ApiException catch (e) {
     debugPrint(e.toString());
-  }
+  } */
 }
 
 class App extends StatelessWidget {
   final GoRouter _router = GoRouter(
-    initialLocation: "/decks",
+    initialLocation: "/search",
     routes: [
       GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
       GoRoute(

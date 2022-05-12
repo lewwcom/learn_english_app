@@ -33,7 +33,7 @@ class DeckListItem extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
-              "${_deck.words.length.toString()} words",
+              "${_deck.words.length} words",
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
