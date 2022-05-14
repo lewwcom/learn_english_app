@@ -46,8 +46,8 @@ class _EmptyResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverToBoxAdapter(
-        child: RichText(
-          text: TextSpan(
+        child: Text.rich(
+          TextSpan(
             children: [
               const TextSpan(text: "Sorry, your search"),
               TextSpan(
@@ -55,7 +55,7 @@ class _EmptyResult extends StatelessWidget {
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               const TextSpan(text: " did not match anything we known :\u200d("),
             ],
-            style: const TextStyle(color: Colors.grey, inherit: true),
+            style: const TextStyle(color: Colors.grey),
           ),
         ),
       );

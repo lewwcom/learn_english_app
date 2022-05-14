@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/word.dart';
 
@@ -11,7 +13,6 @@ class Definition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle? bodyStyle = Theme.of(context).textTheme.bodyMedium;
     TextStyle? titleStyle = Theme.of(context)
         .textTheme
         .titleLarge
@@ -21,13 +22,42 @@ class Definition extends StatelessWidget {
         [
           Text("Definitions", style: titleStyle),
           const SizedBox(height: kPadding / 2),
-          // TODO: Add lexical category
-          Text(_word.defintions[_defIndex].meaning, style: bodyStyle),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: _word.defintions[_defIndex].lexicalCategory + " ",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                ..._word.defintions[_defIndex].meaning
+                    .split(" ")
+                    .map((word) => _ClickToSeachWord(word, context))
+              ],
+            ),
+          ),
           if (_word.defintions[_defIndex].example != null) ...[
             const SizedBox(height: kPadding),
             Text("Examples", style: titleStyle),
             const SizedBox(height: kPadding / 2),
-            Text(_word.defintions[_defIndex].example!, style: bodyStyle)
+            Text.rich(
+              TextSpan(
+                children: _word.defintions[_defIndex].example!
+                    .split(" ")
+                    .map(
+                      (word) => _ClickToSeachWord(
+                        word,
+                        context,
+                        style: _isWordOfPage(word)
+                            ? const TextStyle(fontWeight: FontWeight.bold)
+                            : null,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
           ],
           if (_word.imgUrl != null) ...[
             const SizedBox(height: kPadding),
@@ -39,6 +69,10 @@ class Definition extends StatelessWidget {
       ),
     );
   }
+
+  bool _isWordOfPage(String word) =>
+      _cleanFormOf(word) != null &&
+      _cleanFormOf(word)!.compareTo(_word.word.toLowerCase()) == 0;
 }
 
 class _Image extends StatelessWidget {
@@ -64,3 +98,19 @@ class _Image extends StatelessWidget {
         ),
       );
 }
+
+// TODO: onTap
+class _ClickToSeachWord extends TextSpan {
+  _ClickToSeachWord(String word, BuildContext context, {TextStyle? style})
+      : super(
+          text: word.trim() + " ",
+          recognizer: _cleanFormOf(word) != null
+              ? (TapGestureRecognizer()
+                ..onTap = () => context.push("/words/${_cleanFormOf(word)}"))
+              : null,
+          style: style,
+        );
+}
+
+String? _cleanFormOf(String word) =>
+    RegExp("\\w+").firstMatch(word.trim().toLowerCase())?[0];

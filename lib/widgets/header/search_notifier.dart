@@ -31,9 +31,10 @@ class SearchNotifier<T> extends ChangeNotifier {
   /// If [query] is setted within 500ms after last set, the currently results
   /// fetching process will be canceled.
   set query(String query) {
-    _query = query;
-    _fetchAfterDelay(const Duration(milliseconds: 500));
-    // notifyListeners();
+    if (query.compareTo(_query) != 0) {
+      _query = query;
+      _fetchAfterDelay(const Duration(milliseconds: 500));
+    }
   }
 
   bool get isLoading => _isLoading;
