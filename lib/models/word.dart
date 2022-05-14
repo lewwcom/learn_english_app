@@ -2,16 +2,18 @@ import 'package:learn_english_app/models/definition.dart';
 import 'package:learn_english_app/api/serializer.dart';
 
 class Word {
+  final int id;
   final String word;
   final String ipa;
   final String? audioUrl;
   final String? imgUrl;
   final List<Definition> _defintions = List.empty(growable: true);
 
-  Word(this.word, this.ipa, this.audioUrl, this.imgUrl);
+  Word(this.id, this.word, this.ipa, this.audioUrl, this.imgUrl);
 
   factory Word.fromString(String word) {
     Word result = Word(
+      0,
       word,
       "/ipa/",
       "https://upload.wikimedia.org/wikipedia/commons/4/48/En-uk-hello.ogg",
@@ -35,8 +37,8 @@ class Word {
 class WordSerializer implements Serializer<Word> {
   @override
   Word fromJsonContentKey(dynamic content) {
-    Word word = Word(content["word"], content["ipa"], content["audio_url"],
-        content["img_url"]);
+    Word word = Word(content["id"], content["word"], content["ipa"],
+        content["audio_url"], content["img_url"]);
 
     final DefinitionSerializer definitionSerializer = DefinitionSerializer();
     word._defintions.addAll((content["sys_defs"] as List<dynamic>)

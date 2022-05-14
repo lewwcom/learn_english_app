@@ -12,10 +12,10 @@ import 'package:provider/provider.dart';
 
 class WordsInDeckPage extends StatelessWidget {
   final Deck _deck;
-  final bool _searchBoxAutoFocus;
+  final String? _searchQuery;
 
-  const WordsInDeckPage(this._deck, {Key? key, bool searchBoxAutoFocus = false})
-      : _searchBoxAutoFocus = searchBoxAutoFocus,
+  const WordsInDeckPage(this._deck, {Key? key, String? searchQuery})
+      : _searchQuery = searchQuery,
         super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class WordsInDeckPage extends StatelessWidget {
               Header(
                 DeckPageHeaderContent(
                   _deck,
-                  searchBoxAutoFocus: _searchBoxAutoFocus,
+                  searchBoxAutoFocus: _searchQuery != null,
                 ),
                 bottomHeight: kToolbarHeight * 4.3,
               ),

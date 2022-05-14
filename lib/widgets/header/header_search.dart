@@ -8,23 +8,23 @@ class HeaderSearch<T> extends StatelessWidget {
   final String _title;
   final String? _buttonText;
   final void Function()? _onButtonPressed;
-  final String? _searchLocation;
+  final String? _searchPageLocation;
   final bool _searchBoxAutoFocus;
 
   /// Pass [buttonText] and [onButtonPressed] to display button. If
-  /// [searchLocation] is not null, when user taps on search box, app will be
+  /// [searchPageLocation] is not null, when user taps on search box, app will be
   /// navigated to your search page.
   const HeaderSearch({
     Key? key,
     required String title,
     String? buttonText,
     void Function()? onButtonPressed,
-    String? searchLocation,
+    String? searchPageLocation,
     bool searchBoxAutoFocus = false,
   })  : _title = title,
         _buttonText = buttonText,
         _onButtonPressed = onButtonPressed,
-        _searchLocation = searchLocation,
+        _searchPageLocation = searchPageLocation,
         _searchBoxAutoFocus = searchBoxAutoFocus,
         super(key: key);
 
@@ -35,7 +35,7 @@ class HeaderSearch<T> extends StatelessWidget {
         children: [
           _TitleAndButton(_title, _buttonText, _onButtonPressed),
           const SizedBox(height: kPadding),
-          _SearchBox<T>(_searchLocation, _searchBoxAutoFocus)
+          _SearchBox<T>(_searchPageLocation, _searchBoxAutoFocus)
         ],
       );
 }

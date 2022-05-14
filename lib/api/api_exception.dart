@@ -20,7 +20,5 @@ class ApiException implements Exception {
   }
 
   @override
-  String toString() {
-    return errors.toString();
-  }
+  String toString() => errors.toString();
 }

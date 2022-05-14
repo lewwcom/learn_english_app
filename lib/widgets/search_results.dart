@@ -46,19 +46,16 @@ class _EmptyResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverToBoxAdapter(
-        child: RichText(
-          text: TextSpan(
+        child: Text.rich(
+          TextSpan(
             children: [
               const TextSpan(text: "Sorry, your search"),
               TextSpan(
                   text: _query != null ? " \"$_query\"" : "",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
-              const TextSpan(text: " did not match anything we known :("),
+              const TextSpan(text: " did not match anything we known :\u200d("),
             ],
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
           ),
         ),
       );

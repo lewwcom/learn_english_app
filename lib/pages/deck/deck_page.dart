@@ -20,7 +20,7 @@ class DeckPage extends StatelessWidget {
             Header(
               DeckPageHeaderContent(
                 _deck,
-                willMoveToWordsInDeckPage: true,
+                searchPageLocation: "/decks/${_deck.name}/words",
               ),
               bottomHeight: kToolbarHeight * 4.3,
             ),

@@ -42,11 +42,12 @@ class HeaderContent extends StatelessWidget {
               AnimatedSmoothIndicator(
                 activeIndex: context.watch<ValueNotifier<int>>().value,
                 count: _word.defintions.length,
-                effect: const WormEffect(
+                effect: const ScrollingDotsEffect(
                   activeDotColor: Colors.white,
                   dotColor: Colors.white70,
                   dotWidth: 10,
                   dotHeight: 10,
+                  activeDotScale: 1.05,
                 ),
               ),
             ],

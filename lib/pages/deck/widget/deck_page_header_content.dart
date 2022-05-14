@@ -6,15 +6,15 @@ import 'package:learn_english_app/widgets/header/header_search.dart';
 
 class DeckPageHeaderContent extends StatelessWidget {
   final Deck _deck;
-  final bool _willMoveToWordsInDeckPage;
+  final String? _searchPageLocation;
   final bool _searchBoxAutoFocus;
 
   const DeckPageHeaderContent(
     this._deck, {
     Key? key,
-    bool willMoveToWordsInDeckPage = false,
+    String? searchPageLocation,
     bool searchBoxAutoFocus = false,
-  })  : _willMoveToWordsInDeckPage = willMoveToWordsInDeckPage,
+  })  : _searchPageLocation = searchPageLocation,
         _searchBoxAutoFocus = searchBoxAutoFocus,
         super(key: key);
 
@@ -25,9 +25,7 @@ class DeckPageHeaderContent extends StatelessWidget {
             title: _deck.name,
             buttonText: "Add word",
             onButtonPressed: () {},
-            searchLocation: _willMoveToWordsInDeckPage
-                ? "/decks/${_deck.name}/words"
-                : null,
+            searchPageLocation: _searchPageLocation,
             searchBoxAutoFocus: _searchBoxAutoFocus,
           ),
           const SizedBox(height: kPadding / 1.3),

@@ -7,6 +7,8 @@ import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/api/serializer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// TODO: Handle 401 Unauthorized
+
 //==============================================================================
 // GET, POST, PUT, DELETE
 //==============================================================================
@@ -110,8 +112,8 @@ Future<void> _init() async {
   _prefs = _prefs ?? await SharedPreferences.getInstance();
 }
 
-void removeCookie() {
-  _init();
+Future<void> removeCookie() async {
+  await _init();
   _prefs?.remove("cookie");
 }
 
