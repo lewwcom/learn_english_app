@@ -55,7 +55,7 @@ class _ErrorPage extends StatelessWidget {
                 "Oops!",
                 style: Theme.of(context)
                     .textTheme
-                    .headline2
+                    .displayMedium
                     ?.copyWith(color: Theme.of(context).colorScheme.primary),
               ),
               const SizedBox(height: kPadding / 2),
