@@ -1,64 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:learn_english_app/api/api_client.dart' as api_client;
-import 'package:learn_english_app/api/api_exception.dart';
-import 'package:learn_english_app/router.dart';
-import 'package:learn_english_app/theme_data.dart';
+import 'package:go_router/go_router.dart';
+import 'package:learn_english_app/pages/search/search_page.dart';
+import 'package:learn_english_app/pages/word/word_page.dart';
+
+import 'models/word.dart';
 
 // TODO: TextTheme
 
 void main() {
-  // testApiClient();
-  runApp(const App());
-}
-
-// TODO: Remove it
-Future<void> testApiClient() async {
-  await api_client.removeCookie();
-
-  try {
-    await api_client.post(
-      "auth/signup",
-      api_client.DiscardResponseContentSerializer(),
-      formData: {
-        "username": "test_account",
-        "password": "12345678",
-        "password_confirmation": "12345678",
-      },
-    );
-  } on ApiException catch (e) {
-    debugPrint(e.toString());
-  }
-
-  try {
-    await api_client.post(
-      "auth/login",
-      api_client.DiscardResponseContentSerializer(),
-      formData: {
-        "username": "test_account",
-        "password": "12345678",
-        "remember_me": "true"
-      },
-    );
-  } on ApiException catch (e) {
-    debugPrint(e.toString());
-  }
-
-  /* try {
-    List<Word> words =
-        await api_client.get("words/?word=ca", WordsSerializer());
-    debugPrint(words.first.word);
-  } on ApiException catch (e) {
-    debugPrint(e.toString());
-  } */
+  runApp(App());
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  final GoRouter _router = GoRouter(
+    initialLocation: "/search",
+    routes: [
+      GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
+      GoRoute(
+        path: "/word/:word",
+        builder: (context, state) =>
+            WordPage(Word.fromString(state.params["word"]!)),
+      ),
+    ],
+  );
+
+  App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
-        theme: themeData,
+        routeInformationParser: _router.routeInformationParser,
+        routerDelegate: _router.routerDelegate,
       );
 }
