@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
+import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 
 import 'models/word.dart';
 
@@ -27,8 +28,14 @@ class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
-        routeInformationParser: _router.routeInformationParser,
-        routerDelegate: _router.routerDelegate,
-      );
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter YouTube API',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Colors.red,
+      ),
+      home: YoutubeScreen(),
+    );
+  }
 }
