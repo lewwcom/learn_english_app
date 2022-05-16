@@ -9,9 +9,10 @@ import 'package:learn_english_app/pages/deck/words_in_deck_page.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
+import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: "/search",
+  initialLocation: "/youtube",
   routes: [
     GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
     GoRoute(
@@ -19,6 +20,9 @@ final GoRouter router = GoRouter(
       builder: (context, state) => LoadingPage<Word>(
         fetchResult: () async {
           // TODO: Change to words/:id
+          if (state.extra is Word) {
+            return state.extra as Word;
+          }
           List<Word> words = await api_client.get(
               "words/?word=${state.params["word"]}", WordsSerializer());
           return words.first;
@@ -56,6 +60,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: "/create-deck",
       builder: (context, state) => const NewDeckPage(),
-    )
+    ),
+    GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen())
   ],
 );

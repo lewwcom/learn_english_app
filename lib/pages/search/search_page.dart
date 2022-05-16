@@ -92,7 +92,10 @@ class _MainBody extends StatelessWidget {
         childBuilder: (context, results, index) => GestureDetector(
           onTap: () {
             context.read<SearchHistoryNotifier>().add(results[index].word);
-            context.push("/words/${results[index].word}");
+            context.push(
+              "/words/${results[index].word}",
+              extra: results[index],
+            );
           },
           child: WordListEntry(
             results[index].word,

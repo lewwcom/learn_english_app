@@ -35,3 +35,12 @@ final ThemeData themeData = ThemeData(
         ?.copyWith(color: const ColorScheme.light().primary),
   ),
 );
+
+final InputDecoration inputDecoration = InputDecoration(
+  fillColor: themeData.cardColor,
+  filled: true,
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(kRadius),
+    borderSide: BorderSide.none,
+  ),
+);
