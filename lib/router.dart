@@ -6,13 +6,15 @@ import 'package:learn_english_app/pages/deck/deck_page.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
 import 'package:learn_english_app/pages/deck/new_deck_page.dart';
 import 'package:learn_english_app/pages/deck/words_in_deck_page.dart';
+import 'package:learn_english_app/pages/home/home_screen.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: "/youtube",
+  // initialLocation: "/youtube",
+  initialLocation: "/homescreen",
   routes: [
     GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
     GoRoute(
@@ -61,6 +63,7 @@ final GoRouter router = GoRouter(
       path: "/create-deck",
       builder: (context, state) => const NewDeckPage(),
     ),
-    GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen())
+    GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen()),
+    GoRoute(path: "/homescreen", builder: (context, state) => HomeScreen())
   ],
 );
