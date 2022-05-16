@@ -11,7 +11,7 @@ class Body extends StatelessWidget {
     return Column(
       children: <Widget>[
         Info(
-          image: "assets/icons/pic.png",
+          image: "assets/images/pic.png",
           name: "Phoebe Brigets",
         ),
         SizedBox(
