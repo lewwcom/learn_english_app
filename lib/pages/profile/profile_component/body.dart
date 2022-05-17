@@ -21,29 +21,23 @@ class Body extends StatelessWidget {
           iconSrc: "assets/icons/User Icon.svg",
           title: "Account Settings",
           press:() {
-
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+            );
           } ,
         ),
         ProfileMenuItem(
           iconSrc: "assets/icons/Bell.svg",
           title: "Notification",
           press:() {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => NotificationApp()),
-            // );
+
           } ,
         ),
         ProfileMenuItem(
           iconSrc: "assets/icons/Parcel.svg",
           title: "Privacy and Security",
-          press:() {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ChangePasswordPage()),
-            );
-
-          } ,
+          press:() {} ,
         ),
         ProfileMenuItem(
           iconSrc: "assets/icons/Log out.svg",

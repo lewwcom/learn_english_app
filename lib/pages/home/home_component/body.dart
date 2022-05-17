@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/pages/home/home_component/LearningYoutube.dart';
 import 'package:learn_english_app/pages/profile/profile_screen.dart';
@@ -43,34 +44,25 @@ class Body extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 40),
-                Text("Study with us",style: kTitleTextstyle),
                 SizedBox(height: 20),
+                Text("Study with us",style: kTitleTextstyle),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     StudyCard(
                         image: "assets/images/learning.jpg",
                         title: "Learning",
-                        press: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProfileScreen()),
-                          );
-                        }),
+                        press: () => context.push("/profile"),
+                    ),
                     StudyCard(image: "assets/images/reading.png", title: "Rearning", press: (){}),
                     StudyCard(image: "assets/images/vocab.png", title: "Vocab", press: (){}),
                   ],
                 ),
-                SizedBox(height: 40),
-                Text("Learning with video", style: kTitleTextstyle,),
                 SizedBox(height: 20),
-                LearningOnYoutubeCard(image: 'assets/images/video_learn.jpg', press: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => YoutubeScreen()),
-                  );
-                })
+                Text("Learning with video", style: kTitleTextstyle,),
+                SizedBox(height: 10),
+                LearningOnYoutubeCard(image: 'assets/images/video_learn.jpg', press: () => context.push("/youtube"),)
               ],
             ),
           ),
