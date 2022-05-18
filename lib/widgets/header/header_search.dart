@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
+import 'package:learn_english_app/theme_data.dart';
 import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -92,13 +93,7 @@ class _SearchBox<T> extends StatelessWidget {
             ? () => context.push("$_searchLocation?query=")
             : null,
         onChanged: (value) => context.read<SearchNotifier<T>?>()?.query = value,
-        decoration: InputDecoration(
-          fillColor: Theme.of(context).cardColor,
-          filled: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(kRadius),
-            borderSide: BorderSide.none,
-          ),
+        decoration: inputDecoration.copyWith(
           hintText: "Search...",
           suffixIcon: const Icon(Icons.search),
         ),

@@ -11,7 +11,7 @@ class DeckListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => context.push("/decks/${_deck.name}"),
+        onTap: () => context.push("/decks/${_deck.name}", extra: _deck),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -19,8 +19,8 @@ class DeckListItem extends StatelessWidget {
               builder: (context, constraints) => SizedBox(
                 height: constraints.maxWidth * 1.7 / 3,
                 child: WordCard(
-                  _deck.words.first.word,
-                  _deck.words.first.defintions.first.meaning,
+                  _deck.flashcards.first.word.word,
+                  _deck.flashcards.first.definition.meaning,
                 ),
               ),
             ),
@@ -33,7 +33,7 @@ class DeckListItem extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
-              "${_deck.words.length} words",
+              "${_deck.flashcards.length} words",
               style: Theme.of(context)
                   .textTheme
                   .titleMedium

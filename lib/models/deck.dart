@@ -1,22 +1,23 @@
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/word.dart';
 
 class Deck {
-  final String _name;
-  final List<Word> _words = List.empty(growable: true);
+  final int? id;
+  final String name;
+  final List<Flashcard> _flashcards = List.empty(growable: true);
 
-  Deck(this._name);
+  Deck(this.id, this.name);
 
   factory Deck.fromWordList(String name, List<Word> words) {
-    Deck deck = Deck(name);
-    deck._words.addAll(words);
+    Deck deck = Deck(null, name);
+    deck._flashcards.addAll(
+        words.map((word) => Flashcard(null, word, word.definitions.first)));
     return deck;
   }
 
-  String get name => _name;
-
-  void addWord(Word word) {
-    _words.add(word);
+  void addCard(Flashcard flashcard) {
+    _flashcards.add(flashcard);
   }
 
-  List<Word> get words => List.unmodifiable(_words);
+  List<Flashcard> get flashcards => List.unmodifiable(_flashcards);
 }

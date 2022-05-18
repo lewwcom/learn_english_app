@@ -5,23 +5,22 @@ import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/deck/deck_page.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
 import 'package:learn_english_app/pages/deck/new_deck_page.dart';
-import 'package:learn_english_app/pages/deck/words_in_deck_page.dart';
+import 'package:learn_english_app/pages/deck/flashcards_page.dart';
 import 'package:learn_english_app/pages/home/home_screen.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
+import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 
 final GoRouter router = GoRouter(
-  // initialLocation: "/youtube",
-  initialLocation: "/homescreen",
+  initialLocation: "/decks",
   routes: [
     GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
     GoRoute(
       path: "/words/:word",
       builder: (context, state) => LoadingPage<Word>(
         fetchResult: () async {
-          // TODO: Change to words/:id
           if (state.extra is Word) {
             return state.extra as Word;
           }
@@ -39,22 +38,26 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: ":deck",
           builder: (context, state) => LoadingPage<Deck>(
-            // TODO: Use API
-            fetchResult: () async => DecksPage.decks.firstWhere(
-                (deck) => deck.name.compareTo(state.params["deck"]!) == 0),
+            fetchResult: () async => state.extra as Deck,
             builder: (deck) => DeckPage(deck),
           ),
           routes: [
             GoRoute(
-              path: "words",
-              builder: (context, state) => LoadingPage<Deck>(
-                // TODO: Use API
-                fetchResult: () async => DecksPage.decks.firstWhere(
-                    (deck) => deck.name.compareTo(state.params["deck"]!) == 0),
-                builder: (deck) => WordsInDeckPage(deck,
-                    searchQuery: state.queryParams["query"]),
-              ),
-            )
+                path: "cards",
+                builder: (context, state) => LoadingPage<Deck>(
+                      fetchResult: () async => state.extra as Deck,
+                      builder: (deck) => FlashcardsPage(deck,
+                          searchQuery: state.queryParams["query"]),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: ":card",
+                    builder: (context, state) => LoadingPage<DeckAndWord>(
+                      fetchResult: () async => state.extra as DeckAndWord,
+                      builder: (deckAndWord) => FlashcardPage(deckAndWord),
+                    ),
+                  ),
+                ])
           ],
         )
       ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/deck.dart';
-import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/deck/widget/deck_page_header_content.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/header/search_notifier.dart';
@@ -10,23 +10,25 @@ import 'package:learn_english_app/widgets/search_results.dart';
 import 'package:learn_english_app/widgets/word_list_entry.dart';
 import 'package:provider/provider.dart';
 
-class WordsInDeckPage extends StatelessWidget {
+class FlashcardsPage extends StatelessWidget {
   final Deck _deck;
   final String? _searchQuery;
 
-  const WordsInDeckPage(this._deck, {Key? key, String? searchQuery})
+  /// If [searchQuery] is not null, search box will be autofocused only.
+  const FlashcardsPage(this._deck, {Key? key, String? searchQuery})
       : _searchQuery = searchQuery,
         super(key: key);
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => SearchNotifier<Word>(
+        create: (context) => SearchNotifier<Flashcard>(
           (query) => Future.value(
             query.isEmpty
-                ? _deck.words
-                : _deck.words
-                    .where((word) =>
-                        word.word.toLowerCase().contains(query.toLowerCase()))
+                ? _deck.flashcards
+                : _deck.flashcards
+                    .where((card) => card.word.word
+                        .toLowerCase()
+                        .contains(query.toLowerCase()))
                     .toList(),
           ),
           query: "",
@@ -43,15 +45,16 @@ class WordsInDeckPage extends StatelessWidget {
               ),
               SliverPadding(
                 padding: const EdgeInsets.all(kPadding),
-                sliver: SearchResults<Word>(
-                  query: context.select((SearchNotifier<Word> s) => s.query),
-                  results:
-                      context.select((SearchNotifier<Word> s) => s.results),
+                sliver: SearchResults<Flashcard>(
+                  query:
+                      context.select((SearchNotifier<Flashcard> s) => s.query),
+                  results: context
+                      .select((SearchNotifier<Flashcard> s) => s.results),
                   childBuilder: (context, results, index) => GestureDetector(
                     onTap: () => context.push("/words/${results[index].word}"),
                     child: WordListEntry(
-                      results[index].word,
-                      results[index].defintions.first.meaning,
+                      results[index].word.word,
+                      results[index].definition.meaning,
                     ),
                   ),
                   spaceBetweenItem: kPadding / 2,

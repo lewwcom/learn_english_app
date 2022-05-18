@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/word.dart';
-import 'package:learn_english_app/pages/word/widgets/definition.dart';
 import 'package:learn_english_app/pages/word/widgets/header_content.dart';
+import 'package:learn_english_app/widgets/definition/definition.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ class WordPage extends StatelessWidget {
             body: PageView.builder(
               onPageChanged: (value) =>
                   context.read<ValueNotifier<int>>().value = value,
-              itemCount: _word.defintions.length,
+              itemCount: _word.definitions.length,
               itemBuilder: (context, index) => CustomScrollView(
                 slivers: [
                   SliverOverlapInjector(
@@ -36,7 +36,7 @@ class WordPage extends StatelessWidget {
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.all(kPadding),
-                    sliver: Definition(_word, index),
+                    sliver: Definition(_word, _word.definitions[index]),
                   ),
                 ],
               ),

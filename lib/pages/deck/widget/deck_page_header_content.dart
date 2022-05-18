@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/word.dart';
@@ -24,7 +25,7 @@ class DeckPageHeaderContent extends StatelessWidget {
           HeaderSearch<Word>(
             title: _deck.name,
             buttonText: "Add word",
-            onButtonPressed: () {},
+            onButtonPressed: () => context.push("/search"),
             searchPageLocation: _searchPageLocation,
             searchBoxAutoFocus: _searchBoxAutoFocus,
           ),

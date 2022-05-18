@@ -99,7 +99,7 @@ class _MainBody extends StatelessWidget {
           },
           child: WordListEntry(
             results[index].word,
-            results[index].defintions.first.meaning,
+            results[index].definitions.first.meaning,
           ),
         ),
         spaceBetweenItem: kPadding / 2,

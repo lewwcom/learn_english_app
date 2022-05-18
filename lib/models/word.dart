@@ -2,7 +2,7 @@ import 'package:learn_english_app/models/definition.dart';
 import 'package:learn_english_app/api/serializer.dart';
 
 class Word {
-  final int id;
+  final int? id;
   final String word;
   final String ipa;
   final String? audioUrl;
@@ -13,14 +13,14 @@ class Word {
 
   factory Word.fromString(String word) {
     Word result = Word(
-      0,
+      null,
       word,
       "/ipa/",
       "https://upload.wikimedia.org/wikipedia/commons/4/48/En-uk-hello.ogg",
       "https://picsum.photos/300/200",
     );
-    Definition definition = Definition(
-        "category", "Very long definition of the word", "This is an example.");
+    Definition definition = Definition(null, "category",
+        "Very long definition of the word", "This is an example.");
     result.addDefinition(definition);
     result.addDefinition(definition);
     result.addDefinition(definition);
@@ -31,7 +31,7 @@ class Word {
     _defintions.add(definition);
   }
 
-  List<Definition> get defintions => List.unmodifiable(_defintions);
+  List<Definition> get definitions => List.unmodifiable(_defintions);
 }
 
 class WordSerializer implements Serializer<Word> {

@@ -20,7 +20,7 @@ class DeckPage extends StatelessWidget {
             Header(
               DeckPageHeaderContent(
                 _deck,
-                searchPageLocation: "/decks/${_deck.name}/words",
+                searchPageLocation: "/decks/${_deck.name}/cards",
               ),
               bottomHeight: kToolbarHeight * 4.3,
             ),
@@ -28,10 +28,13 @@ class DeckPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: kPadding),
               sliver: WordCardsRow(
                 title: "Word list",
-                words: _deck.words.sublist(0, min(5, _deck.words.length)),
+                words: _deck.flashcards
+                    .sublist(0, min(5, _deck.flashcards.length))
+                    .map((flashcard) => flashcard.word)
+                    .toList(),
                 onTapWord: (word) => context.push("/words/${word.word}"),
                 showMoreAction: () =>
-                    context.push("/decks/${_deck.name}/words"),
+                    context.push("/decks/${_deck.name}/cards", extra: _deck),
               ),
             ),
             SliverToBoxAdapter(
