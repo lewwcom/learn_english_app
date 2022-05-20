@@ -2,32 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/definition.dart' as definition_model;
-import 'package:learn_english_app/models/word.dart';
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/widgets/definition/definition.dart';
 import 'package:learn_english_app/pages/flashcard/widgets/header_content.dart';
 import 'package:learn_english_app/pages/flashcard/widgets/flashcard_edit_form.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:provider/provider.dart';
 
-class DeckAndWord {
+class DeckAndFlashcard {
   final Deck deck;
-  final Word word;
-  final definition_model.Definition definition;
+  final Flashcard flashcard;
 
-  DeckAndWord(this.deck, this.word, this.definition);
+  DeckAndFlashcard(this.deck, this.flashcard);
 }
 
 enum FlashcardPageState { viewing, clean, dirty }
 
 class FlashcardPage extends StatelessWidget {
   final Deck _deck;
-  final Word _word;
-  final definition_model.Definition _definition;
+  final Flashcard _flashcard;
 
-  FlashcardPage(DeckAndWord deckAndWord, {Key? key})
-      : _deck = deckAndWord.deck,
-        _word = deckAndWord.word,
-        _definition = deckAndWord.definition,
+  FlashcardPage(DeckAndFlashcard deckAndFlashcard, {Key? key})
+      : _deck = deckAndFlashcard.deck,
+        _flashcard = deckAndFlashcard.flashcard,
         super(key: key);
 
   @override
@@ -39,10 +36,9 @@ class FlashcardPage extends StatelessWidget {
           ),
           Provider(
             create: (context) => definition_model.Definition(
-              _definition.id,
-              _definition.lexicalCategory,
-              _definition.meaning,
-              _definition.example,
+              _flashcard.definition.lexicalCategory,
+              _flashcard.definition.meaning,
+              _flashcard.definition.example,
             ),
           ),
           Provider(
@@ -52,24 +48,21 @@ class FlashcardPage extends StatelessWidget {
         builder: (context, child) => Scaffold(
           body: CustomScrollView(
             slivers: [
-              Header(HeaderContent(_deck, _word)),
+              Header(HeaderContent(_deck, _flashcard)),
               SliverPadding(
                 padding: const EdgeInsets.all(kPadding),
-                sliver: _isViewing(context
-                        .watch<ValueNotifier<FlashcardPageState>>()
-                        .value)
-                    ? Definition(
-                        _word,
-                        _definition,
-                        showAddToDeckButton: false,
-                      )
-                    : FlashcardEditForm(_definition),
+                sliver:
+                    context.watch<ValueNotifier<FlashcardPageState>>().value ==
+                            FlashcardPageState.viewing
+                        ? Definition(
+                            _flashcard.word,
+                            context.watch<definition_model.Definition>(),
+                            showAddToDeckButton: false,
+                          )
+                        : FlashcardEditForm(_flashcard.definition),
               )
             ],
           ),
         ),
       );
-
-  bool _isViewing(FlashcardPageState state) =>
-      Enum.compareByName(state, FlashcardPageState.viewing) == 0;
 }

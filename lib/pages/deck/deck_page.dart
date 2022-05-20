@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
-import 'package:learn_english_app/pages/deck/widget/deck_page_header_content.dart';
+import 'package:learn_english_app/pages/deck/widget/header_content.dart';
+import 'package:learn_english_app/pages/loading/error_page.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/word_card/word_cards_row.dart';
 
@@ -14,59 +15,68 @@ class DeckPage extends StatelessWidget {
   const DeckPage(this._deck, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            Header(
-              DeckPageHeaderContent(
-                _deck,
-                searchPageLocation: "/decks/${_deck.name}/cards",
-              ),
-              bottomHeight: kToolbarHeight * 4.3,
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.only(top: kPadding),
-              sliver: WordCardsRow(
-                title: "Word list",
-                words: _deck.flashcards
-                    .sublist(0, min(5, _deck.flashcards.length))
-                    .map((flashcard) => flashcard.word)
-                    .toList(),
-                onTapWord: (word) => context.push("/words/${word.word}"),
-                showMoreAction: () =>
-                    context.push("/decks/${_deck.name}/cards", extra: _deck),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: kPadding,
-                  left: kPadding,
-                  right: kPadding,
+  Widget build(BuildContext context) => _deck.flashcards.isEmpty
+      ? ErrorPage(
+          displayText: "Wow,\nsuch empty!",
+          contentText: "Add cards to begin.",
+          buttonText: "Add card",
+          onPressed: () => context.push("/search"),
+          leftAligned: true,
+        )
+      : Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              Header(
+                HeaderContent(
+                  _deck,
+                  searchPageLocation: "/decks/${_deck.name}/cards",
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Statistics",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: kPadding / 2),
-                    LayoutBuilder(
-                      builder: (context, constraints) => SizedBox(
-                        height: constraints.maxWidth * 2 / 3,
-                        child: Container(
-                            color: Theme.of(context).colorScheme.primary),
+                bottomHeight: kToolbarHeight * 4.3,
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.only(top: kPadding),
+                sliver: WordCardsRow(
+                  title: "Word list",
+                  words: _deck.flashcards
+                      .sublist(0, min(5, _deck.flashcards.length))
+                      .map((flashcard) => flashcard.word)
+                      .toList(),
+                  // TODO: navigate to flashcard_edit_page
+                  onTapWord: (word) => context.push("/words/${word.word}"),
+                  showMoreAction: () =>
+                      context.push("/decks/${_deck.name}/cards", extra: _deck),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: kPadding,
+                    left: kPadding,
+                    right: kPadding,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Statistics",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: kPadding / 2),
+                      LayoutBuilder(
+                        builder: (context, constraints) => SizedBox(
+                          height: constraints.maxWidth * 2 / 3,
+                          child: Container(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
+            ],
+          ),
+        );
 }

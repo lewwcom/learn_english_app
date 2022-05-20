@@ -6,8 +6,8 @@ import 'package:learn_english_app/theme_data.dart';
 
 // TODO: TextTheme
 
-void main() {
-  loginTestAccount();
+Future<void> main() async {
+  await loginTestAccount();
   runApp(const App());
 }
 

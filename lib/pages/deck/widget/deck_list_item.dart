@@ -18,10 +18,12 @@ class DeckListItem extends StatelessWidget {
             LayoutBuilder(
               builder: (context, constraints) => SizedBox(
                 height: constraints.maxWidth * 1.7 / 3,
-                child: WordCard(
-                  _deck.flashcards.first.word.word,
-                  _deck.flashcards.first.definition.meaning,
-                ),
+                child: _deck.flashcards.isNotEmpty
+                    ? WordCard(
+                        _deck.flashcards.first.word.word,
+                        _deck.flashcards.first.definition.meaning,
+                      )
+                    : const WordCard("Empty!", "Add cards to begin"),
               ),
             ),
             const SizedBox(height: kPadding / 2),
@@ -33,7 +35,7 @@ class DeckListItem extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
-              "${_deck.flashcards.length} words",
+              "${_deck.flashcards.length} cards",
               style: Theme.of(context)
                   .textTheme
                   .titleMedium

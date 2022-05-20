@@ -52,27 +52,35 @@ class _TitleAndButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            _title,
-            style: Theme.of(context)
-                .primaryTextTheme
-                .headlineLarge
-                ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+          Flexible(
+            flex: 5,
+            child: Text(
+              _title,
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .headlineLarge
+                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              overflow: TextOverflow.fade,
+              softWrap: false,
+            ),
           ),
-          const Spacer(),
           if (_buttonText != null)
-            ElevatedButton(
-              onPressed: _onButtonPressed,
-              child: Text(
-                _buttonText!,
-                style: Theme.of(context)
-                    .primaryTextTheme
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
+            Flexible(
+              flex: 3,
+              child: ElevatedButton(
+                onPressed: _onButtonPressed,
+                child: Text(
+                  _buttonText!,
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).colorScheme.secondary),
               ),
-              style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.secondary),
             ),
         ],
       );

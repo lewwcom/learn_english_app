@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/deck.dart';
-import 'package:learn_english_app/pages/deck/widget/deck_page_header_content.dart';
+import 'package:learn_english_app/pages/deck/widget/header_content.dart';
+import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:learn_english_app/widgets/search_results.dart';
@@ -37,7 +38,7 @@ class FlashcardsPage extends StatelessWidget {
           body: CustomScrollView(
             slivers: [
               Header(
-                DeckPageHeaderContent(
+                HeaderContent(
                   _deck,
                   searchBoxAutoFocus: _searchQuery != null,
                 ),
@@ -51,7 +52,9 @@ class FlashcardsPage extends StatelessWidget {
                   results: context
                       .select((SearchNotifier<Flashcard> s) => s.results),
                   childBuilder: (context, results, index) => GestureDetector(
-                    onTap: () => context.push("/words/${results[index].word}"),
+                    onTap: () => context.push(
+                        "/decks/${_deck.name}/cards/${results[index].id}",
+                        extra: DeckAndFlashcard(_deck, results[index])),
                     child: WordListEntry(
                       results[index].word.word,
                       results[index].definition.meaning,

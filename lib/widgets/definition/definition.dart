@@ -39,13 +39,14 @@ class Definition extends StatelessWidget {
           Text.rich(
             TextSpan(
               children: [
-                TextSpan(
-                  text: _definition.lexicalCategory + " ",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+                if (_definition.lexicalCategory != null)
+                  TextSpan(
+                    text: _definition.lexicalCategory! + " ",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
                 ..._definition.meaning
                     .split(" ")
                     .map((word) => _ClickToSeachWord(word, context))

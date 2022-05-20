@@ -3,18 +3,40 @@ import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/models/definition.dart';
 
 class Flashcard {
+  // TODO: due time, e factor, interval
+
   final int? id;
   final Word word;
-  final Definition definition;
 
-  Flashcard(this.id, this.word, this.definition);
+  /// [word] and [definition] will be cloned.
+  Flashcard(Word word, Definition definition, {this.id})
+      : word =
+            Word(word.word, word.ipa, word.audioUrl, word.imgUrl, id: word.id) {
+    this.word.addDefinition(Definition(
+        definition.lexicalCategory, definition.meaning, definition.example,
+        id: definition.id));
+  }
+
+  Definition get definition => word.definitions.first;
 }
 
 class FlashcardSerializer implements Serializer<Flashcard> {
   @override
   Flashcard fromJsonContentKey(content) => Flashcard(
-        content["id"],
-        WordSerializer().fromJsonContentKey(content["word"]),
-        DefinitionSerializer().fromJsonContentKey(content["def"]),
+        WordSerializer().fromJsonContentKey({
+          "word": content["word"],
+          "ipa": content["ipa"],
+          "audio_url": content["audio_url"],
+          "img_url": content["img_url"],
+          "id": content["word_id"],
+          "sys_defs": []
+        }),
+        DefinitionSerializer().fromJsonContentKey({
+          "lexical_category": content["lexical_category"],
+          "meaning": content["meaning"],
+          "example": content["example"],
+          "id": content["sys_def_id"]
+        }),
+        id: content["id"],
       );
 }

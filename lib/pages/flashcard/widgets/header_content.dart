@@ -1,75 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/definition.dart';
-import 'package:learn_english_app/models/word.dart';
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/services/api_flashcard.dart' as api_flashcard;
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
+import 'package:learn_english_app/widgets/loading_button.dart';
 import 'package:provider/provider.dart';
 
 class HeaderContent extends StatelessWidget {
-  final Word _word;
+  final Flashcard _flashcard;
   final Deck _deck;
 
-  const HeaderContent(this._deck, this._word, {Key? key}) : super(key: key);
+  const HeaderContent(this._deck, this._flashcard, {Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _flashcard.word.word,
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headlineLarge
+                      ?.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+                Text(
+                  "from ${_deck.name}",
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .titleLarge
+                      ?.copyWith(
+                          color: Colors.white70, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+              ],
+            ),
+          ),
+          Flexible(flex: 2, child: _Button(_flashcard)),
+        ],
+      );
+}
+
+class _Button extends StatelessWidget {
+  final Flashcard _flashcard;
+
+  const _Button(this._flashcard, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final FlashcardPageState pageState =
-        context.watch<ValueNotifier<FlashcardPageState>>().value;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _word.word,
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .headlineLarge
-                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "from ${_deck.name}",
-              style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(
-                  color: Colors.white70, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        const Spacer(),
-        ElevatedButton(
-          onPressed: _getOnPressed(context, pageState),
-          child: Text(
-            _isViewing(pageState) ? "Edit" : "Save",
-            style: Theme.of(context)
-                .primaryTextTheme
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).colorScheme.secondary),
-        ),
-      ],
-    );
-  }
-
-  bool _isViewing(FlashcardPageState pageState) =>
-      Enum.compareByName(pageState, FlashcardPageState.viewing) == 0;
-
-  void Function()? _getOnPressed(
-      BuildContext context, FlashcardPageState pageState) {
-    switch (pageState) {
+    final ValueNotifier<FlashcardPageState> pageStateNotifier =
+        context.watch<ValueNotifier<FlashcardPageState>>();
+    switch (pageStateNotifier.value) {
       case FlashcardPageState.viewing:
-        return () => context.read<ValueNotifier<FlashcardPageState>>().value =
-            FlashcardPageState.clean;
-      // TODO: implement save action
+        return _StyledElevatedButton(
+          "Edit",
+          onPressed: () => pageStateNotifier.value = FlashcardPageState.clean,
+        );
+      case FlashcardPageState.clean:
+        return const _StyledElevatedButton("Save");
       case FlashcardPageState.dirty:
-        return () {
-          context.read<GlobalKey<FormState>>().currentState?.save();
-          api_flashcard.create(_deck, context.read<Definition>());
-        };
-      default:
-        return null;
+        return LoadingButton<void>(
+          "Save",
+          onPressed: () async {
+            context.read<GlobalKey<FormState>>().currentState?.save();
+            await api_flashcard.update(Flashcard(
+                _flashcard.word, context.read<Definition>(),
+                id: _flashcard.id));
+          },
+          onDone: (_) async =>
+              pageStateNotifier.value = FlashcardPageState.viewing,
+          textStyle: Theme.of(context)
+              .primaryTextTheme
+              .titleLarge
+              ?.copyWith(fontWeight: FontWeight.bold),
+          buttonColor: Theme.of(context).colorScheme.secondary,
+        );
     }
   }
+}
+
+class _StyledElevatedButton extends StatelessWidget {
+  final void Function()? _onPressed;
+  final String _buttonText;
+
+  const _StyledElevatedButton(
+    this._buttonText, {
+    Key? key,
+    void Function()? onPressed,
+  })  : _onPressed = onPressed,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) => ElevatedButton(
+        onPressed: _onPressed,
+        child: Text(
+          _buttonText,
+          style: Theme.of(context)
+              .primaryTextTheme
+              .titleLarge
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        style: ElevatedButton.styleFrom(
+            primary: Theme.of(context).colorScheme.secondary),
+      );
 }
