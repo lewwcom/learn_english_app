@@ -15,11 +15,19 @@ import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 import 'package:learn_english_app/services/api_deck.dart' as api_deck;
+import 'package:learn_english_app/utilities/process_text_notifier.dart';
 
 const String initialLocation = "/decks";
 
+final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
+
 final GoRouter router = GoRouter(
   initialLocation: initialLocation,
+  redirect: (state) => (_processTextNotifier.isStartedByProcessTextIntent &&
+          !state.location.startsWith("/words"))
+      ? "/words/${_processTextNotifier.processText}"
+      : null,
+  refreshListenable: _processTextNotifier,
   routes: [
     GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
     GoRoute(

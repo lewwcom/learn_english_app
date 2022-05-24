@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class LoadingNotifier<T> extends ChangeNotifier {
   T? _result;
   Object? _error;
+  bool _isDisposed = false;
 
   LoadingNotifier(Future<T> Function() fetchResult) {
     _fetch(fetchResult);
@@ -16,7 +17,15 @@ class LoadingNotifier<T> extends ChangeNotifier {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
     }
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _isDisposed = true;
   }
 
   T? get result {
