@@ -20,15 +20,17 @@ class DecksPage extends StatelessWidget {
           name, [Word.fromString("Hello"), Word.fromString("World")])
   ];
 
-  const DecksPage({Key? key}) : super(key: key);
+  final List<Deck> _decks;
+
+  const DecksPage(this._decks, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => SearchNotifier<Deck>(
           (query) => Future.value(
             query.isEmpty
-                ? decks
-                : decks
+                ? _decks
+                : _decks
                     .where((deck) =>
                         deck.name.toLowerCase().contains(query.toLowerCase()))
                     .toList(),

@@ -90,7 +90,7 @@ class _WordCards extends StatelessWidget {
             onTap: _onTapWord != null ? () => _onTapWord!(_words[index]) : null,
             child: WordCard(
               _words[index].word,
-              _words[index].defintions.first.meaning,
+              _words[index].definitions.first.meaning,
             ),
           ),
         ),

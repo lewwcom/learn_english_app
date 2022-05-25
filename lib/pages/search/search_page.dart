@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/api/api_client.dart' as api_client;
 import 'package:learn_english_app/api/api_exception.dart';
+import 'package:learn_english_app/api/serializer.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/search/widgets/search_history.dart';
@@ -37,7 +38,7 @@ class SearchPage extends StatelessWidget {
               (query) async => query.isEmpty
                   ? List.empty()
                   : await api_client.get(
-                      "words/?word=$query", WordsSerializer()),
+                      "words/?word=$query", ListSerializer(WordSerializer())),
             ),
           ),
           ChangeNotifierProvider(
@@ -99,7 +100,7 @@ class _MainBody extends StatelessWidget {
           },
           child: WordListEntry(
             results[index].word,
-            results[index].defintions.first.meaning,
+            results[index].definitions.first.meaning,
           ),
         ),
         spaceBetweenItem: kPadding / 2,

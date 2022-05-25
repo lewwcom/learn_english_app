@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/widgets/header/header_search.dart';
 
-class DeckPageHeaderContent extends StatelessWidget {
+class HeaderContent extends StatelessWidget {
   final Deck _deck;
   final String? _searchPageLocation;
   final bool _searchBoxAutoFocus;
 
-  const DeckPageHeaderContent(
+  const HeaderContent(
     this._deck, {
     Key? key,
     String? searchPageLocation,
@@ -23,8 +24,8 @@ class DeckPageHeaderContent extends StatelessWidget {
         children: [
           HeaderSearch<Word>(
             title: _deck.name,
-            buttonText: "Add word",
-            onButtonPressed: () {},
+            buttonText: "Add card",
+            onButtonPressed: () => context.push("/search"),
             searchPageLocation: _searchPageLocation,
             searchBoxAutoFocus: _searchBoxAutoFocus,
           ),

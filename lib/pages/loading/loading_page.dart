@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/api/api_exception.dart';
-import 'package:learn_english_app/constants.dart';
+import 'package:learn_english_app/pages/loading/error_page.dart';
+import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
 class LoadingPage<T> extends StatelessWidget {
@@ -24,7 +24,11 @@ class LoadingPage<T> extends StatelessWidget {
             final T? result = context.watch<LoadingNotifier<T>>().result;
             return result != null ? _builder(result) : child!;
           } catch (error) {
-            return _ErrorPage(error);
+            return ErrorPage(
+              displayText: "Oops",
+              contentText:
+                  "We cannot load the page :(\n${error is ApiException ? "Error: $error" : "Unknown error"}",
+            );
           }
         },
         child: Scaffold(
@@ -38,64 +42,4 @@ class LoadingPage<T> extends StatelessWidget {
           ),
         ),
       );
-}
-
-class _ErrorPage extends StatelessWidget {
-  final Object _error;
-
-  const _ErrorPage(this._error, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Oops!",
-                style: Theme.of(context)
-                    .textTheme
-                    .displayMedium
-                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
-              const SizedBox(height: kPadding / 2),
-              Text(
-                "We cannot load the page :(\n${_error is ApiException ? "Error: $_error" : "Unknown error"}",
-                style: const TextStyle(color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: kPadding),
-              ElevatedButton(
-                onPressed: () => context.pop(),
-                child: const Text("Back to last page"),
-              )
-            ],
-          ),
-        ),
-      );
-}
-
-class LoadingNotifier<T> extends ChangeNotifier {
-  T? _result;
-  Object? _error;
-
-  LoadingNotifier(Future<T> Function() fetchResult) {
-    _fetch(fetchResult);
-  }
-
-  Future<void> _fetch(Future<T> Function() fetchResult) async {
-    try {
-      _result = await fetchResult();
-    } catch (e) {
-      _error = e;
-    }
-    notifyListeners();
-  }
-
-  T? get result {
-    if (_error != null) {
-      throw _error!;
-    }
-    return _result;
-  }
 }

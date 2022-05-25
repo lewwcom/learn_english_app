@@ -41,7 +41,7 @@ class HeaderContent extends StatelessWidget {
               const Spacer(),
               AnimatedSmoothIndicator(
                 activeIndex: context.watch<ValueNotifier<int>>().value,
-                count: _word.defintions.length,
+                count: _word.definitions.length,
                 effect: const ScrollingDotsEffect(
                   activeDotColor: Colors.white,
                   dotColor: Colors.white70,

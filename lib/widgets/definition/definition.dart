@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/word.dart';
+import 'package:learn_english_app/models/definition.dart' as definition_model;
+import 'package:learn_english_app/widgets/definition/add_to_deck_button.dart';
 
 class Definition extends StatelessWidget {
   final Word _word;
-  final int _defIndex;
+  final definition_model.Definition _definition;
+  final bool _showAddToDeckButton;
 
-  const Definition(this._word, this._defIndex, {Key? key}) : super(key: key);
+  const Definition(this._word, this._definition,
+      {Key? key, bool showAddToDeckButton = true})
+      : _showAddToDeckButton = showAddToDeckButton,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,31 +26,40 @@ class Definition extends StatelessWidget {
     return SliverList(
       delegate: SliverChildListDelegate.fixed(
         [
-          Text("Definitions", style: titleStyle),
+          Row(
+            children: [
+              Text("Definition", style: titleStyle),
+              if (_showAddToDeckButton) ...[
+                const SizedBox(width: kPadding / 2),
+                AddToDeckButton(_word, _definition)
+              ]
+            ],
+          ),
           const SizedBox(height: kPadding / 2),
           Text.rich(
             TextSpan(
               children: [
-                TextSpan(
-                  text: _word.defintions[_defIndex].lexicalCategory + " ",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+                if (_definition.lexicalCategory != null)
+                  TextSpan(
+                    text: _definition.lexicalCategory! + " ",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                ..._word.defintions[_defIndex].meaning
+                ..._definition.meaning
                     .split(" ")
                     .map((word) => _ClickToSeachWord(word, context))
               ],
             ),
           ),
-          if (_word.defintions[_defIndex].example != null) ...[
+          if (_definition.example != null) ...[
             const SizedBox(height: kPadding),
-            Text("Examples", style: titleStyle),
+            Text("Example", style: titleStyle),
             const SizedBox(height: kPadding / 2),
             Text.rich(
               TextSpan(
-                children: _word.defintions[_defIndex].example!
+                children: _definition.example!
                     .split(" ")
                     .map(
                       (word) => _ClickToSeachWord(
@@ -70,9 +85,11 @@ class Definition extends StatelessWidget {
     );
   }
 
-  bool _isWordOfPage(String word) =>
-      _cleanFormOf(word) != null &&
-      _cleanFormOf(word)!.compareTo(_word.word.toLowerCase()) == 0;
+  bool _isWordOfPage(String word) {
+    String? cleanForm = _cleanFormOf(word);
+    return cleanForm != null &&
+        cleanForm.compareTo(_word.word.toLowerCase()) == 0;
+  }
 }
 
 class _Image extends StatelessWidget {
@@ -89,17 +106,13 @@ class _Image extends StatelessWidget {
             height: constraints.maxWidth * 2 / 3,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(kRadius),
-              child: CachedNetworkImage(
-                imageUrl: _imageUrl,
-                fit: BoxFit.cover,
-              ),
+              child: CachedNetworkImage(imageUrl: _imageUrl, fit: BoxFit.cover),
             ),
           ),
         ),
       );
 }
 
-// TODO: onTap
 class _ClickToSeachWord extends TextSpan {
   _ClickToSeachWord(String word, BuildContext context, {TextStyle? style})
       : super(

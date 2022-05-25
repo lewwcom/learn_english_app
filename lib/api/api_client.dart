@@ -52,7 +52,7 @@ Future<T> _request<T>(_RequestMethod request, String methodName, String path,
 
   _printMakingRequest(methodName, path);
   final http.Response response =
-      await request(Uri.parse(apiBaseUrl + path), headers: _makeHeader());
+      await request(Uri.parse(kApiBaseUrl + path), headers: _makeHeader());
   _saveCookie(response);
   _printResponseCode(methodName, response.statusCode);
 
@@ -64,7 +64,7 @@ Future<T> _makeMultipartRequest<T>(String method, String path,
   await _init();
 
   final http.MultipartRequest request =
-      http.MultipartRequest(method, Uri.parse(apiBaseUrl + path));
+      http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
   request.fields.addAll(formData);
   request.headers.addAll(_makeHeader());
 
@@ -147,4 +147,4 @@ void _printResponseCode(String method, int responseCode) => debugPrint(
     "Response code for ${method.toUpperCase()} request: $responseCode");
 
 void _printMakingRequest(String method, String path) =>
-    debugPrint("Making ${method.toUpperCase()} request to $apiBaseUrl$path");
+    debugPrint("Making ${method.toUpperCase()} request to $kApiBaseUrl$path");

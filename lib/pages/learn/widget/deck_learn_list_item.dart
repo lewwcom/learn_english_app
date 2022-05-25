@@ -55,7 +55,7 @@ class DeckLearnListItem extends StatelessWidget {
                 height: constraints.maxWidth * 1.7 / 3,
                 child: WordCard(
                   _deck.name,
-                  "${_deck.words.length} words need to learn now",
+                  "${_deck.flashcards.length} words need to learn now",
                 ),
               ),
             ),
