@@ -28,17 +28,39 @@ class DeckLearnListItem extends StatelessWidget {
   //               question: question, initDeck: _deck, currentDeck: _deck)));
   // }
 
+  Question genQuestion() {
+    List<String> option = [];
+    Random random = new Random();
+    int randNumber = random.nextInt(words.length - 1);
+    option.add(words[randNumber]);
+    while (option.contains(words[randNumber])) {
+      random = new Random();
+      randNumber = random.nextInt(words.length - 1);
+    }
+    option.add(words[randNumber]);
+    option.add(_deck.flashcards[0].word.word);
+    while (option.contains(words[randNumber])) {
+      random = new Random();
+      randNumber = random.nextInt(words.length - 1);
+    }
+    option.add(words[randNumber]);
+    Question question =
+        Question(1, _deck.flashcards[0].word.definitions[0].meaning, 3, option);
+    return question;
+  }
+
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () {
-          List<String> option = [];
-          Random random = new Random();
-          int randNumber = random.nextInt(words.length - 1);
-          Question question = Question(
-              1,
-              "Flutter is an open-source UI software development kit created by ______",
-              2,
-              ['Apple', 'Google', 'Facebook', 'Microsoft']);
+          Question question = genQuestion();
+          // List<String> option = [];
+          // Random random = new Random();
+          // int randNumber = random.nextInt(words.length - 1);
+          // Question question = Question(
+          //     1,
+          //     "Flutter is an open-source UI software development kit created by ______",
+          //     2,
+          //     ['Apple', 'Google', 'Facebook', 'Microsoft']);
           Navigator.push(
               context,
               MaterialPageRoute(

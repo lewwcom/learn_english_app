@@ -105,6 +105,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         actions: [
           isSelectedAnswer
               ? TextButton(

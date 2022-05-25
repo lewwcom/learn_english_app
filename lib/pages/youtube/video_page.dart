@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/models/subtitle_model.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
@@ -191,12 +192,7 @@ find an institution that will pay me a higher interest rate.""";
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         print('${subtitle}');
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  WordPage(Word.fromString(subtitle)),
-                            ));
+                        context.push("/words/${subtitle}");
                       });
               }).toList()),
         )));
