@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/models/login_resquest.dart';
 import 'package:learn_english_app/services/api_login.dart';
 import 'package:learn_english_app/services/api_signup.dart';
 
 import '../../models/signup_resquest.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   LoginRequest loginRequest = new LoginRequest();
   APILogin api = new APILogin();
 
@@ -59,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onChanged: (text){
+                            onChanged: (text) {
                               this.setState(() {
                                 loginRequest.username = text;
                               });
@@ -72,15 +71,15 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(),
                             obscureText: true,
                             decoration: InputDecoration(
-                                fillColor: Colors.grey.shade100,  
+                                fillColor: Colors.grey.shade100,
                                 filled: true,
                                 hintText: "Password",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
-                              onChanged: (text){
-                               this.setState(() {
-                                  loginRequest.password = text;
+                            onChanged: (text) {
+                              this.setState(() {
+                                loginRequest.password = text;
                               });
                             },
                           ),
@@ -106,19 +105,16 @@ class _LoginPageState extends State<LoginPage> {
                                         print(value.success);
                                         print(value.content);
                                         if (value.success == true) {
-                                          Navigator.pushNamed(context, 'search');
-                                        }
-                                        else {
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          context.push('/homescreen');
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             const SnackBar(
-                                                content: Text('Invalid username or password.')
-                                            ),
+                                                content: Text(
+                                                    'Invalid username or password.')),
                                           );
                                         }
-
                                       });
-
-
                                     },
                                     icon: Icon(
                                       Icons.arrow_forward,
@@ -134,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, 'register');
+                                  context.push('/signup');
                                 },
                                 child: Text(
                                   'Sign Up',

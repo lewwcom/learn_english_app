@@ -6,6 +6,8 @@ import 'package:learn_english_app/size_config.dart';
 import 'package:learn_english_app/constants.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -19,13 +21,10 @@ class HomeScreen extends StatelessWidget {
   AppBar buildAppBar() {
     return AppBar(
       backgroundColor: kPrimaryColor,
-      leading: IconButton (
-        icon:SvgPicture.asset("assets/icons/menu.svg"),
-        onPressed: (){},
+      leading: IconButton(
+        icon: SvgPicture.asset("assets/icons/menu.svg"),
+        onPressed: () {},
       ),
     );
   }
 }
-
-
-

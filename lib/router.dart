@@ -7,15 +7,21 @@ import 'package:learn_english_app/pages/deck/decks_page.dart';
 import 'package:learn_english_app/pages/deck/new_deck_page.dart';
 import 'package:learn_english_app/pages/deck/words_in_deck_page.dart';
 import 'package:learn_english_app/pages/home/home_screen.dart';
+import 'package:learn_english_app/pages/learn/learn_decks_page.dart';
+import 'package:learn_english_app/pages/learn/learn_page.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
+import 'package:learn_english_app/pages/login/login_page.dart';
+import 'package:learn_english_app/pages/login/signup_page.dart';
+import 'package:learn_english_app/pages/login/splash.dart';
 import 'package:learn_english_app/pages/profile/profile_screen.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
+import 'package:learn_english_app/services/api_learn.dart' as api_learn;
 
 final GoRouter router = GoRouter(
   // initialLocation: "/youtube",
-  initialLocation: "/homescreen",
+  initialLocation: "/learn",
   routes: [
     GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
     GoRoute(
@@ -67,5 +73,17 @@ final GoRouter router = GoRouter(
     GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen()),
     GoRoute(path: "/homescreen", builder: (context, state) => HomeScreen()),
     GoRoute(path: "/profile", builder: (context, state) => ProfileScreen()),
+    GoRoute(path: "/login", builder: (context, state) => const LoginPage()),
+    GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
+    GoRoute(path: "/splash", builder: (context, state) => SplashScreen()),
+    // GoRoute(
+    //     path: "/decks-learn",
+    //     builder: (context, state) => const LoadingPage<List<Deck>>(
+    //         fetchResult: () async =>
+    //             Stream.fromIterable(await api_learn.readAll())
+    //                 .asyncMap((deck) async => await api_learn.read(deck.id!))
+    //                 .toList(),
+    //         builder: (decks) => LearnDecksPage(decks))),
+    GoRoute(path: "/learn", builder: (context, state) => LearnDecksPage())
   ],
 );

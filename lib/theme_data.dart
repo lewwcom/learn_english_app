@@ -5,7 +5,8 @@ const _buttonPadding =
     EdgeInsets.symmetric(vertical: kPadding / 2, horizontal: kPadding);
 
 final ThemeData themeData = ThemeData(
-  colorScheme: const ColorScheme.light(),
+  colorScheme: const ColorScheme.light(
+      primary: Color(0xFF00B0FF), secondary: Color(0xFFE3F2FD)),
   cardTheme: CardTheme(
     margin: EdgeInsets.zero,
     shape: RoundedRectangleBorder(
