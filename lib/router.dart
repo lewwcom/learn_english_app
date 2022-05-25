@@ -23,7 +23,7 @@ import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 import 'package:learn_english_app/services/api_deck.dart' as api_deck;
 import 'package:learn_english_app/utilities/process_text_notifier.dart';
 
-const String initialLocation = "/decks";
+const String initialLocation = "/login";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 

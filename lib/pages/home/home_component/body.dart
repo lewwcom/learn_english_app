@@ -17,7 +17,6 @@ class Body extends StatelessWidget {
             kPrimaryColor2,
           ],
           begin: Alignment.topRight,
-
         ),
       ),
       child: Column(
@@ -31,38 +30,50 @@ class Body extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    onChanged: (value){
-
-                    },
+                    onChanged: (value) {},
                     decoration: InputDecoration(
-                        labelText: "Search",
-                        hintText: "Search",
-                        filled: true,
-                        fillColor: Colors.white,
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0)))
+                      labelText: "Search",
+                      hintText: "Search",
+                      filled: true,
+                      fillColor: Colors.white,
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0))),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
-                Text("Study with us",style: kTitleTextstyle),
+                Text("Study with us", style: kTitleTextstyle),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     StudyCard(
-                        image: "assets/images/learning.jpg",
-                        title: "Learning",
-                        press: () => context.push("/profile"),
+                      image: "assets/images/learning.jpg",
+                      title: "Learning",
+                      press: () => context.push("/learn"),
                     ),
-                    StudyCard(image: "assets/images/reading.png", title: "Rearning", press: (){}),
-                    StudyCard(image: "assets/images/vocab.png", title: "Vocab", press: (){}),
+                    StudyCard(
+                        image: "assets/images/reading.png",
+                        title: "My Decks",
+                        press: () => context.push("/decks")),
+                    StudyCard(
+                        image: "assets/images/vocab.png",
+                        title: "Lookup",
+                        press: () => context.push("/search")),
                   ],
                 ),
                 SizedBox(height: 20),
-                Text("Learning with video", style: kTitleTextstyle,),
+                Text(
+                  "Learning with video",
+                  style: kTitleTextstyle,
+                ),
                 SizedBox(height: 10),
-                LearningOnYoutubeCard(image: 'assets/images/video_learn.jpg', press: () => context.push("/youtube"),)
+                LearningOnYoutubeCard(
+                  image: 'assets/images/video_learn.jpg',
+                  press: () => context.push("/youtube"),
+                )
               ],
             ),
           ),
