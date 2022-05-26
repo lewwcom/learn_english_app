@@ -53,7 +53,7 @@ class FlashcardsPage extends StatelessWidget {
                       .select((SearchNotifier<Flashcard> s) => s.results),
                   childBuilder: (context, results, index) => GestureDetector(
                     onTap: () => context.push(
-                        "/decks/${_deck.name}/cards/${results[index].id}",
+                        "/decks/${_deck.id}/cards/${results[index].id}",
                         extra: DeckAndFlashcard(_deck, results[index])),
                     child: WordListEntry(
                       results[index].word.word,

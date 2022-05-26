@@ -13,8 +13,8 @@ class HeaderSearch<T> extends StatelessWidget {
   final bool _searchBoxAutoFocus;
 
   /// Pass [buttonText] and [onButtonPressed] to display button. If
-  /// [searchPageLocation] is not null, when user taps on search box, app will be
-  /// navigated to your search page.
+  /// [searchPageLocation] is not null, when user taps on search box, app will
+  /// be navigated to your search page.
   const HeaderSearch({
     Key? key,
     required String title,

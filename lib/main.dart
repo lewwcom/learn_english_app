@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:learn_english_app/api/api_client.dart' as api_client;
-import 'package:learn_english_app/api/api_exception.dart';
 import 'package:learn_english_app/router.dart';
 import 'package:learn_english_app/theme_data.dart';
 
@@ -25,7 +24,7 @@ Future<void> loginTestAccount() async {
         "password_confirmation": "12345678",
       },
     );
-  } on ApiException catch (e) {
+  } catch (e) {
     debugPrint(e.toString());
   }
 
@@ -39,7 +38,7 @@ Future<void> loginTestAccount() async {
         "remember_me": "true"
       },
     );
-  } on ApiException catch (e) {
+  } catch (e) {
     debugPrint(e.toString());
   }
 }

@@ -16,58 +16,81 @@ import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 import 'package:learn_english_app/services/api_deck.dart' as api_deck;
 
+typedef _GetDeckAndFlashcard = Future<DeckAndFlashcard> Function();
+
 const String initialLocation = "/decks";
+
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
 
 final GoRouter router = GoRouter(
   initialLocation: initialLocation,
+  observers: [routeObserver],
   routes: [
     GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
     GoRoute(
       path: "/words/:word",
       builder: (context, state) => LoadingPage<Word>(
-        fetchResult: () async {
-          if (state.extra is Word) {
-            return state.extra as Word;
-          }
-          List<Word> words = await api_client.get(
-              "words/?word=${state.params["word"]}",
-              ListSerializer(WordSerializer()));
-          return words.first;
-        },
+        initialValue: state.extra is Word ? state.extra as Word : null,
+        fetchResult: () async => (await api_client.get(
+                "words/?word=${state.params["word"]}",
+                ListSerializer(WordSerializer())))
+            .first,
         builder: (data) => WordPage(data),
       ),
     ),
     GoRoute(
       path: "/decks",
       builder: (context, state) => LoadingPage<List<Deck>>(
-          fetchResult: () async => Stream.fromIterable(await api_deck.readAll())
-              .asyncMap((deck) async => await api_deck.read(deck.id!))
-              .toList(),
-          builder: (decks) => DecksPage(decks)),
+        // TODO: Change to lazy loading
+        fetchResult: () async => Stream.fromIterable(await api_deck.readAll())
+            .asyncMap((deck) async => await api_deck.read(deck.id!))
+            .toList(),
+        builder: (decks) => DecksPage(decks),
+        refreshOnPopNext: true,
+      ),
       routes: [
         GoRoute(
-          path: ":deck",
-          builder: (context, state) => DeckPage(state.extra as Deck),
+          path: ":deckId",
+          builder: (context, state) => LoadingPage<Deck>(
+            initialValue: state.extra is Deck ? state.extra as Deck : null,
+            fetchResult: () async =>
+                await api_deck.read(int.parse(state.params["deckId"]!)),
+            builder: (deck) => DeckPage(deck),
+            refreshOnPopNext: true,
+          ),
           routes: [
             GoRoute(
                 path: "cards",
-                builder: (context, state) => FlashcardsPage(state.extra as Deck,
-                    searchQuery: state.queryParams["query"]),
+                builder: (context, state) => LoadingPage<Deck>(
+                      initialValue:
+                          state.extra is Deck ? state.extra as Deck : null,
+                      fetchResult: () async => await api_deck
+                          .read(int.parse(state.params["deckId"]!)),
+                      builder: (deck) => FlashcardsPage(deck,
+                          searchQuery: state.queryParams["query"]),
+                      refreshOnPopNext: true,
+                    ),
                 routes: [
                   GoRoute(
-                    path: ":card",
+                    path: ":cardId",
                     builder: (context, state) => LoadingPage<DeckAndFlashcard>(
+                      initialValue: state.extra is DeckAndFlashcard
+                          ? state.extra as DeckAndFlashcard
+                          : null,
                       fetchResult: () async {
-                        debugPrint(state.extra.runtimeType.toString());
-                        if (state.extra is Future<DeckAndFlashcard>
-                            Function()) {
-                          return await (state.extra as Future<DeckAndFlashcard>
-                              Function())();
+                        if (state.extra is _GetDeckAndFlashcard) {
+                          return await (state.extra as _GetDeckAndFlashcard)();
                         }
-                        return state.extra as DeckAndFlashcard;
+                        Deck deck = await api_deck
+                            .read(int.parse(state.params["deckId"]!));
+                        return DeckAndFlashcard(
+                          deck,
+                          deck.flashcards.firstWhere((card) =>
+                              card.id == int.parse(state.params["cardId"]!)),
+                        );
                       },
-                      builder: (deckAndFlashcard) =>
-                          FlashcardPage(deckAndFlashcard),
+                      builder: (deckFlashcard) => FlashcardPage(deckFlashcard),
                     ),
                   ),
                 ])

@@ -93,8 +93,8 @@ class _ChooseDeckDialog extends StatelessWidget {
         },
       );
 
-  void _createCard(BuildContext context, Deck deck) => context.push(
-        "/decks/${deck.name}/cards/${_word.word}",
+  void _createCard(BuildContext context, Deck deck) => context.go(
+        "/decks/${deck.id}/cards/newcard",
         extra: () async => DeckAndFlashcard(
           deck,
           Flashcard(

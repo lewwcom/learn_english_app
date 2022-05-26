@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/pages/deck/widget/header_content.dart';
+import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/loading/error_page.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/word_card/word_cards_row.dart';
@@ -35,16 +36,16 @@ class DeckPage extends StatelessWidget {
               ),
               SliverPadding(
                 padding: const EdgeInsets.only(top: kPadding),
-                sliver: WordCardsRow(
-                  title: "Word list",
-                  words: _deck.flashcards
+                sliver: FlashcardsRow(
+                  title: "Flashcards",
+                  flashcards: _deck.flashcards
                       .sublist(0, min(5, _deck.flashcards.length))
-                      .map((flashcard) => flashcard.word)
                       .toList(),
-                  // TODO: navigate to flashcard_edit_page
-                  onTapWord: (word) => context.push("/words/${word.word}"),
+                  onTapFlashcard: (flashcard) => context.push(
+                      "/decks/${_deck.id}/cards/${flashcard.id}",
+                      extra: DeckAndFlashcard(_deck, flashcard)),
                   showMoreAction: () =>
-                      context.push("/decks/${_deck.name}/cards", extra: _deck),
+                      context.push("/decks/${_deck.id}/cards", extra: _deck),
                 ),
               ),
               SliverToBoxAdapter(

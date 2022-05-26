@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 class LoadingNotifier<T> extends ChangeNotifier {
   T? _result;
   Object? _error;
+  final Future<T> Function() _fetchResult;
 
-  LoadingNotifier(Future<T> Function() fetchResult) {
-    _fetch(fetchResult);
+  LoadingNotifier(this._fetchResult, {bool fetchOnCreate = true}) {
+    if (fetchOnCreate) {
+      fetch();
+    }
   }
 
-  Future<void> _fetch(Future<T> Function() fetchResult) async {
+  Future<void> fetch() async {
     try {
-      _result = await fetchResult();
+      _result = await _fetchResult();
     } catch (e, stack) {
       _error = e;
       debugPrint(e.toString());

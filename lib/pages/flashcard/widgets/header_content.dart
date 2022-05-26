@@ -20,7 +20,7 @@ class HeaderContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            flex: 3,
+            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,7 +47,7 @@ class HeaderContent extends StatelessWidget {
               ],
             ),
           ),
-          Flexible(flex: 2, child: _Button(_flashcard)),
+          Flexible(flex: 3, child: _Button(_flashcard)),
         ],
       );
 }

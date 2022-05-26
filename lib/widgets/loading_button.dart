@@ -65,7 +65,7 @@ class LoadingButton<T> extends StatelessWidget {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     ),
                     const SizedBox(width: kPadding / 2),
-                    Text("Please wait", style: _textStyle)
+                    Text(_buttonText, style: _textStyle)
                   ],
                 ),
               );

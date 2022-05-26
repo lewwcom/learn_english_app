@@ -50,8 +50,8 @@ class NewDeckPage extends StatelessWidget {
                       "Create",
                       onPressed: () async => api_deck
                           .create(context.read<ValueNotifier<String>>().value),
-                      onDone: (result) async =>
-                          context.go("/decks/deck", extra: result),
+                      onDone: (deck) async => context
+                          .go("/decks/${deck?.id ?? "newdeck"}", extra: deck),
                     )
                   ],
                 )
