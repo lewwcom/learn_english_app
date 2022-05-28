@@ -13,13 +13,6 @@ import 'package:provider/provider.dart';
 class LearnDecksPage extends StatelessWidget {
   static const String _title = "Learning Today";
 
-  // // TODO: remove it
-  // static final List<Deck> decks = [
-  //   for (String name in ["Tech", "Art", "Science", "Math", "Sport"])
-  //     Deck.fromWordList(
-  //         name, [Word.fromString("Hello"), Word.fromString("World")])
-  // ];
-
   final List<Deck> decks;
 
   const LearnDecksPage(this.decks, {Key? key}) : super(key: key);

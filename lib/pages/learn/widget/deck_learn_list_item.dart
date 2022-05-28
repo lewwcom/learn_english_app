@@ -11,63 +11,47 @@ class DeckLearnListItem extends StatelessWidget {
 
   const DeckLearnListItem(this._deck, {Key? key}) : super(key: key);
 
-  // void startLearn(BuildContext context) {
-  //   List<String> option = [];
-  //   Random random = new Random();
-  //   int randNumber = random.nextInt(words.length - 1);
-  //   Question question = Question(
-  //       1,
-  //       "Flutter is an open-source UI software development kit created by ______",
-  //       2,
-  //       ['Apple', 'Google', 'Facebook', 'Microsoft']);
-  //   print("test");
-  //   Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (_) => LearnScreen(
-  //               question: question, initDeck: _deck, currentDeck: _deck)));
-  // }
-
   Question genQuestion() {
     List<String> option = [];
-    Random random = new Random();
+    option.add(_deck.flashcards[0].word.word);
+    Random random = Random();
     int randNumber = random.nextInt(words.length - 1);
     option.add(words[randNumber]);
     while (option.contains(words[randNumber])) {
-      random = new Random();
+      random = Random();
       randNumber = random.nextInt(words.length - 1);
     }
     option.add(words[randNumber]);
-    option.add(_deck.flashcards[0].word.word);
     while (option.contains(words[randNumber])) {
-      random = new Random();
+      random = Random();
       randNumber = random.nextInt(words.length - 1);
     }
     option.add(words[randNumber]);
-    Question question =
-        Question(1, _deck.flashcards[0].word.definitions[0].meaning, 3, option);
+    random = Random();
+    randNumber = random.nextInt(3);
+    if (randNumber != 0) {
+      String tg = option[randNumber];
+      option[randNumber] = option[0];
+      option[0] = tg;
+    }
+    Question question = Question(
+        1, _deck.flashcards[0].word.definitions[0].meaning, randNumber, option);
     return question;
   }
 
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () {
-          Question question = genQuestion();
-          // List<String> option = [];
-          // Random random = new Random();
-          // int randNumber = random.nextInt(words.length - 1);
-          // Question question = Question(
-          //     1,
-          //     "Flutter is an open-source UI software development kit created by ______",
-          //     2,
-          //     ['Apple', 'Google', 'Facebook', 'Microsoft']);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => LearnScreen(
-                      question: question,
-                      initDeck: _deck,
-                      currentDeck: _deck)));
+          if (_deck.flashcards.isNotEmpty) {
+            Question question = genQuestion();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => LearnScreen(
+                        question: question,
+                        initDeck: _deck,
+                        currentDeck: _deck)));
+          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,6 +20,10 @@ class Deck {
     _flashcards.add(flashcard);
   }
 
+  void removeFirst() {
+    _flashcards.removeAt(0);
+  }
+
   List<Flashcard> get flashcards => List.unmodifiable(_flashcards);
 }
 

@@ -10,7 +10,6 @@ import 'package:learn_english_app/pages/deck/new_deck_page.dart';
 import 'package:learn_english_app/pages/deck/flashcards_page.dart';
 import 'package:learn_english_app/pages/home/home_screen.dart';
 import 'package:learn_english_app/pages/learn/learn_decks_page.dart';
-import 'package:learn_english_app/pages/learn/learn_page.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
 import 'package:learn_english_app/pages/login/login_page.dart';
 import 'package:learn_english_app/pages/login/signup_page.dart';
@@ -24,7 +23,7 @@ import 'package:learn_english_app/services/api_deck.dart' as api_deck;
 import 'package:learn_english_app/services/api_learn.dart' as api_learn;
 import 'package:learn_english_app/utilities/process_text_notifier.dart';
 
-const String initialLocation = "/login";
+const String initialLocation = "/learn";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 
@@ -114,10 +113,10 @@ final GoRouter router = GoRouter(
       GoRoute(
         path: "/learn",
         builder: (context, state) => LoadingPage<List<Deck>>(
-            fetchResult: () async =>
-                Stream.fromIterable(await api_learn.readAll())
-                    .asyncMap((deck) async => await api_learn.read(deck.id!))
-                    .toList(),
+            fetchResult: () async => Stream.fromIterable(
+                    await api_learn.readLearnAll())
+                .asyncMap((deck) async => await api_learn.readLearn(deck.id!))
+                .toList(),
             builder: (decks) => LearnDecksPage(decks)),
       )
     ]);
