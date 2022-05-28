@@ -36,6 +36,7 @@ class SearchHistory extends StatelessWidget {
       );
 }
 
+// TODO: save to persistent storage
 class SearchHistoryNotifier with ChangeNotifier {
   static const int _max = 3;
   final Set<String> _history = {};

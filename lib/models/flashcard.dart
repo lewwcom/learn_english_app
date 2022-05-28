@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:learn_english_app/api/serializer.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/models/definition.dart';
@@ -16,8 +17,11 @@ class Flashcard {
       : word =
             Word(word.word, word.ipa, word.audioUrl, word.imgUrl, id: word.id) {
     this.word.addDefinition(Definition(
-        definition.lexicalCategory, definition.meaning, definition.example,
-        id: definition.id));
+          definition.lexicalCategory,
+          definition.meaning,
+          definition.example,
+          id: definition.id,
+        ));
   }
 
   Definition get definition => word.definitions.first;
@@ -43,4 +47,22 @@ class FlashcardSerializer implements Serializer<Flashcard> {
       id: content["id"],
       e_factor: content["e_factor"],
       interval: content["interval"]);
+}
+
+class FlashcardEquality implements Equality<Flashcard> {
+  @override
+  bool equals(Flashcard? fc1, Flashcard? fc2) =>
+      (fc1 == fc2) ||
+      (fc1 != null &&
+          fc2 != null &&
+          fc1.id == fc2.id &&
+          WordEquality().equals(fc1.word, fc2.word));
+
+  @override
+  int hash(Flashcard? flashcard) => flashcard != null
+      ? flashcard.id.hashCode + WordEquality().hash(flashcard.word)
+      : 0;
+
+  @override
+  bool isValidKey(Object? o) => o is Flashcard?;
 }

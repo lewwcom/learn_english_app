@@ -6,7 +6,10 @@ const _buttonPadding =
 
 final ThemeData themeData = ThemeData(
   colorScheme: const ColorScheme.light(
-      primary: Color(0xFF00B0FF), secondary: Color(0xFFE3F2FD)),
+    primary: Color(0xFF00B0FF),
+    secondary: Color(0xFFE3F2FD),
+    onSecondary: Colors.black54,
+  ),
   cardTheme: CardTheme(
     margin: EdgeInsets.zero,
     shape: RoundedRectangleBorder(

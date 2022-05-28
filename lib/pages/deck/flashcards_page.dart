@@ -4,7 +4,6 @@ import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/pages/deck/widget/header_content.dart';
-import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:learn_english_app/widgets/search_results.dart';
@@ -21,19 +20,20 @@ class FlashcardsPage extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => SearchNotifier<Flashcard>(
-          (query) => Future.value(
-            query.isEmpty
-                ? _deck.flashcards
-                : _deck.flashcards
-                    .where((card) => card.word.word
-                        .toLowerCase()
-                        .contains(query.toLowerCase()))
-                    .toList(),
-          ),
-          query: "",
-        ),
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          Provider.value(value: _deck),
+          ChangeNotifierProxyProvider<Deck, SearchNotifier<Flashcard>>(
+            create: (context) => SearchNotifier<Flashcard>(
+              (query) => _fetchResult(query, context.read<Deck>().flashcards),
+              query: "",
+            ),
+            update: (context, deck, oldNotifier) => SearchNotifier<Flashcard>(
+              (query) => _fetchResult(query, deck.flashcards),
+              query: "",
+            ),
+          )
+        ],
         builder: (context, child) => Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -52,9 +52,8 @@ class FlashcardsPage extends StatelessWidget {
                   results: context
                       .select((SearchNotifier<Flashcard> s) => s.results),
                   childBuilder: (context, results, index) => GestureDetector(
-                    onTap: () => context.push(
-                        "/decks/${_deck.name}/cards/${results[index].id}",
-                        extra: DeckAndFlashcard(_deck, results[index])),
+                    onTap: () => context
+                        .push("/decks/${_deck.id}/cards/${results[index].id}"),
                     child: WordListEntry(
                       results[index].word.word,
                       results[index].definition.meaning,
@@ -66,5 +65,15 @@ class FlashcardsPage extends StatelessWidget {
             ],
           ),
         ),
+      );
+
+  Future<List<Flashcard>> _fetchResult(query, List<Flashcard> flashcards) =>
+      Future.value(
+        query.isEmpty
+            ? flashcards
+            : flashcards
+                .where((card) =>
+                    card.word.word.toLowerCase().contains(query.toLowerCase()))
+                .toList(),
       );
 }

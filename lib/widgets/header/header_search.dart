@@ -13,8 +13,8 @@ class HeaderSearch<T> extends StatelessWidget {
   final bool _searchBoxAutoFocus;
 
   /// Pass [buttonText] and [onButtonPressed] to display button. If
-  /// [searchPageLocation] is not null, when user taps on search box, app will be
-  /// navigated to your search page.
+  /// [searchPageLocation] is not null, when user taps on search box, app will
+  /// be navigated to your search page.
   const HeaderSearch({
     Key? key,
     required String title,
@@ -73,10 +73,9 @@ class _TitleAndButton extends StatelessWidget {
                 onPressed: _onButtonPressed,
                 child: Text(
                   _buttonText!,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.secondary),

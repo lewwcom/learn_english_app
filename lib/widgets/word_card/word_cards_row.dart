@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:learn_english_app/constants.dart';
-import 'package:learn_english_app/models/word.dart';
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/widgets/word_card/word_card.dart';
 
-class WordCardsRow extends StatelessWidget {
+class FlashcardsRow extends StatelessWidget {
   final String _title;
-  final List<Word> _words;
-  final void Function(Word word)? _onTapWord;
+  final List<Flashcard> _flashcards;
+  final void Function(Flashcard flashcard)? _onTapFlashcard;
   final void Function()? _showMoreAction;
 
-  const WordCardsRow({
+  const FlashcardsRow({
     Key? key,
     required String title,
-    required List<Word> words,
-    void Function(Word word)? onTapWord,
+    required List<Flashcard> flashcards,
+    void Function(Flashcard flashcard)? onTapFlashcard,
     void Function()? showMoreAction,
   })  : _title = title,
-        _words = words,
-        _onTapWord = onTapWord,
+        _flashcards = flashcards,
+        _onTapFlashcard = onTapFlashcard,
         _showMoreAction = showMoreAction,
         super(key: key);
 
@@ -42,9 +42,9 @@ class WordCardsRow extends StatelessWidget {
             SizedBox(
               height: 200,
               child: _WordCards(
-                _words,
+                _flashcards,
                 _showMoreAction != null ? kPadding / 10 : kPadding,
-                _onTapWord,
+                _onTapFlashcard,
               ),
             ),
             if (_showMoreAction != null)
@@ -64,11 +64,11 @@ class WordCardsRow extends StatelessWidget {
 }
 
 class _WordCards extends StatelessWidget {
-  final List<Word> _words;
+  final List<Flashcard> _flashcards;
   final double _bottomPadding;
-  final void Function(Word word)? _onTapWord;
+  final void Function(Flashcard flashcard)? _onTapFlashcard;
 
-  const _WordCards(this._words, this._bottomPadding, this._onTapWord,
+  const _WordCards(this._flashcards, this._bottomPadding, this._onTapFlashcard,
       {Key? key})
       : super(key: key);
 
@@ -83,14 +83,16 @@ class _WordCards extends StatelessWidget {
         ),
         separatorBuilder: (context, index) =>
             const SizedBox(width: kPadding / 2),
-        itemCount: _words.length,
+        itemCount: _flashcards.length,
         itemBuilder: (context, index) => SizedBox(
           width: 300,
           child: GestureDetector(
-            onTap: _onTapWord != null ? () => _onTapWord!(_words[index]) : null,
+            onTap: _onTapFlashcard != null
+                ? () => _onTapFlashcard!(_flashcards[index])
+                : null,
             child: WordCard(
-              _words[index].word,
-              _words[index].definitions.first.meaning,
+              _flashcards[index].word.word,
+              _flashcards[index].definition.meaning,
             ),
           ),
         ),

@@ -5,9 +5,7 @@ import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/definition.dart';
 import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/word.dart';
-import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/services/api_deck.dart' as api_deck;
-import 'package:learn_english_app/services/api_flashcard.dart' as api_flashcard;
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -76,7 +74,10 @@ class _ChooseDeckDialog extends StatelessWidget {
                             deck.name,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
-                          onPressed: () => _createCard(context, deck),
+                          onPressed: () => context.go(
+                            "/decks/${deck.id}/cards/newcard",
+                            extra: Flashcard(_word, _definition),
+                          ),
                         ),
                       )
                       .toList()
@@ -91,18 +92,6 @@ class _ChooseDeckDialog extends StatelessWidget {
             return const _ErrorDialog();
           }
         },
-      );
-
-  void _createCard(BuildContext context, Deck deck) => context.push(
-        "/decks/${deck.name}/cards/${_word.word}",
-        extra: () async => DeckAndFlashcard(
-          deck,
-          Flashcard(
-            _word,
-            _definition,
-            id: await api_flashcard.create(deck.id!, _definition.id!),
-          ),
-        ),
       );
 }
 

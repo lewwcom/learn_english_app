@@ -4,6 +4,7 @@ import 'package:learn_english_app/api/api_client.dart' as api_client;
 import 'package:learn_english_app/api/api_exception.dart';
 import 'package:learn_english_app/api/serializer.dart';
 import 'package:learn_english_app/constants.dart';
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/search/widgets/search_history.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
@@ -53,15 +54,18 @@ class SearchPage extends StatelessWidget {
                 padding: EdgeInsets.all(kPadding),
                 sliver: _MainBody(),
               ),
-              WordCardsRow(
+              FlashcardsRow(
                 title: "Words of the day",
-                words: _words
+                flashcards: _words
                     .sublist(0, 5)
-                    .map((word) => Word.fromString(word))
+                    .map((word) => Flashcard(Word.fromString(word),
+                        Word.fromString(word).definitions.first))
                     .toList(),
-                onTapWord: (word) {
-                  context.read<SearchHistoryNotifier>().add(word.word);
-                  context.push("/words/${word.word}");
+                onTapFlashcard: (flashcard) {
+                  context
+                      .read<SearchHistoryNotifier>()
+                      .add(flashcard.word.word);
+                  context.push("/words/${flashcard.word.word}");
                 },
               )
             ],

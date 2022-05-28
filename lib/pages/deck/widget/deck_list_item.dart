@@ -11,7 +11,7 @@ class DeckListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => context.push("/decks/${_deck.name}", extra: _deck),
+        onTap: () => context.push("/decks/${_deck.id}"),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
