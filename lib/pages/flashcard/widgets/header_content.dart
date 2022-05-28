@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/definition.dart';
 import 'package:learn_english_app/models/flashcard.dart';
-import 'package:learn_english_app/services/api_flashcard.dart' as api_flashcard;
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
+import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:learn_english_app/widgets/loading_button.dart';
 import 'package:provider/provider.dart';
 
@@ -74,9 +74,13 @@ class _Button extends StatelessWidget {
           "Save",
           onPressed: () async {
             context.read<GlobalKey<FormState>>().currentState?.save();
-            await api_flashcard.update(Flashcard(
-                _flashcard.word, context.read<Definition>(),
-                id: _flashcard.id));
+            Flashcard flashcard = Flashcard(
+              _flashcard.word,
+              context.read<Definition>(),
+              id: _flashcard.id,
+            );
+            await (context.read<LoadingNotifier<Deck>>() as DeckNotifier)
+                .replaceCard(flashcard.id!, flashcard);
           },
           onDone: (_) async =>
               pageStateNotifier.value = FlashcardPageState.viewing,

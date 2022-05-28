@@ -1,8 +1,11 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/api/api_client.dart' as api_client;
 import 'package:learn_english_app/api/serializer.dart';
+import 'package:learn_english_app/main.dart';
 import 'package:learn_english_app/models/deck.dart';
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/deck/deck_page.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
@@ -14,9 +17,8 @@ import 'package:learn_english_app/pages/search/search_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
-import 'package:learn_english_app/services/api_deck.dart' as api_deck;
-
-typedef _GetDeckAndFlashcard = Future<DeckAndFlashcard> Function();
+import 'package:learn_english_app/utilities/loading_notifier.dart';
+import 'package:provider/provider.dart';
 
 const String initialLocation = "/decks";
 
@@ -36,73 +38,73 @@ final GoRouter router = GoRouter(
                 "words/?word=${state.params["word"]}",
                 ListSerializer(WordSerializer())))
             .first,
-        builder: (data) => WordPage(data),
+        builder: (context, data) => WordPage(data),
       ),
     ),
     GoRoute(
       path: "/decks",
       builder: (context, state) => LoadingPage<List<Deck>>(
-        // TODO: Change to lazy loading
-        fetchResult: () async => Stream.fromIterable(await api_deck.readAll())
-            .asyncMap((deck) async => await api_deck.read(deck.id!))
-            .toList(),
-        builder: (decks) => DecksPage(decks),
+        loadingNotifier: decksNotifier,
+        equality: DeepCollectionEquality.unordered(DeckEquality()),
+        notifyAboutChangeText: "Decks updated from server!",
+        builder: (context, decks) => DecksPage(decks),
         refreshOnPopNext: true,
       ),
       routes: [
         GoRoute(
           path: ":deckId",
           builder: (context, state) => LoadingPage<Deck>(
-            initialValue: state.extra is Deck ? state.extra as Deck : null,
-            fetchResult: () async =>
-                await api_deck.read(int.parse(state.params["deckId"]!)),
-            builder: (deck) => DeckPage(deck),
+            loadingNotifier: decksNotifier
+                .getDeckNotifier(int.parse(state.params["deckId"]!)),
+            willDisposeNotifier: true,
+            builder: (context, deck) => DeckPage(deck),
             refreshOnPopNext: true,
           ),
-          routes: [
-            GoRoute(
-                path: "cards",
-                builder: (context, state) => LoadingPage<Deck>(
-                      initialValue:
-                          state.extra is Deck ? state.extra as Deck : null,
-                      fetchResult: () async => await api_deck
-                          .read(int.parse(state.params["deckId"]!)),
-                      builder: (deck) => FlashcardsPage(deck,
-                          searchQuery: state.queryParams["query"]),
-                      refreshOnPopNext: true,
-                    ),
-                routes: [
-                  GoRoute(
-                    path: ":cardId",
-                    builder: (context, state) => LoadingPage<DeckAndFlashcard>(
-                      initialValue: state.extra is DeckAndFlashcard
-                          ? state.extra as DeckAndFlashcard
-                          : null,
-                      fetchResult: () async {
-                        if (state.extra is _GetDeckAndFlashcard) {
-                          return await (state.extra as _GetDeckAndFlashcard)();
-                        }
-                        Deck deck = await api_deck
-                            .read(int.parse(state.params["deckId"]!));
-                        return DeckAndFlashcard(
-                          deck,
-                          deck.flashcards.firstWhere((card) =>
-                              card.id == int.parse(state.params["cardId"]!)),
-                        );
-                      },
-                      builder: (deckFlashcard) => FlashcardPage(deckFlashcard),
-                    ),
-                  ),
-                ])
-          ],
+          routes: cardsRoute,
         )
       ],
     ),
     GoRoute(
       path: "/create-deck",
-      builder: (context, state) => const NewDeckPage(),
+      builder: (context, state) => ChangeNotifierProvider.value(
+          value: decksNotifier, child: const NewDeckPage()),
     ),
     GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen()),
     GoRoute(path: "/homescreen", builder: (context, state) => HomeScreen())
   ],
 );
+
+List<GoRoute> cardsRoute = [
+  GoRoute(
+      path: "cards",
+      builder: (context, state) => LoadingPage<Deck>(
+            loadingNotifier: decksNotifier
+                .getDeckNotifier(int.parse(state.params["deckId"]!)),
+            willDisposeNotifier: true,
+            builder: (context, deck) =>
+                FlashcardsPage(deck, searchQuery: state.queryParams["query"]),
+            refreshOnPopNext: true,
+          ),
+      routes: [
+        GoRoute(
+          path: ":cardId",
+          builder: (context, state) => LoadingPage<Deck>(
+            loadingNotifier: decksNotifier
+                .getDeckNotifier(int.parse(state.params["deckId"]!)),
+            willDisposeNotifier: true,
+            builder: (context, decks) => LoadingPage<Flashcard>(
+              fetchResult: () async => state.extra is Flashcard
+                  ? await _getDeckNotifier(context)
+                      .createCard(state.extra as Flashcard)
+                  : _getDeckNotifier(context).result!.flashcards.firstWhere(
+                      (card) => card.id == int.parse(state.params["cardId"]!)),
+              builder: (context, flashcard) =>
+                  FlashcardPage(_getDeckNotifier(context).result!, flashcard),
+            ),
+          ),
+        ),
+      ])
+];
+
+DeckNotifier _getDeckNotifier(BuildContext context) =>
+    (context.read<LoadingNotifier<Deck>>() as DeckNotifier);

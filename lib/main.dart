@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:learn_english_app/api/api_client.dart' as api_client;
 import 'package:learn_english_app/router.dart';
 import 'package:learn_english_app/theme_data.dart';
+import 'package:learn_english_app/utilities/loading_notifier.dart';
 
 // TODO: TextTheme
 
+late DecksNotifier decksNotifier;
+
 Future<void> main() async {
   await loginTestAccount();
+  decksNotifier = DecksNotifier();
   runApp(const App());
 }
 

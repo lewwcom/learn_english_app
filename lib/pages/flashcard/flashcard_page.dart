@@ -9,23 +9,14 @@ import 'package:learn_english_app/pages/flashcard/widgets/flashcard_edit_form.da
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:provider/provider.dart';
 
-class DeckAndFlashcard {
-  final Deck deck;
-  final Flashcard flashcard;
-
-  DeckAndFlashcard(this.deck, this.flashcard);
-}
-
 enum FlashcardPageState { viewing, clean, dirty }
 
 class FlashcardPage extends StatelessWidget {
   final Deck _deck;
   final Flashcard _flashcard;
 
-  FlashcardPage(DeckAndFlashcard deckAndFlashcard, {Key? key})
-      : _deck = deckAndFlashcard.deck,
-        _flashcard = deckAndFlashcard.flashcard,
-        super(key: key);
+  const FlashcardPage(this._deck, this._flashcard, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => MultiProvider(

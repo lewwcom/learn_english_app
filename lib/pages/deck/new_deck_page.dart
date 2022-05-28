@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
-import 'package:learn_english_app/models/deck.dart';
-import 'package:learn_english_app/services/api_deck.dart' as api_deck;
 import 'package:learn_english_app/theme_data.dart';
+import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:learn_english_app/widgets/loading_button.dart';
 import 'package:provider/provider.dart';
 
@@ -46,12 +45,14 @@ class NewDeckPage extends StatelessWidget {
                       child: const Text("Cancel"),
                     ),
                     const SizedBox(width: kPadding / 2),
-                    LoadingButton<Deck>(
+                    LoadingButton<int>(
                       "Create",
-                      onPressed: () async => api_deck
-                          .create(context.read<ValueNotifier<String>>().value),
-                      onDone: (deck) async => context
-                          .go("/decks/${deck?.id ?? "newdeck"}", extra: deck),
+                      onPressed: () async => (await context
+                              .read<DecksNotifier>()
+                              .createDeck(
+                                  context.read<ValueNotifier<String>>().value))
+                          .id!,
+                      onDone: (deckId) async => context.go("/decks/$deckId"),
                     )
                   ],
                 )

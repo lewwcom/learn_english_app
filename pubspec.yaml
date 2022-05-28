@@ -44,6 +44,7 @@ dependencies:
   form_field_validator: ^1.0.1
   youtube_player_flutter: ^8.0.0
   flutter_svg: ^1.0.3
+  collection: ^1.15.0
 
 dev_dependencies:
   flutter_test:
