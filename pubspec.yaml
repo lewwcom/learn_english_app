@@ -46,6 +46,7 @@ dependencies:
   flutter_svg: ^1.0.3
   flutter_switch: ^0.3.2
   image_picker: ^0.8.5+3
+  collection: ^1.15.0
 
 dev_dependencies:
   flutter_test:

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:learn_english_app/api/api_client.dart' as api_client;
-import 'package:learn_english_app/api/api_exception.dart';
 import 'package:learn_english_app/router.dart';
 import 'package:learn_english_app/theme_data.dart';
+import 'package:learn_english_app/utilities/loading_notifier.dart';
 
 // TODO: TextTheme
 
+late DecksNotifier decksNotifier;
+
 Future<void> main() async {
   await loginTestAccount();
+  decksNotifier = DecksNotifier();
   runApp(const App());
 }
 
@@ -25,7 +28,7 @@ Future<void> loginTestAccount() async {
         "password_confirmation": "12345678",
       },
     );
-  } on ApiException catch (e) {
+  } catch (e) {
     debugPrint(e.toString());
   }
 
@@ -39,7 +42,7 @@ Future<void> loginTestAccount() async {
         "remember_me": "true"
       },
     );
-  } on ApiException catch (e) {
+  } catch (e) {
     debugPrint(e.toString());
   }
 }

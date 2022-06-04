@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:learn_english_app/api/serializer.dart';
 
 class Definition {
@@ -32,4 +33,27 @@ class DefinitionSerializer implements Serializer<Definition> {
   Definition fromJsonContentKey(dynamic content) => Definition(
       content["lexical_category"], content["meaning"], content["example"],
       id: content["id"]);
+}
+
+class DefinitionEquality implements Equality<Definition> {
+  @override
+  bool equals(Definition? d1, Definition? d2) =>
+      (d1 == d2) ||
+      (d1 != null &&
+          d2 != null &&
+          d1.id == d2.id &&
+          d1._lexicalCategory == d2._lexicalCategory &&
+          d1.meaning == d2.meaning &&
+          d1._example == d2._example);
+
+  @override
+  int hash(Definition? definition) => definition != null
+      ? definition.id.hashCode +
+          definition._lexicalCategory.hashCode +
+          definition.meaning.hashCode +
+          definition._example.hashCode
+      : 0;
+
+  @override
+  bool isValidKey(Object? o) => o is Definition?;
 }

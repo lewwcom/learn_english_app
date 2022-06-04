@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
-import 'package:learn_english_app/models/word.dart';
+import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/widgets/header/header_search.dart';
 
 class HeaderContent extends StatelessWidget {
@@ -22,7 +22,7 @@ class HeaderContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          HeaderSearch<Word>(
+          HeaderSearch<Flashcard>(
             title: _deck.name,
             buttonText: "Add card",
             onButtonPressed: () => context.push("/search"),
@@ -55,10 +55,9 @@ class _BottomButton extends StatelessWidget {
           onPressed: onPressed ?? () {},
           child: Text(
             _buttonText,
-            style: Theme.of(context)
-                .primaryTextTheme
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSecondary,
+                fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

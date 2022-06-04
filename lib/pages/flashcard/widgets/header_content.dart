@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/definition.dart';
 import 'package:learn_english_app/models/flashcard.dart';
-import 'package:learn_english_app/services/api_flashcard.dart' as api_flashcard;
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
+import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:learn_english_app/widgets/loading_button.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,7 @@ class HeaderContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
-            flex: 3,
+            flex: 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,7 +47,7 @@ class HeaderContent extends StatelessWidget {
               ],
             ),
           ),
-          Flexible(flex: 2, child: _Button(_flashcard)),
+          Flexible(flex: 3, child: _Button(_flashcard)),
         ],
       );
 }
@@ -74,9 +74,13 @@ class _Button extends StatelessWidget {
           "Save",
           onPressed: () async {
             context.read<GlobalKey<FormState>>().currentState?.save();
-            await api_flashcard.update(Flashcard(
-                _flashcard.word, context.read<Definition>(),
-                id: _flashcard.id));
+            Flashcard flashcard = Flashcard(
+              _flashcard.word,
+              context.read<Definition>(),
+              id: _flashcard.id,
+            );
+            await (context.read<LoadingNotifier<Deck>>() as DeckNotifier)
+                .replaceCard(flashcard.id!, flashcard);
           },
           onDone: (_) async =>
               pageStateNotifier.value = FlashcardPageState.viewing,
@@ -106,10 +110,9 @@ class _StyledElevatedButton extends StatelessWidget {
         onPressed: _onPressed,
         child: Text(
           _buttonText,
-          style: Theme.of(context)
-              .primaryTextTheme
-              .titleLarge
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onSecondary,
+              fontWeight: FontWeight.bold),
         ),
         style: ElevatedButton.styleFrom(
             primary: Theme.of(context).colorScheme.secondary),

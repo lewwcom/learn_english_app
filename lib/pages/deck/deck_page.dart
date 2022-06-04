@@ -29,22 +29,21 @@ class DeckPage extends StatelessWidget {
               Header(
                 HeaderContent(
                   _deck,
-                  searchPageLocation: "/decks/${_deck.name}/cards",
+                  searchPageLocation: "/decks/${_deck.id}/cards",
                 ),
                 bottomHeight: kToolbarHeight * 4.3,
               ),
               SliverPadding(
                 padding: const EdgeInsets.only(top: kPadding),
-                sliver: WordCardsRow(
-                  title: "Word list",
-                  words: _deck.flashcards
+                sliver: FlashcardsRow(
+                  title: "Flashcards",
+                  flashcards: _deck.flashcards
                       .sublist(0, min(5, _deck.flashcards.length))
-                      .map((flashcard) => flashcard.word)
                       .toList(),
-                  // TODO: navigate to flashcard_edit_page
-                  onTapWord: (word) => context.push("/words/${word.word}"),
+                  onTapFlashcard: (flashcard) =>
+                      context.push("/decks/${_deck.id}/cards/${flashcard.id}"),
                   showMoreAction: () =>
-                      context.push("/decks/${_deck.name}/cards", extra: _deck),
+                      context.push("/decks/${_deck.id}/cards"),
                 ),
               ),
               SliverToBoxAdapter(
