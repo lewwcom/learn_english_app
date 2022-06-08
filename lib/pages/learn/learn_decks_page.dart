@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
-import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/learn/widget/deck_learn_list_item.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/header/header_learn.dart';

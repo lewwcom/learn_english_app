@@ -50,7 +50,8 @@ class DeckLearnListItem extends StatelessWidget {
                     builder: (_) => LearnScreen(
                         question: question,
                         initDeck: _deck,
-                        currentDeck: _deck)));
+                        currentDeck: _deck,
+                        countUpdate: _deck.flashcards.length)));
           }
         },
         child: Column(

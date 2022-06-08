@@ -4,6 +4,7 @@ import 'package:learn_english_app/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/questions_model.dart';
+import 'package:learn_english_app/pages/learn/finish_learn.dart';
 import 'package:learn_english_app/pages/learn/widget/question_card.dart';
 import 'package:learn_english_app/services/api_learn.dart';
 import 'package:learn_english_app/utilities/words.dart';
@@ -14,11 +15,13 @@ class LearnScreen extends StatefulWidget {
       {Key? key,
       required this.question,
       required this.initDeck,
-      required this.currentDeck})
+      required this.currentDeck,
+      required this.countUpdate})
       : super(key: key);
   final Question question;
   final Deck initDeck;
   final Deck currentDeck;
+  final int countUpdate;
   @override
   State<StatefulWidget> createState() => _LearnScreen();
 }
@@ -160,7 +163,9 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
                         quality = 2;
                       }
                     }
-                    updateLearnCard(deck.flashcards[0].id, quality);
+                    if (widget.countUpdate > 0) {
+                      updateLearnCard(deck.flashcards[0].id, quality);
+                    }
                     if (deck.flashcards.length >= 2) {
                       Question question = genQuestion();
                       deck.removeFirst();
@@ -168,22 +173,27 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
                           context,
                           MaterialPageRoute(
                               builder: (_) => LearnScreen(
-                                  question: question,
-                                  initDeck: widget.initDeck,
-                                  currentDeck: deck)));
+                                    question: question,
+                                    initDeck: widget.initDeck,
+                                    currentDeck: deck,
+                                    countUpdate: widget.countUpdate - 1,
+                                  )));
                     } else {
-                      context.push('/learn');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const FinishLearnPage(0)));
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     "Skip",
                     style: TextStyle(color: Colors.white),
                   ))
-              : Text("")
+              : const Text("")
         ],
       ),
       body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 kPrimaryColor,
@@ -194,13 +204,13 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
           ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(height: 3 * kPadding),
+            const SizedBox(height: 3 * kPadding),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kPadding),
               child: ProgressBar(),
             ),
-            SizedBox(height: kPadding),
-            Divider(thickness: 2),
+            const SizedBox(height: kPadding),
+            const Divider(thickness: 2),
             Expanded(
                 child: QuestionCard(
               question: widget.question,

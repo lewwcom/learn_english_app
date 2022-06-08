@@ -11,6 +11,7 @@ import 'package:learn_english_app/pages/deck/deck_page.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
 import 'package:learn_english_app/pages/deck/new_deck_page.dart';
 import 'package:learn_english_app/pages/deck/flashcards_page.dart';
+import 'package:learn_english_app/pages/game/game_page.dart';
 import 'package:learn_english_app/pages/home/home_screen.dart';
 import 'package:learn_english_app/pages/learn/learn_decks_page.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
@@ -27,7 +28,7 @@ import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
-const String initialLocation = "/decks";
+const String initialLocation = "/youtube";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 
@@ -92,14 +93,6 @@ final GoRouter router = GoRouter(
       GoRoute(path: "/login", builder: (context, state) => const LoginPage()),
       GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
       GoRoute(path: "/splash", builder: (context, state) => SplashScreen()),
-      // GoRoute(
-      //     path: "/decks-learn",
-      //     builder: (context, state) => const LoadingPage<List<Deck>>(
-      //         fetchResult: () async =>
-      //             Stream.fromIterable(await api_learn.readAll())
-      //                 .asyncMap((deck) async => await api_learn.read(deck.id!))
-      //                 .toList(),
-      //         builder: (decks) => LearnDecksPage(decks))),
       GoRoute(
         path: "/learn",
         builder: (context, state) => LoadingPage<List<Deck>>(
@@ -108,7 +101,8 @@ final GoRouter router = GoRouter(
                 .asyncMap((deck) async => await api_learn.readLearn(deck.id!))
                 .toList(),
             builder: (context, decks) => LearnDecksPage(decks)),
-      )
+      ),
+      GoRoute(path: "/game", builder: (context, state) => GamePage())
     ]);
 
 List<GoRoute> cardsRoute = [
