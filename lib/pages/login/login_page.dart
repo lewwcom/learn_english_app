@@ -10,6 +10,7 @@ import '../../models/signup_resquest.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -102,8 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () {
                                       print("test đăng nhập");
                                       api.login(loginRequest).then((value) {
-                                        print(value.success);
-                                        print(value.content);
+
                                         if (value.success == true) {
                                           context.push('/homescreen');
                                         } else {
@@ -114,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                                                     'Invalid username or password.')),
                                           );
                                         }
+
                                       });
                                     },
                                     icon: Icon(

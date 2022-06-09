@@ -78,9 +78,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                       borderRadius: BorderRadius.circular(10),
                                     )),
                                 validator: (value) {
-                                  if (value!.isNotEmpty && value!.length > 5) {
+                                  if (value != null && value.isNotEmpty && value.length > 5) {
                                     return null;
-                                  } else if(value!.isNotEmpty && value!.length <= 5){
+                                  } else if(value != null && value.isNotEmpty && value.length <= 5){
                                     return 'too short';
                                   } else{
                                     return 'please give us your password';
@@ -118,9 +118,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                         borderRadius: BorderRadius.circular(10),
                                       )),
                                   validator: (value) {
-                                    if (value!.isNotEmpty && value == changePasswordResquest.password) {
+                                    if (value != null && value.isNotEmpty && value == changePasswordResquest.password) {
                                       return null;
-                                    } else if(value!.isNotEmpty && value != changePasswordResquest.password){
+                                    } else if(value != null && value.isNotEmpty && value != changePasswordResquest.password){
                                       return 'incorrect';
                                     }
                                   },
@@ -157,9 +157,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 borderRadius: BorderRadius.circular(10),
                               )),
                           validator: (value) {
-                            if (value!.isNotEmpty && value!.length > 5) {
+                            if (value != null && value.isNotEmpty && value.length > 5) {
                               return null;
-                            } else if(value!.isNotEmpty && value!.length <= 5){
+                            } else if(value != null && value.isNotEmpty && value.length <= 5){
                               return 'too short';
                             } else{
                               return 'please give us your new password';

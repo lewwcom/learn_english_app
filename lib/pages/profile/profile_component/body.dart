@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:learn_english_app/pages/changepassword/change_password_page.dart';
+import 'package:learn_english_app/services/api_logout.dart';
+import '../../login/login_page.dart';
 import 'Info.dart';
 import 'profile_menu_item.dart';
 import 'package:learn_english_app/size_config.dart';
 
 class Body extends StatelessWidget {
+  APILogout apiLogout = new APILogout();
   @override
   Widget build(BuildContext context) {
     double defaultSize = SizeConfig.defaultSize;
@@ -40,7 +43,13 @@ class Body extends StatelessWidget {
         ProfileMenuItem(
           iconSrc: "assets/icons/Log out.svg",
           title: "Logout",
-          press: () {},
+          press: () {
+            apiLogout.logOut();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
+          },
         ),
       ],
     );

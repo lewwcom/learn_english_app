@@ -32,8 +32,8 @@ class MyBottomNavBar extends StatelessWidget {
             icon: SvgPicture.asset('assets/icons/home.svg', color: Color(0xFFD1D4D4)),
           ),
           IconButton(
-            onPressed: () => context.push("/homescreen"),
-            icon: SvgPicture.asset('assets/icons/home.svg', color: Color(0xFFD1D4D4)),
+            onPressed: () => context.push("/vision"),
+            icon: SvgPicture.asset('assets/icons/camera.svg', color: Color(0xFFD1D4D4)),
           ),
           IconButton(
             onPressed: () => context.push("/profile"),

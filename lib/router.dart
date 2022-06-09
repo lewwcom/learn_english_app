@@ -19,6 +19,7 @@ import 'package:learn_english_app/pages/login/signup_page.dart';
 import 'package:learn_english_app/pages/login/splash.dart';
 import 'package:learn_english_app/pages/profile/profile_screen.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
+import 'package:learn_english_app/pages/vision/vision_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
@@ -27,7 +28,7 @@ import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
-const String initialLocation = "/decks";
+const String initialLocation = "/profile";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 
@@ -86,12 +87,12 @@ final GoRouter router = GoRouter(
             value: decksNotifier, child: const NewDeckPage()),
       ),
       GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen()),
-      GoRoute(
-          path: "/homescreen", builder: (context, state) => const HomeScreen()),
+      GoRoute(path: "/homescreen", builder: (context, state) => const HomeScreen()),
       GoRoute(path: "/profile", builder: (context, state) => ProfileScreen()),
       GoRoute(path: "/login", builder: (context, state) => const LoginPage()),
       GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
       GoRoute(path: "/splash", builder: (context, state) => SplashScreen()),
+      GoRoute(path: "/vision", builder: (context, state) => VisionPage()),
       // GoRoute(
       //     path: "/decks-learn",
       //     builder: (context, state) => const LoadingPage<List<Deck>>(

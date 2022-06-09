@@ -21,7 +21,7 @@ Future<T> get<T>(String path, Serializer<T> serializer) async =>
 /// Use [DiscardResponseContentSerializer] if you don't want to receive object
 /// from reponse.
 Future<T> post<T>(String path, Serializer<T> serializer,
-        {Map<String, String>? formData}) async =>
+    {Map<String, String>? formData}) async =>
     formData != null
         ? _makeMultipartRequest("post", path, formData, serializer)
         : _request(http.post, "post", path, serializer);
@@ -29,7 +29,7 @@ Future<T> post<T>(String path, Serializer<T> serializer,
 /// Use [DiscardResponseContentSerializer] if you don't want to receive object
 /// from reponse.
 Future<T> put<T>(String path, Serializer<T> serializer,
-        {Map<String, String>? formData}) async =>
+    {Map<String, String>? formData}) async =>
     formData != null
         ? _makeMultipartRequest("put", path, formData, serializer)
         : _request(http.put, "put", path, serializer);
@@ -52,7 +52,7 @@ Future<T> _request<T>(_RequestMethod request, String methodName, String path,
 
   _printMakingRequest(methodName, path);
   final http.Response response =
-      await request(Uri.parse(kApiBaseUrl + path), headers: _makeHeader());
+  await request(Uri.parse(kApiBaseUrl + path), headers: _makeHeader());
   _saveCookie(response);
   _printResponseCode(methodName, response.statusCode);
 
@@ -64,7 +64,7 @@ Future<T> _makeMultipartRequest<T>(String method, String path,
   await _init();
 
   final http.MultipartRequest request =
-      http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
+  http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
   request.fields.addAll(formData);
   request.headers.addAll(_makeHeader());
 
@@ -76,6 +76,39 @@ Future<T> _makeMultipartRequest<T>(String method, String path,
   return serializer.fromJsonContentKey(
       _jsonContentFromResponse(await http.Response.fromStream(response)));
 }
+
+Future<void> putImage<T>(String method, String path, String filepath,
+    Serializer<T> serializer) async {
+  await _init();
+  final http.MultipartRequest request =
+  http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
+  request.fields['file']='file';
+  request.headers.addAll(_makeHeader());
+  var picture=http.MultipartFile.fromPath('file', filepath);
+  request.files.add(await picture);
+  var respond = await request.send();
+  var respondData = await respond.stream.toBytes();
+  var result = String.fromCharCodes(respondData);
+  debugPrint(result);
+}
+
+Future<T> postI<T>(String method, String path, String filepath,
+    Serializer<T> serializer) async {
+  await _init();
+  final http.MultipartRequest request =
+  http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
+  request.fields['image']='image';
+  request.headers.addAll(_makeHeader());
+  var picture=http.MultipartFile.fromPath('image', filepath);
+  request.files.add(await picture);
+
+  http.StreamedResponse response = await request.send();
+  return serializer.fromJsonContentKey(
+      _jsonContentFromResponse(await http.Response.fromStream(response)));
+
+}
+
+
 
 /// If response is json, it will look like:
 /// ```json

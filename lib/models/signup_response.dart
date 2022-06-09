@@ -1,8 +1,10 @@
+import '../api/serializer.dart';
+
 class SignupResponse {
   bool? success;
-  List<String>? content;
+  dynamic? content;
 
-  SignupResponse({this.success, this.content});
+  SignupResponse({this.success = true, this.content = null});
 
   SignupResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -14,5 +16,13 @@ class SignupResponse {
     data['success'] = this.success;
     data['content'] = this.content;
     return data;
+  }
+}
+
+class SignupSerializer implements Serializer<SignupResponse> {
+  @override
+  SignupResponse fromJsonContentKey(content) {
+    SignupResponse signupResponse = SignupResponse(content: content);
+    return signupResponse;
   }
 }
