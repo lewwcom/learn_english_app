@@ -19,7 +19,9 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: kPrimaryColor,
       leading: IconButton (
         icon:SvgPicture.asset("assets/icons/menu.svg"),
-        onPressed: (){},
+        onPressed: (){
+
+        },
       ),
       centerTitle: true,
       title:  Text ("Profile"),

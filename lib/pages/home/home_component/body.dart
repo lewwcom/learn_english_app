@@ -30,7 +30,7 @@ class Body extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    onChanged: (value) {},
+                    onTap: () => context.push("/search"),
                     decoration: InputDecoration(
                       labelText: "Search",
                       hintText: "Search",
@@ -50,7 +50,7 @@ class Body extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     StudyCard(
-                      image: "assets/images/learning.jpg",
+                      image: "assets/images/learning.png",
                       title: "Learning",
                       press: () => context.push("/learn"),
                     ),

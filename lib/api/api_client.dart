@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:learn_english_app/api/api_exception.dart';
 import 'package:learn_english_app/constants.dart';
@@ -77,6 +79,24 @@ Future<T> _makeMultipartRequest<T>(String method, String path,
       _jsonContentFromResponse(await http.Response.fromStream(response)));
 }
 
+Future<void> putImage<T>(String method, String path, String filepath,
+    Serializer<T> serializer) async {
+  await _init();
+
+  final http.MultipartRequest request =
+      http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
+  request.fields['file']='file';
+  request.headers.addAll(_makeHeader());
+  var picture=http.MultipartFile.fromPath('file', filepath);
+  request.files.add(await picture);
+  var respond = await request.send();
+  var respondData = await respond.stream.toBytes();
+  var result = String.fromCharCodes(respondData);
+  debugPrint(result);
+
+}
+
+
 /// If response is json, it will look like:
 /// ```json
 /// {
@@ -107,6 +127,7 @@ dynamic _jsonContentFromResponse(http.Response response) {
 //==============================================================================
 
 SharedPreferences? _prefs;
+
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
   _prefs = _prefs ?? await SharedPreferences.getInstance();

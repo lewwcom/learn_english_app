@@ -27,7 +27,7 @@ import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
-const String initialLocation = "/decks";
+const String initialLocation = "/homescreen";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 
