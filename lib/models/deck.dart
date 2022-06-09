@@ -21,6 +21,10 @@ class Deck {
 
   void addCards(Iterable<Flashcard> cards) => _flashcards.addAll(cards);
 
+  void removeFirst() {
+    _flashcards.removeAt(0);
+  }
+
   List<Flashcard> get flashcards => List.unmodifiable(_flashcards);
 
   bool replaceCard(int cardId, Flashcard flashcard) {

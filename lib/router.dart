@@ -104,11 +104,11 @@ final GoRouter router = GoRouter(
       GoRoute(
         path: "/learn",
         builder: (context, state) => LoadingPage<List<Deck>>(
-            fetchResult: () async =>
-                Stream.fromIterable(await api_learn.readAll())
-                    .asyncMap((deck) async => await api_learn.read(deck.id!))
-                    .toList(),
-            builder: (context, decks) => LearnDecksPage(decks)),
+            fetchResult: () async => Stream.fromIterable(
+                    await api_learn.readLearnAll())
+                .asyncMap((deck) async => await api_learn.readLearn(deck.id!))
+                .toList(),
+            builder: (decks) => LearnDecksPage(decks)),
       )
     ]);
 

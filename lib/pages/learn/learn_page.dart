@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/questions_model.dart';
 import 'package:learn_english_app/pages/learn/widget/question_card.dart';
+import 'package:learn_english_app/services/api_learn.dart';
+import 'package:learn_english_app/utilities/words.dart';
+import 'dart:math';
 
 class LearnScreen extends StatefulWidget {
   const LearnScreen(
@@ -29,7 +33,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
   void initState() {
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 15),
     )..addListener(() {
         setState(() {
           timer = controller.value;
@@ -98,6 +102,37 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
         ));
   }
 
+  Question genQuestion() {
+    List<String> option = [];
+    option.add(widget.currentDeck.flashcards[0].word.word);
+    Random random = Random();
+    int randNumber = random.nextInt(words.length - 1);
+    option.add(words[randNumber]);
+    while (option.contains(words[randNumber])) {
+      random = Random();
+      randNumber = random.nextInt(words.length - 1);
+    }
+    option.add(words[randNumber]);
+    while (option.contains(words[randNumber])) {
+      random = Random();
+      randNumber = random.nextInt(words.length - 1);
+    }
+    option.add(words[randNumber]);
+    random = Random();
+    randNumber = random.nextInt(3);
+    if (randNumber != 0) {
+      String tg = option[randNumber];
+      option[randNumber] = option[0];
+      option[0] = tg;
+    }
+    Question question = Question(
+        1,
+        widget.currentDeck.flashcards[0].word.definitions[0].meaning,
+        randNumber,
+        option);
+    return question;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,18 +145,35 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
           isSelectedAnswer
               ? TextButton(
                   onPressed: () {
-                    Question question = Question(
-                        1,
-                        "Flutter is an open-source UI software development kit created by ______",
-                        2,
-                        ['Apple', 'Google', 'Facebook', 'Microsoft']);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => LearnScreen(
-                                question: question,
-                                initDeck: widget.initDeck,
-                                currentDeck: widget.currentDeck)));
+                    double time = timer * 10;
+                    int quality;
+                    Deck deck = widget.currentDeck;
+                    if (!isCorrectAnswer) {
+                      deck.addCard(deck.flashcards[0]);
+                      quality = 0;
+                    } else {
+                      if (time >= 10) {
+                        quality = 4;
+                      } else if (time >= 5) {
+                        quality = 3;
+                      } else {
+                        quality = 2;
+                      }
+                    }
+                    updateLearnCard(deck.flashcards[0].id, quality);
+                    if (deck.flashcards.length >= 2) {
+                      Question question = genQuestion();
+                      deck.removeFirst();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => LearnScreen(
+                                  question: question,
+                                  initDeck: widget.initDeck,
+                                  currentDeck: deck)));
+                    } else {
+                      context.push('/learn');
+                    }
                   },
                   child: Text(
                     "Skip",
@@ -151,11 +203,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
             Divider(thickness: 2),
             Expanded(
                 child: QuestionCard(
-              question: Question(
-                  1,
-                  "Flutter is an open-source UI software development kit created by ______",
-                  2,
-                  ['Apple', 'Google', 'Facebook', 'Microsoft']),
+              question: widget.question,
               updateSelected: setSelectedAnswer,
               isSelectedAnswer: isSelectedAnswer,
               setCorrectAnswer: setCorrectAnswer,
