@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
+import '../constants.dart';
 
-enum DialogsAction { yes, cancel }
+enum PopUpAction { yes, no }
 
-class AlertDialogs {
-  static Future<DialogsAction> yesCancelDialog(
+class PopUp {
+  static Future<PopUpAction> yesCancelDialog(
       BuildContext context,
       String title,
       String body,
+      String optionNo,
+      String optionYes,
       ) async {
     final action = await showDialog(
       context: context,
@@ -21,17 +23,17 @@ class AlertDialogs {
           actions: <Widget>[
             FlatButton(
               onPressed: () =>
-                  Navigator.of(context).pop(DialogsAction.cancel),
+                  Navigator.of(context).pop(PopUpAction.no),
               child: Text(
-                'Cancel',
+                optionNo,
                 style: TextStyle(
                     color: kPrimaryColor, fontWeight: FontWeight.bold),
               ),
             ),
             FlatButton(
-              onPressed: () => Navigator.of(context).pop(DialogsAction.yes),
+              onPressed: () => Navigator.of(context).pop(PopUpAction.yes),
               child: Text(
-                'Confirm',
+                optionYes,
                 style: TextStyle(
                     color: kPrimaryColor, fontWeight: FontWeight.w700),
               ),
@@ -39,6 +41,6 @@ class AlertDialogs {
           ],
         );
       },);
-    return (action != null) ? action : DialogsAction.cancel;
+    return (action != null) ? action : PopUpAction.no;
   }
 }

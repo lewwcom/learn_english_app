@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_english_app/pages/changepassword/change_password_page.dart';
 import 'package:learn_english_app/services/api_logout.dart';
 import '../../login/login_page.dart';
-import 'AlertDialogs.dart';
+import '../../../widgets/pop_up.dart';
 import 'Info.dart';
 import 'profile_menu_item.dart';
 import 'package:learn_english_app/size_config.dart';
@@ -46,9 +46,9 @@ class Body extends StatelessWidget {
           iconSrc: "assets/icons/Log out.svg",
           title: "Logout",
           press: () async {
-            final action = await AlertDialogs.yesCancelDialog(
-                context, 'Logout', 'are you sure ?');
-            if (action == DialogsAction.yes) {
+            final action = await PopUp.yesCancelDialog(
+                context, 'Logout', 'are you sure ?', 'Cancel', 'Confirm');
+            if (action == PopUpAction.yes) {
               apiLogout.logOut();
               Navigator.push(
                 context,
