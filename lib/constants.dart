@@ -7,7 +7,8 @@ const double kSmallIconSize = 16;
 /// Pass [playerId] to [AudioPlayer] constructor to use the same instance that was created before.
 const String kAudioPlayerId = "audioplayerid";
 
-const String kApiBaseUrl = String.fromEnvironment("API_BASE_URL");
+//const String kApiBaseUrl = String.fromEnvironment("API_BASE_URL");
+const String kApiBaseUrl = "http://10.0.2.2:5001";
 
 const kPrimaryColor = Color(0xFF00B0FF);
 const kPrimaryColor2 = Color(0xFFE3F2FD);

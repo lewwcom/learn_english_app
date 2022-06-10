@@ -20,6 +20,7 @@ import 'package:learn_english_app/pages/login/signup_page.dart';
 import 'package:learn_english_app/pages/login/splash.dart';
 import 'package:learn_english_app/pages/profile/profile_screen.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
+import 'package:learn_english_app/pages/vision/vision_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
@@ -93,6 +94,15 @@ final GoRouter router = GoRouter(
       GoRoute(path: "/login", builder: (context, state) => const LoginPage()),
       GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
       GoRoute(path: "/splash", builder: (context, state) => SplashScreen()),
+      GoRoute(path: "/vision", builder: (context, state) => VisionPage()),
+      // GoRoute(
+      //     path: "/decks-learn",
+      //     builder: (context, state) => const LoadingPage<List<Deck>>(
+      //         fetchResult: () async =>
+      //             Stream.fromIterable(await api_learn.readAll())
+      //                 .asyncMap((deck) async => await api_learn.read(deck.id!))
+      //                 .toList(),
+      //         builder: (decks) => LearnDecksPage(decks))),
       GoRoute(
         path: "/learn",
         builder: (context, state) => LoadingPage<List<Deck>>(
