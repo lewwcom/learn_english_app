@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
+import 'package:learn_english_app/widgets/pop_up.dart';
 
 import '../../models/deck.dart';
 
@@ -111,7 +112,7 @@ class _GamePage extends State<GamePage> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                      const EdgeInsets.symmetric(horizontal: 3),
                                   decoration: BoxDecoration(
                                       color: Colors.transparent,
                                       border: Border.all(color: Colors.brown),
@@ -119,9 +120,11 @@ class _GamePage extends State<GamePage> {
                                           BorderRadius.circular(kRadius / 2)),
                                   height: width / (fillLength + 2),
                                   width: width / (fillLength + 2),
-                                  child: const Text('',
+                                  child: Text('',
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 24)),
+                                          color: Colors.white,
+                                          fontSize:
+                                              width / (fillLength + 2) - 5)),
                                 ),
                                 onTap: () {},
                               )
@@ -129,7 +132,7 @@ class _GamePage extends State<GamePage> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                      const EdgeInsets.symmetric(horizontal: 3),
                                   decoration: BoxDecoration(
                                       color: Colors.brown,
                                       border: Border.all(color: Colors.brown),
@@ -186,7 +189,18 @@ class _GamePage extends State<GamePage> {
                                           onTap: () async {
                                             onTapBelow(i, j);
                                             if (checkAnswer()) {
-                                              // add pop-up
+                                              final action =
+                                                  await PopUp.yesCancelDialog(
+                                                      context,
+                                                      'Congratulation',
+                                                      'Do you want continue?',
+                                                      'Cancel',
+                                                      'Confirm');
+                                              if (action == PopUpAction.yes) {
+                                                initQuestion();
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
                                             }
                                           },
                                         )

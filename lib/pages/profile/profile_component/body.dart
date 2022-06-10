@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/pages/bottonavbar/my_bottom_nav_bar.dart';
 import 'package:learn_english_app/pages/changepassword/change_password_page.dart';
 import 'package:learn_english_app/services/api_logout.dart';
@@ -32,7 +33,8 @@ class _BodyState extends State<Body> {
     return ListView(
       children: <Widget>[
         Info(
-          image: "http://10.0.2.2:5001/static/avatars/" +
+          image: kApiBaseUrl +
+              "static/avatars/" +
               MyBottomNavBar.image_url.toString(),
         ),
         SizedBox(

@@ -31,6 +31,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
   double timer = 0;
   bool isSelectedAnswer = false;
   bool isCorrectAnswer = false;
+  bool clickMistake = false;
 
   @override
   void initState() {
@@ -145,51 +146,93 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
+          isSelectedAnswer && isCorrectAnswer == false
+              ? Container(
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      border: Border.all(
+                        color: const Color(0xFF818384),
+                      ),
+                      borderRadius: BorderRadius.circular(kRadius / 2)),
+                  margin: const EdgeInsets.only(
+                      left: kPadding / 4,
+                      right: kPadding / 4,
+                      top: kPadding / 4,
+                      bottom: kPadding / 2),
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          clickMistake = true;
+                        });
+                      },
+                      child: const Text(
+                        "Mistake",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                )
+              : const Text(""),
           isSelectedAnswer
-              ? TextButton(
-                  onPressed: () {
-                    double time = timer * 10;
-                    int quality;
-                    Deck deck = widget.currentDeck;
-                    if (!isCorrectAnswer) {
-                      deck.addCard(deck.flashcards[0]);
-                      quality = 0;
-                    } else {
-                      if (time >= 10) {
-                        quality = 4;
-                      } else if (time >= 5) {
-                        quality = 3;
-                      } else {
-                        quality = 2;
-                      }
-                    }
-                    if (widget.countUpdate > 0) {
-                      updateLearnCard(deck.flashcards[0].id, quality);
-                    }
-                    if (deck.flashcards.length >= 2) {
-                      Question question = genQuestion();
-                      deck.removeFirst();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => LearnScreen(
-                                    question: question,
-                                    initDeck: widget.initDeck,
-                                    currentDeck: deck,
-                                    countUpdate: widget.countUpdate - 1,
-                                  )));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const FinishLearnPage(0)));
-                    }
-                  },
-                  child: const Text(
-                    "Skip",
-                    style: TextStyle(color: Colors.white),
-                  ))
-              : const Text("")
+              ? Container(
+                  decoration: BoxDecoration(
+                      color: Colors.lightGreen,
+                      border: Border.all(
+                        color: const Color(0xFF818384),
+                      ),
+                      borderRadius: BorderRadius.circular(kRadius / 2)),
+                  margin: const EdgeInsets.only(
+                      left: kPadding / 4,
+                      right: kPadding / 4,
+                      top: kPadding / 4,
+                      bottom: kPadding / 2),
+                  child: TextButton(
+                      onPressed: () {
+                        double time = timer * 10;
+                        int quality;
+                        Deck deck = widget.currentDeck;
+                        if (!isCorrectAnswer) {
+                          deck.addCard(deck.flashcards[0]);
+                          if (clickMistake) {
+                            quality = 1;
+                          } else {
+                            quality = 0;
+                          }
+                        } else {
+                          if (time >= 10) {
+                            quality = 4;
+                          } else if (time >= 5) {
+                            quality = 3;
+                          } else {
+                            quality = 2;
+                          }
+                        }
+                        if (widget.countUpdate > 0) {
+                          updateLearnCard(deck.flashcards[0].id, quality);
+                        }
+                        if (deck.flashcards.length >= 2) {
+                          Question question = genQuestion();
+                          deck.removeFirst();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => LearnScreen(
+                                        question: question,
+                                        initDeck: widget.initDeck,
+                                        currentDeck: deck,
+                                        countUpdate: widget.countUpdate - 1,
+                                      )));
+                        } else {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const FinishLearnPage(0)));
+                        }
+                      },
+                      child: const Text(
+                        "Skip",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                )
+              : const Text(""),
         ],
       ),
       body: Container(
@@ -204,7 +247,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
           ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const SizedBox(height: 3 * kPadding),
+            const SizedBox(height: 4 * kPadding),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kPadding),
               child: ProgressBar(),
