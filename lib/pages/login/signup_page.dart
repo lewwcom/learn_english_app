@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 //import 'package:learn_english_app/models/signup_resquest.dart';
 import '../../models/signup_resquest.dart';
 
@@ -73,11 +74,13 @@ class _SignupPageState extends State<SignupPage> {
                                       borderRadius: BorderRadius.circular(10)),
                                 ),
                                 validator: (value) {
-                                  if (value!.isNotEmpty &&
-                                      value!.length >= 10) {
+                                  if (value != null &&
+                                      value.isNotEmpty &&
+                                      value.length >= 10) {
                                     return null;
-                                  } else if (value!.isNotEmpty &&
-                                      value!.length < 10) {
+                                  } else if (value != null &&
+                                      value.isNotEmpty &&
+                                      value.length < 10) {
                                     return 'too short';
                                   } else {
                                     return 'please give us your name';
@@ -143,10 +146,13 @@ class _SignupPageState extends State<SignupPage> {
                                       borderRadius: BorderRadius.circular(10),
                                     )),
                                 validator: (value) {
-                                  if (value!.isNotEmpty && value!.length > 5) {
+                                  if (value != null &&
+                                      value.isNotEmpty &&
+                                      value.length > 5) {
                                     return null;
-                                  } else if (value!.isNotEmpty &&
-                                      value!.length <= 5) {
+                                  } else if (value != null &&
+                                      value.isNotEmpty &&
+                                      value.length <= 5) {
                                     return 'too short';
                                   } else {
                                     return 'please give us your password';
@@ -183,10 +189,12 @@ class _SignupPageState extends State<SignupPage> {
                                         borderRadius: BorderRadius.circular(10),
                                       )),
                                   validator: (value) {
-                                    if (value!.isNotEmpty &&
+                                    if (value != null &&
+                                        value.isNotEmpty &&
                                         value == signupRequest.password) {
                                       return null;
-                                    } else if (value!.isNotEmpty &&
+                                    } else if (value != null &&
+                                        value.isNotEmpty &&
                                         value != signupRequest) {
                                       return 'incorrect';
                                     }
@@ -221,12 +229,10 @@ class _SignupPageState extends State<SignupPage> {
                                               .validate()) {
                                           } else {
                                             print("test đăng kí");
-
-                                            print(signupRequest.toJson());
-                                            api
-                                                .signup(signupRequest)
-                                                .then((value) {
-                                              print(value.success);
+                                            //print(signupRequest.toJson());
+                                            api.signup(signupRequest).then((value) {
+                                              //print("-----SIGNUP------");
+                                              //print(value.toJson());
                                               if (value.success == true) {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(

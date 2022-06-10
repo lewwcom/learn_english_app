@@ -8,6 +8,7 @@ const double kSmallIconSize = 16;
 const String kAudioPlayerId = "audioplayerid";
 
 const String kApiBaseUrl = String.fromEnvironment("API_BASE_URL");
+//const String kApiBaseUrl = "http://10.0.2.2:5001";
 
 const kPrimaryColor = Color(0xFF00B0FF);
 const kPrimaryColor2 = Color(0xFFE3F2FD);
@@ -25,8 +26,20 @@ const kTitleTextstyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+
 const kPrimaryGradient = LinearGradient(
   colors: [Color(0xFF46A0AE), Color(0xFF00FFCB)],
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
+);
+const kScreenTitleTextstyle = TextStyle(
+  fontSize: 23,
+  color: kTitleTextColor,
+  fontWeight: FontWeight.bold,
+);
+
+const kTextstyle = TextStyle(
+  fontSize: 14,
+  color: kTitleTextColor,
+  fontWeight: FontWeight.bold,
 );

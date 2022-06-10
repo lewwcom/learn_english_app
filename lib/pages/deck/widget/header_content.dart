@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/flashcard.dart';
+import 'package:learn_english_app/pages/game/game_page.dart';
+import 'package:learn_english_app/pages/learn/finish_learn.dart';
+import 'package:learn_english_app/services/api_learn.dart';
 import 'package:learn_english_app/widgets/header/header_search.dart';
 
 class HeaderContent extends StatelessWidget {
@@ -33,9 +36,21 @@ class HeaderContent extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              _BottomButton("Learn", () {}),
+              _BottomButton("Learn", () async {
+                int deckId = _deck.id ?? 0;
+                Deck tmpDeck = await readLearn(deckId);
+                if (tmpDeck.flashcards.isEmpty) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const FinishLearnPage(1)));
+                }
+              }),
               const SizedBox(width: kPadding * 1.5),
-              _BottomButton("Play", () {})
+              _BottomButton(
+                  "Play",
+                  () => Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => GamePage(_deck))))
             ],
           )
         ],
