@@ -11,7 +11,7 @@ class APILogin {
     await api_client.removeCookie();
     try {
       await api_client.post(
-        "/auth/login",
+        "auth/login",
         //"http://10.0.2.2:5001/auth/login",
         LoginSerializer(),
         formData: {

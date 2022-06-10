@@ -5,11 +5,10 @@ import '../models/signup_response.dart';
 import '../models/signup_resquest.dart';
 
 class APISignup {
-
   Future<SignupResponse> signup(SignupRequest requestModel) async {
     try {
       await api_client.post(
-        "/auth/signup",
+        "auth/signup",
         //"http://10.0.2.2:5001/auth/signup",
         SignupSerializer(),
         formData: {
