@@ -3,8 +3,28 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/size_config.dart';
+import 'package:learn_english_app/services/api_avatar.dart';
+import '../../../models/avatar.dart';
 
-class MyBottomNavBar extends StatelessWidget {
+class MyBottomNavBar extends StatefulWidget {
+  static String? image_url;
+
+
+  @override
+  State<MyBottomNavBar> createState() => _MyBottomNavBarState();
+}
+
+class _MyBottomNavBarState extends State<MyBottomNavBar> {
+  @override
+  void initState() {
+    super.initState();
+    initImage();
+  }
+
+  initImage() async {
+    Avatar ava = await getImage();
+    MyBottomNavBar.image_url=ava.content;
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +56,10 @@ class MyBottomNavBar extends StatelessWidget {
             icon: SvgPicture.asset('assets/icons/camera.svg', color: Color(0xFFD1D4D4)),
           ),
           IconButton(
-            onPressed: () => context.push("/profile"),
+            onPressed: () {
+              context.push("/profile");
+
+            },
             icon: SvgPicture.asset('assets/icons/user.svg', color: Color(0xFFD1D4D4)),
           ),
         ],

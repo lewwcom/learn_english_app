@@ -26,8 +26,20 @@ const kTitleTextstyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+
 const kPrimaryGradient = LinearGradient(
   colors: [Color(0xFF46A0AE), Color(0xFF00FFCB)],
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
+);
+const kScreenTitleTextstyle = TextStyle(
+  fontSize: 23,
+  color: kTitleTextColor,
+  fontWeight: FontWeight.bold,
+);
+
+const kTextstyle = TextStyle(
+  fontSize: 14,
+  color: kTitleTextColor,
+  fontWeight: FontWeight.bold,
 );
