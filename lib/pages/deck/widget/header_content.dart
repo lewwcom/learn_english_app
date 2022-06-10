@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/flashcard.dart';
+import 'package:learn_english_app/pages/game/game_page.dart';
 import 'package:learn_english_app/widgets/header/header_search.dart';
 
 class HeaderContent extends StatelessWidget {
@@ -35,7 +36,10 @@ class HeaderContent extends StatelessWidget {
             children: [
               _BottomButton("Learn", () {}),
               const SizedBox(width: kPadding * 1.5),
-              _BottomButton("Play", () {})
+              _BottomButton(
+                  "Play",
+                  () => Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => GamePage(_deck))))
             ],
           )
         ],

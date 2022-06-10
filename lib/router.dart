@@ -28,7 +28,7 @@ import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
-const String initialLocation = "/youtube";
+const String initialLocation = "/homescreen";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 
@@ -102,7 +102,6 @@ final GoRouter router = GoRouter(
                 .toList(),
             builder: (context, decks) => LearnDecksPage(decks)),
       ),
-      GoRoute(path: "/game", builder: (context, state) => GamePage())
     ]);
 
 List<GoRoute> cardsRoute = [

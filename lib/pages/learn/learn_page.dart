@@ -109,20 +109,20 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
     List<String> option = [];
     option.add(widget.currentDeck.flashcards[0].word.word);
     Random random = Random();
-    int randNumber = random.nextInt(words.length - 1);
+    int randNumber = random.nextInt(words.length);
     option.add(words[randNumber]);
     while (option.contains(words[randNumber])) {
       random = Random();
-      randNumber = random.nextInt(words.length - 1);
+      randNumber = random.nextInt(words.length);
     }
     option.add(words[randNumber]);
     while (option.contains(words[randNumber])) {
       random = Random();
-      randNumber = random.nextInt(words.length - 1);
+      randNumber = random.nextInt(words.length);
     }
     option.add(words[randNumber]);
     random = Random();
-    randNumber = random.nextInt(3);
+    randNumber = random.nextInt(4);
     if (randNumber != 0) {
       String tg = option[randNumber];
       option[randNumber] = option[0];
