@@ -29,7 +29,7 @@ import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
-const String initialLocation = "/homescreen";
+const String initialLocation = "/login";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 

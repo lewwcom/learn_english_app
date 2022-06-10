@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/pages/bottonavbar/my_bottom_nav_bar.dart';
 import 'package:learn_english_app/pages/changepassword/change_password_page.dart';
+import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_logout.dart';
 import '../../login/login_page.dart';
 import '../../../widgets/pop_up.dart';
@@ -67,6 +68,9 @@ class _BodyState extends State<Body> {
             final action = await PopUp.yesCancelDialog(
                 context, 'Logout', 'are you sure ?', 'Cancel', 'Confirm');
             if (action == PopUpAction.yes) {
+              if (GoogleSignInApi.checkGoogleSigin) {
+                await GoogleSignInApi.logout();
+              }
               apiLogout.logOut();
               Navigator.push(
                 context,

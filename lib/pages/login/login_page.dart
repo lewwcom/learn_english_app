@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:learn_english_app/models/login_resquest.dart';
+import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_login.dart';
 import 'package:learn_english_app/services/api_signup.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../models/signup_resquest.dart';
 
 class LoginPage extends StatefulWidget {
@@ -41,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.5),
+                    top: MediaQuery.of(context).size.height * 0.4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -85,7 +87,49 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 30,
+                          ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                onPrimary: Colors.black,
+                                minimumSize: const Size(double.infinity, 50)),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.google,
+                              color: Colors.red,
+                            ),
+                            label: const Text('Log in with Google'),
+                            onPressed: () async {
+                              final user = await GoogleSignInApi.login();
+                              if (user == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text('Cannot login with google')),
+                                );
+                              } else {
+                                GoogleSignInAuthentication googleKey =
+                                    await user.authentication;
+                                GoogleSignInApi.sendToBack(
+                                        googleKey.accessToken)
+                                    .then((value) {
+                                  if (value.success == true) {
+                                    context.push('/homescreen');
+                                    GoogleSignInApi.setGoogleSigin();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Invalid username or password.')),
+                                    );
+                                    GoogleSignInApi.logout();
+                                  }
+                                });
+                              }
+                            },
+                          ),
+                          SizedBox(
+                            height: 30,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +147,6 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () {
                                       print("test đăng nhập");
                                       api.login(loginRequest).then((value) {
-
                                         if (value.success == true) {
                                           context.push('/homescreen');
                                         } else {
@@ -114,7 +157,6 @@ class _LoginPageState extends State<LoginPage> {
                                                     'Invalid username or password.')),
                                           );
                                         }
-
                                       });
                                     },
                                     icon: Icon(
