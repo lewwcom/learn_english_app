@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:learn_english_app/constants.dart';
+import 'package:learn_english_app/pages/bottonavbar/my_bottom_nav_bar.dart';
 import 'profile_component/body.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -9,9 +10,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(),
       body: Body(),
-      /**
       bottomNavigationBar: MyBottomNavBar(),
-       **/
     );
   }
 
@@ -20,7 +19,9 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: kPrimaryColor,
       leading: IconButton (
         icon:SvgPicture.asset("assets/icons/menu.svg"),
-        onPressed: (){},
+        onPressed: (){
+
+        },
       ),
       centerTitle: true,
       title:  Text ("Profile"),

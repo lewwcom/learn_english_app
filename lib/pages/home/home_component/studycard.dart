@@ -33,7 +33,8 @@ class StudyCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Image.asset(image),
-            Text(title)
+            SizedBox(height: 3),
+            Text(title,style: kTextstyle)
           ],
         ),
       ),

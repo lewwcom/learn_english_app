@@ -1,21 +1,23 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:learn_english_app/models/login_resquest.dart';
+import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_login.dart';
 import 'package:learn_english_app/services/api_signup.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../models/signup_resquest.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   LoginRequest loginRequest = new LoginRequest();
   APILogin api = new APILogin();
 
@@ -41,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.5),
+                    top: MediaQuery.of(context).size.height * 0.4),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -59,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onChanged: (text){
+                            onChanged: (text) {
                               this.setState(() {
                                 loginRequest.username = text;
                               });
@@ -72,20 +74,62 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(),
                             obscureText: true,
                             decoration: InputDecoration(
-                                fillColor: Colors.grey.shade100,  
+                                fillColor: Colors.grey.shade100,
                                 filled: true,
                                 hintText: "Password",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
-                              onChanged: (text){
-                               this.setState(() {
-                                  loginRequest.password = text;
+                            onChanged: (text) {
+                              this.setState(() {
+                                loginRequest.password = text;
                               });
                             },
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 30,
+                          ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                onPrimary: Colors.black,
+                                minimumSize: const Size(double.infinity, 50)),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.google,
+                              color: Colors.red,
+                            ),
+                            label: const Text('Log in with Google'),
+                            onPressed: () async {
+                              final user = await GoogleSignInApi.login();
+                              if (user == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text('Cannot login with google')),
+                                );
+                              } else {
+                                GoogleSignInAuthentication googleKey =
+                                    await user.authentication;
+                                GoogleSignInApi.sendToBack(
+                                        googleKey.accessToken)
+                                    .then((value) {
+                                  if (value.success == true) {
+                                    context.push('/homescreen');
+                                    GoogleSignInApi.setGoogleSigin();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Invalid username or password.')),
+                                    );
+                                    GoogleSignInApi.logout();
+                                  }
+                                });
+                              }
+                            },
+                          ),
+                          SizedBox(
+                            height: 30,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,22 +147,17 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () {
                                       print("test đăng nhập");
                                       api.login(loginRequest).then((value) {
-                                        print(value.success);
-                                        print(value.content);
                                         if (value.success == true) {
-                                          Navigator.pushNamed(context, 'search');
-                                        }
-                                        else {
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          context.push('/homescreen');
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             const SnackBar(
-                                                content: Text('Invalid username or password.')
-                                            ),
+                                                content: Text(
+                                                    'Invalid username or password.')),
                                           );
                                         }
-
                                       });
-
-
                                     },
                                     icon: Icon(
                                       Icons.arrow_forward,
@@ -134,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, 'register');
+                                  context.push('/signup');
                                 },
                                 child: Text(
                                   'Sign Up',

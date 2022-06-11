@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/pages/home/home_component/LearningYoutube.dart';
 import 'package:learn_english_app/pages/profile/profile_screen.dart';
@@ -16,7 +17,6 @@ class Body extends StatelessWidget {
             kPrimaryColor2,
           ],
           begin: Alignment.topRight,
-
         ),
       ),
       child: Column(
@@ -30,47 +30,50 @@ class Body extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    onChanged: (value){
-
-                    },
+                    onTap: () => context.push("/search"),
                     decoration: InputDecoration(
-                        labelText: "Search",
-                        hintText: "Search",
-                        filled: true,
-                        fillColor: Colors.white,
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0)))
+                      labelText: "Search",
+                      hintText: "Search",
+                      filled: true,
+                      fillColor: Colors.white,
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0))),
                     ),
                   ),
                 ),
-                SizedBox(height: 40),
-                Text("Study with us",style: kTitleTextstyle),
                 SizedBox(height: 20),
+                Text("Study with us", style: kTitleTextstyle),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     StudyCard(
-                        image: "assets/images/learning.jpg",
-                        title: "Learning",
-                        press: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProfileScreen()),
-                          );
-                        }),
-                    StudyCard(image: "assets/images/reading.png", title: "Rearning", press: (){}),
-                    StudyCard(image: "assets/images/vocab.png", title: "Vocab", press: (){}),
+                      image: "assets/images/learning.png",
+                      title: "Learning",
+                      press: () => context.push("/learn"),
+                    ),
+                    StudyCard(
+                        image: "assets/images/reading.png",
+                        title: "My Decks",
+                        press: () => context.push("/decks")),
+                    StudyCard(
+                        image: "assets/images/vocab.png",
+                        title: "Lookup",
+                        press: () => context.push("/search")),
                   ],
                 ),
-                SizedBox(height: 40),
-                Text("Learning with video", style: kTitleTextstyle,),
                 SizedBox(height: 20),
-                LearningOnYoutubeCard(image: 'assets/images/video_learn.jpg', press: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => YoutubeScreen()),
-                  );
-                })
+                Text(
+                  "Learning with video",
+                  style: kTitleTextstyle,
+                ),
+                SizedBox(height: 10),
+                LearningOnYoutubeCard(
+                  image: 'assets/images/video_learn.jpg',
+                  press: () => context.push("/youtube"),
+                )
               ],
             ),
           ),

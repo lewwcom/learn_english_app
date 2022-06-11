@@ -11,37 +11,37 @@ class DeckListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => context.push("/decks/${_deck.id}"),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LayoutBuilder(
-              builder: (context, constraints) => SizedBox(
-                height: constraints.maxWidth * 1.7 / 3,
-                child: _deck.flashcards.isNotEmpty
-                    ? WordCard(
-                        _deck.flashcards.first.word.word,
-                        _deck.flashcards.first.definition.meaning,
-                      )
-                    : const WordCard("Empty!", "Add cards to begin"),
-              ),
-            ),
-            const SizedBox(height: kPadding / 2),
-            Text(
-              _deck.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "${_deck.flashcards.length} cards",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: Colors.grey),
+    onTap: () => context.push("/decks/${_deck.id}"),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LayoutBuilder(
+          builder: (context, constraints) => SizedBox(
+            height: constraints.maxWidth * 1.7 / 3,
+            child: _deck.flashcards.isNotEmpty
+                ? WordCard(
+              _deck.flashcards.first.word.word,
+              _deck.flashcards.first.definition.meaning,
             )
-          ],
+                : const WordCard("Empty!", "Add cards to begin"),
+          ),
         ),
-      );
+        const SizedBox(height: kPadding / 2),
+        Text(
+          _deck.name,
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        Text(
+          "${_deck.flashcards.length} cards",
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: Colors.grey),
+        )
+      ],
+    ),
+  );
 }

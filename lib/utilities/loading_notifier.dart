@@ -8,6 +8,7 @@ import 'package:learn_english_app/services/api_flashcard.dart' as api_flashcard;
 class LoadingNotifier<T> extends ChangeNotifier {
   T? _result;
   Object? _error;
+  bool _isDisposed = false;
   final Future<T> Function() _fetchResult;
 
   LoadingNotifier(this._fetchResult, {bool fetchOnCreate = true}) {
@@ -24,9 +25,15 @@ class LoadingNotifier<T> extends ChangeNotifier {
       debugPrint(e.toString());
       debugPrintStack(stackTrace: stack);
     }
-    if (willNotify) {
+    if (!_isDisposed && willNotify) {
       notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _isDisposed = true;
   }
 
   T? get result {

@@ -73,10 +73,9 @@ class _TitleAndButton extends StatelessWidget {
                 onPressed: _onButtonPressed,
                 child: Text(
                   _buttonText!,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.secondary),

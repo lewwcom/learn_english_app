@@ -105,7 +105,6 @@ class _YoutubeScreenState extends State<YoutubeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: customSearchBar,
-        automaticallyImplyLeading: false,
         actions: [
           IconButton(
               onPressed: () {
