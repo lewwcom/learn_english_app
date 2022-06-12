@@ -6,9 +6,10 @@ const _buttonPadding =
 
 final ThemeData themeData = ThemeData(
   colorScheme: const ColorScheme.light(
-    primary: Color(0xFF00B0FF),
-    secondary: Color(0xFFE3F2FD),
-    onSecondary: Colors.black54,
+    primary: kPrimaryColor,
+    secondary: kPrimaryColor2,
+    onSecondary: kTextLigntColor,
+    error: kRedColor,
   ),
   cardTheme: CardTheme(
     margin: EdgeInsets.zero,
@@ -36,7 +37,7 @@ final ThemeData themeData = ThemeData(
     titleTextStyle: Typography.material2018()
         .geometryThemeFor(ScriptCategory.englishLike)
         .titleLarge
-        ?.copyWith(color: const ColorScheme.light().primary),
+        ?.copyWith(color: kPrimaryColor),
   ),
 );
 

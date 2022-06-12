@@ -42,7 +42,7 @@ class LoadingButton<T> extends StatelessWidget {
                           if (_onDone != null) {
                             await Future.delayed(
                               const Duration(seconds: 1),
-                              () async => await _onDone!(_result),
+                              () => _onDone!(_result),
                             );
                           }
                         } catch (e) {
@@ -58,6 +58,7 @@ class LoadingButton<T> extends StatelessWidget {
               return ElevatedButton(
                 onPressed: null,
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox(
                       height: 10,

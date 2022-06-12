@@ -46,11 +46,14 @@ class LoadingNotifier<T> extends ChangeNotifier {
 
 class DecksNotifier extends LoadingNotifier<List<Deck>>
     with ShouldNotifyAboutUpdateHelper {
+  // set shouldNotifyAboutUpdate := true only if updation is occured by fetching
+  // from backend server.
+
   static Future<Deck> _fetchDeck(int deckId) => api_deck.read(deckId);
 
   static Future<List<Deck>> _fetchAll() async =>
       await Stream.fromIterable(await api_deck.readAll())
-          .asyncMap((deck) async => await _fetchDeck(deck.id!))
+          .asyncMap((deck) => _fetchDeck(deck.id!))
           .toList();
 
   Map<int, Deck>? _decks;
@@ -111,6 +114,25 @@ class DecksNotifier extends LoadingNotifier<List<Deck>>
     return deck;
   }
 
+  Future<Deck> renameDeck(int deckId, String deckName) async {
+    _decks![deckId]!;
+    await api_deck.rename(deckId, deckName);
+    Deck deck = _cloneDeck(deckId, newName: deckName);
+    _decks![deckId] = deck;
+    shouldNotifyAboutUpdate = false;
+    notifyListeners();
+    return deck;
+  }
+
+  Future<Deck> deleteDeck(int deckId) async {
+    _decks![deckId]!;
+    await api_deck.delete(deckId);
+    Deck deck = _decks!.remove(deckId)!;
+    shouldNotifyAboutUpdate = false;
+    notifyListeners();
+    return deck;
+  }
+
   Future<Flashcard> _createCard(int deckId, Flashcard flashcard) async {
     Deck deck = _cloneDeck(deckId);
     flashcard = Flashcard(
@@ -135,8 +157,8 @@ class DecksNotifier extends LoadingNotifier<List<Deck>>
     }
   }
 
-  Deck _cloneDeck(int deckId) {
-    Deck deck = Deck(_decks![deckId]!.name, id: deckId);
+  Deck _cloneDeck(int deckId, {String? newName}) {
+    Deck deck = Deck(newName ?? _decks![deckId]!.name, id: deckId);
     deck.addCards(_decks![deckId]!.flashcards);
     return deck;
   }

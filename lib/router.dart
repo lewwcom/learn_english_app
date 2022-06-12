@@ -7,11 +7,9 @@ import 'package:learn_english_app/main.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/word.dart';
-import 'package:learn_english_app/pages/deck/deck_page.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
 import 'package:learn_english_app/pages/deck/new_deck_page.dart';
 import 'package:learn_english_app/pages/deck/flashcards_page.dart';
-import 'package:learn_english_app/pages/game/game_page.dart';
 import 'package:learn_english_app/pages/home/home_screen.dart';
 import 'package:learn_english_app/pages/learn/learn_decks_page.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
@@ -60,25 +58,19 @@ final GoRouter router = GoRouter(
         ),
       ),
       GoRoute(
-        path: "/decks",
-        builder: (context, state) => LoadingPage<List<Deck>>(
-          loadingNotifier: decksNotifier,
-          equality: DeepCollectionEquality.unordered(DeckEquality()),
-          notifyAboutChangeText: "Decks updated from server!",
-          builder: (context, decks) => DecksPage(decks),
-          refreshOnPopNext: true,
-        ),
+        path: "/",
+        builder: (context, state) => const HomeScreen(),
         routes: [
           GoRoute(
-            path: ":deckId",
-            builder: (context, state) => LoadingPage<Deck>(
-              loadingNotifier: decksNotifier
-                  .getDeckNotifier(int.parse(state.params["deckId"]!)),
-              willDisposeNotifier: true,
-              builder: (context, deck) => DeckPage(deck),
+            path: "decks",
+            builder: (context, state) => LoadingPage<List<Deck>>(
+              loadingNotifier: decksNotifier,
+              equality: DeepCollectionEquality.unordered(DeckEquality()),
+              notifyAboutChangeText: "Decks updated from server!",
+              builder: (context, decks) => DecksPage(decks),
               refreshOnPopNext: true,
             ),
-            routes: cardsRoute,
+            routes: deckRoute,
           )
         ],
       ),
@@ -88,8 +80,8 @@ final GoRouter router = GoRouter(
             value: decksNotifier, child: const NewDeckPage()),
       ),
       GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen()),
-      GoRoute(
-          path: "/homescreen", builder: (context, state) => const HomeScreen()),
+      // GoRoute(
+      //     path: "/homescreen", builder: (context, state) => const HomeScreen()),
       GoRoute(path: "/profile", builder: (context, state) => ProfileScreen()),
       GoRoute(path: "/login", builder: (context, state) => const LoginPage()),
       GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
@@ -114,9 +106,9 @@ final GoRouter router = GoRouter(
       ),
     ]);
 
-List<GoRoute> cardsRoute = [
+List<GoRoute> deckRoute = [
   GoRoute(
-      path: "cards",
+      path: ":deckId",
       builder: (context, state) => LoadingPage<Deck>(
             loadingNotifier: decksNotifier
                 .getDeckNotifier(int.parse(state.params["deckId"]!)),
