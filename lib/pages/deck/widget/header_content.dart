@@ -1,17 +1,50 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/flashcard.dart';
+import 'package:learn_english_app/models/questions_model.dart';
 import 'package:learn_english_app/pages/game/game_page.dart';
 import 'package:learn_english_app/pages/learn/finish_learn.dart';
+import 'package:learn_english_app/pages/learn/learn_page.dart';
 import 'package:learn_english_app/services/api_learn.dart';
+import 'package:learn_english_app/utilities/words.dart';
 import 'package:learn_english_app/widgets/header/header_search.dart';
 
 class HeaderContent extends StatelessWidget {
   final Deck _deck;
   final String? _searchPageLocation;
   final bool _searchBoxAutoFocus;
+
+  Question genQuestion(Deck _deck) {
+    List<String> option = [];
+    option.add(_deck.flashcards[0].word.word);
+    Random random = Random();
+    int randNumber = random.nextInt(words.length - 1);
+    option.add(words[randNumber]);
+    while (option.contains(words[randNumber])) {
+      random = Random();
+      randNumber = random.nextInt(words.length - 1);
+    }
+    option.add(words[randNumber]);
+    while (option.contains(words[randNumber])) {
+      random = Random();
+      randNumber = random.nextInt(words.length - 1);
+    }
+    option.add(words[randNumber]);
+    random = Random();
+    randNumber = random.nextInt(3);
+    if (randNumber != 0) {
+      String tg = option[randNumber];
+      option[randNumber] = option[0];
+      option[0] = tg;
+    }
+    Question question = Question(
+        1, _deck.flashcards[0].word.definitions[0].meaning, randNumber, option);
+    return question;
+  }
 
   const HeaderContent(
     this._deck, {
@@ -44,6 +77,17 @@ class HeaderContent extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (_) => const FinishLearnPage(1)));
+                } else {
+                  Question question = genQuestion(tmpDeck);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => LearnScreen(
+                                question: question,
+                                initDeck: tmpDeck,
+                                countUpdate: tmpDeck.flashcards.length,
+                                currentDeck: tmpDeck,
+                              )));
                 }
               }),
               const SizedBox(width: kPadding * 1.5),

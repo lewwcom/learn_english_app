@@ -16,6 +16,7 @@ class APISignup {
           "password": requestModel.password!,
           "password_confirmation": requestModel.password_confirmation!,
           "email": requestModel.email!,
+          "phone_number": requestModel.phone_number!,
         },
       );
       return SignupResponse();

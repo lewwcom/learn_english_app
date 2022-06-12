@@ -11,7 +11,7 @@ class FinishLearnPage extends StatelessWidget {
       ? ErrorPage(
           displayText: "Congratulation!",
           contentText: "You have learned all the words today",
-          buttonText: "Back to learning page",
+          buttonText: "Back",
           onPressed: () => Navigator.pop(context))
       : ErrorPage(
           displayText: "Congratulation!",

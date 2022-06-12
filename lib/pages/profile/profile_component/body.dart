@@ -66,7 +66,7 @@ class _BodyState extends State<Body> {
           title: "Logout",
           press: () async {
             final action = await PopUp.yesCancelDialog(
-                context, 'Logout', 'are you sure ?', 'Cancel', 'Confirm');
+                context, 'Logout', 'Are you sure ?', 'Cancel', 'Confirm');
             if (action == PopUpAction.yes) {
               if (GoogleSignInApi.checkGoogleSigin) {
                 await GoogleSignInApi.logout();

@@ -3,11 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:learn_english_app/models/forgot_response.dart';
 import 'package:learn_english_app/models/login_resquest.dart';
+import 'package:learn_english_app/services/api_forgotpass.dart';
 import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_login.dart';
 import 'package:learn_english_app/services/api_signup.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:learn_english_app/utilities/loading_notifier.dart';
 import '../../models/signup_resquest.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +23,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   LoginRequest loginRequest = new LoginRequest();
   APILogin api = new APILogin();
+  APIForgot forgotApi = new APIForgot();
 
   @override
   Widget build(BuildContext context) {
@@ -186,9 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: ButtonStyle(),
                               ),
                               TextButton(
-                                  onPressed: () {
-                                    print("test quên mật khẩu ");
-                                  },
+                                  onPressed: () {},
                                   child: Text(
                                     'Forgot Password',
                                     style: TextStyle(
