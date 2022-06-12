@@ -9,7 +9,6 @@ import '../../../models/avatar.dart';
 class MyBottomNavBar extends StatefulWidget {
   static String? image_url;
 
-
   @override
   State<MyBottomNavBar> createState() => _MyBottomNavBarState();
 }
@@ -23,18 +22,19 @@ class _MyBottomNavBarState extends State<MyBottomNavBar> {
 
   initImage() async {
     Avatar ava = await getImage();
-    MyBottomNavBar.image_url=ava.content;
+    MyBottomNavBar.image_url = ava.content;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: SizeConfig.defaultSize*3),
+      padding: EdgeInsets.symmetric(horizontal: SizeConfig.defaultSize * 3),
       height: 60,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            offset: Offset (0,-7),
+            offset: Offset(0, -7),
             blurRadius: 30,
             color: Color(0xFF4B1A39).withOpacity(0.2),
           ),
@@ -44,23 +44,26 @@ class _MyBottomNavBarState extends State<MyBottomNavBar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           IconButton(
-              onPressed: () => context.push("/homescreen"),
-              icon: SvgPicture.asset('assets/icons/home.svg', color: Color(0xFFD1D4D4)),
+            onPressed: () => context.push("/"),
+            icon: SvgPicture.asset('assets/icons/home.svg',
+                color: Color(0xFFD1D4D4)),
           ),
           IconButton(
-            onPressed: () => context.push("/homescreen"),
-            icon: SvgPicture.asset('assets/icons/home.svg', color: Color(0xFFD1D4D4)),
+            onPressed: () => context.push("/"),
+            icon: SvgPicture.asset('assets/icons/home.svg',
+                color: Color(0xFFD1D4D4)),
           ),
           IconButton(
             onPressed: () => context.push("/vision"),
-            icon: SvgPicture.asset('assets/icons/camera.svg', color: Color(0xFFD1D4D4)),
+            icon: SvgPicture.asset('assets/icons/camera.svg',
+                color: Color(0xFFD1D4D4)),
           ),
           IconButton(
             onPressed: () {
               context.push("/profile");
-
             },
-            icon: SvgPicture.asset('assets/icons/user.svg', color: Color(0xFFD1D4D4)),
+            icon: SvgPicture.asset('assets/icons/user.svg',
+                color: Color(0xFFD1D4D4)),
           ),
         ],
       ),

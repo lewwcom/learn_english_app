@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                                         googleKey.accessToken)
                                     .then((value) {
                                   if (value.success == true) {
-                                    context.push('/homescreen');
+                                    context.push('/');
                                     GoogleSignInApi.setGoogleSigin();
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                                       print("test đăng nhập");
                                       api.login(loginRequest).then((value) {
                                         if (value.success == true) {
-                                          context.push('/homescreen');
+                                          context.push('/');
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
