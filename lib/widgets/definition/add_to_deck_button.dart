@@ -75,7 +75,8 @@ class _ChooseDeckDialog extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           onPressed: () => context.go(
-                            "/decks/${deck.id}/cards/newcard",
+                            // "/decks/${deck.id}/cards/newcard",
+                            "/decks/${deck.id}/newcard",
                             extra: Flashcard(_word, _definition),
                           ),
                         ),

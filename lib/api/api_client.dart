@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:learn_english_app/api/api_exception.dart';
 import 'package:learn_english_app/constants.dart';
@@ -42,6 +39,41 @@ Future<T> delete<T>(String path, Serializer<T> serializer) async =>
     _request(http.delete, "delete", path, serializer);
 
 //==============================================================================
+// Image
+//==============================================================================
+
+Future<void> putImage<T>(String method, String path, String filepath,
+    Serializer<T> serializer) async {
+  await _init();
+  final http.MultipartRequest request =
+      http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
+  request.fields['file'] = 'file';
+  request.headers.addAll(_makeHeader());
+  var picture = http.MultipartFile.fromPath('file', filepath);
+  request.files.add(await picture);
+  var respond = await request.send();
+  var respondData = await respond.stream.toBytes();
+  var result = String.fromCharCodes(respondData);
+  debugPrint(result);
+}
+
+// TODO: typo
+Future<T> postI<T>(String method, String path, String filepath,
+    Serializer<T> serializer) async {
+  await _init();
+  final http.MultipartRequest request =
+      http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
+  request.fields['image'] = 'image';
+  request.headers.addAll(_makeHeader());
+  var picture = http.MultipartFile.fromPath('image', filepath);
+  request.files.add(await picture);
+
+  http.StreamedResponse response = await request.send();
+  return serializer.fromJsonContentKey(
+      _jsonContentFromResponse(await http.Response.fromStream(response)));
+}
+
+//==============================================================================
 // Private functions
 //==============================================================================
 
@@ -75,36 +107,6 @@ Future<T> _makeMultipartRequest<T>(String method, String path,
   _saveCookie(response);
   _printResponseCode(method, response.statusCode);
 
-  return serializer.fromJsonContentKey(
-      _jsonContentFromResponse(await http.Response.fromStream(response)));
-}
-
-Future<void> putImage<T>(String method, String path, String filepath,
-    Serializer<T> serializer) async {
-  await _init();
-  final http.MultipartRequest request =
-      http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
-  request.fields['file'] = 'file';
-  request.headers.addAll(_makeHeader());
-  var picture = http.MultipartFile.fromPath('file', filepath);
-  request.files.add(await picture);
-  var respond = await request.send();
-  var respondData = await respond.stream.toBytes();
-  var result = String.fromCharCodes(respondData);
-  debugPrint(result);
-}
-
-Future<T> postI<T>(String method, String path, String filepath,
-    Serializer<T> serializer) async {
-  await _init();
-  final http.MultipartRequest request =
-      http.MultipartRequest(method, Uri.parse(kApiBaseUrl + path));
-  request.fields['image'] = 'image';
-  request.headers.addAll(_makeHeader());
-  var picture = http.MultipartFile.fromPath('image', filepath);
-  request.files.add(await picture);
-
-  http.StreamedResponse response = await request.send();
   return serializer.fromJsonContentKey(
       _jsonContentFromResponse(await http.Response.fromStream(response)));
 }
@@ -169,7 +171,7 @@ Map<String, String> _makeHeader() {
 // Helpers
 //==============================================================================
 
-/// [formJsonContentKey] always returns true.
+/// [fromJsonContentKey] always returns true.
 class DiscardResponseContentSerializer implements Serializer<bool> {
   /// Always return true.
   @override

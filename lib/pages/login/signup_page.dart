@@ -81,9 +81,9 @@ class _SignupPageState extends State<SignupPage> {
                                   } else if (value != null &&
                                       value.isNotEmpty &&
                                       value.length < 10) {
-                                    return 'too short';
+                                    return 'Too short';
                                   } else {
-                                    return 'please give us your name';
+                                    return 'Please give us your name';
                                   }
                                 },
                                 onChanged: (text) {
@@ -126,6 +126,42 @@ class _SignupPageState extends State<SignupPage> {
                               ),
                               TextFormField(
                                 style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    hintText: "Phone",
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
+                                validator: (value) {
+                                  if (value != null && value.isNotEmpty) {
+                                    return null;
+                                  } else {
+                                    return 'Please give us your phone';
+                                  }
+                                },
+                                onChanged: (text) {
+                                  this.setState(() {
+                                    signupRequest.phone_number = text;
+                                  });
+                                },
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                style: TextStyle(color: Colors.white),
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
@@ -153,9 +189,9 @@ class _SignupPageState extends State<SignupPage> {
                                   } else if (value != null &&
                                       value.isNotEmpty &&
                                       value.length <= 5) {
-                                    return 'too short';
+                                    return 'Too short';
                                   } else {
-                                    return 'please give us your password';
+                                    return 'Please give us your password';
                                   }
                                 },
                                 onChanged: (text) {
@@ -196,7 +232,7 @@ class _SignupPageState extends State<SignupPage> {
                                     } else if (value != null &&
                                         value.isNotEmpty &&
                                         value != signupRequest) {
-                                      return 'incorrect';
+                                      return 'Incorrect';
                                     }
                                   },
                                   onChanged: (text) {
@@ -230,7 +266,9 @@ class _SignupPageState extends State<SignupPage> {
                                           } else {
                                             print("test đăng kí");
                                             //print(signupRequest.toJson());
-                                            api.signup(signupRequest).then((value) {
+                                            api
+                                                .signup(signupRequest)
+                                                .then((value) {
                                               //print("-----SIGNUP------");
                                               //print(value.toJson());
                                               if (value.success == true) {
@@ -245,7 +283,7 @@ class _SignupPageState extends State<SignupPage> {
                                                     .showSnackBar(
                                                   const SnackBar(
                                                       content: Text(
-                                                          'Username already in use')),
+                                                          'Username or phone already in use')),
                                                 );
                                               }
                                               print(value.content);

@@ -3,7 +3,7 @@ import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/pages/learn/widget/deck_learn_list_item.dart';
 import 'package:learn_english_app/widgets/header/header.dart';
-import 'package:learn_english_app/widgets/header/header_learn.dart';
+import 'package:learn_english_app/widgets/header/header_search.dart';
 import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:learn_english_app/widgets/search_results.dart';
 import 'package:provider/provider.dart';
@@ -52,9 +52,7 @@ class _LearnDecksPageState extends State<LearnDecksPage> {
         builder: (context, child) => Scaffold(
           body: CustomScrollView(
             slivers: [
-              const Header(HeaderLearn<Deck>(
-                title: LearnDecksPage._title,
-              )),
+              const Header(HeaderSearch<Deck>(title: LearnDecksPage._title)),
               SliverPadding(
                   padding: const EdgeInsets.all(kPadding),
                   sliver: SearchResults<Deck>(

@@ -81,6 +81,7 @@ class _LoadingPageState<T> extends State<LoadingPage<T>> with RouteAware {
     if (widget._loadingNotifier != null) {
       _loadingNotifier = widget._loadingNotifier;
       _result = _loadingNotifier!.result;
+      _loadingNotifier!.fetch();
     } else if (widget._fetchResult != null) {
       _result = widget._initialValue;
       _loadingNotifier = LoadingNotifier<T>(
