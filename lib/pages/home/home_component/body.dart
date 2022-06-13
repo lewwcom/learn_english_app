@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/pages/home/home_component/LearningYoutube.dart';
+import 'package:learn_english_app/pages/login/login_page.dart';
 import 'package:learn_english_app/pages/profile/profile_screen.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 import 'studycard.dart';
@@ -27,24 +28,11 @@ class Body extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onTap: () => context.push("/search"),
-                    decoration: InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
-                      filled: true,
-                      fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(25.0))),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Text("Study with us", style: kTitleTextstyle),
+
+      SizedBox(height: 20),
+      Text("Hello, "+LoginPage.username.toString(), style: kUserstyle),
+      SizedBox(height: 30),
+      Text("Study with us", style: kTitleTextstyle),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

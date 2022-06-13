@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:learn_english_app/models/User.dart';
 import 'package:learn_english_app/models/forgot_response.dart';
 import 'package:learn_english_app/models/login_resquest.dart';
 import 'package:learn_english_app/services/api_forgotpass.dart';
@@ -10,10 +11,12 @@ import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_login.dart';
 import 'package:learn_english_app/services/api_signup.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:learn_english_app/services/api_username.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import '../../models/signup_resquest.dart';
 
 class LoginPage extends StatefulWidget {
+  static String? username;
   const LoginPage({Key? key}) : super(key: key);
 
   @override
@@ -24,6 +27,18 @@ class _LoginPageState extends State<LoginPage> {
   LoginRequest loginRequest = new LoginRequest();
   APILogin api = new APILogin();
   APIForgot forgotApi = new APIForgot();
+
+  @override
+  void initState() {
+    super.initState();
+    // initName();
+  }
+
+  initName() async {
+    User ava = await getUserName();
+    LoginPage.username=ava.content;
+    print (LoginPage.username.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                             label: const Text('Log in with Google'),
                             onPressed: () async {
                               final user = await GoogleSignInApi.login();
+                              initName();
                               if (user == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -117,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                                 GoogleSignInApi.sendToBack(
                                         googleKey.accessToken)
                                     .then((value) {
+                                  initName();
                                   if (value.success == true) {
                                     context.push('/');
                                     GoogleSignInApi.setGoogleSigin();
@@ -151,6 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () {
                                       print("test đăng nhập");
                                       api.login(loginRequest).then((value) {
+                                        initName();
                                         if (value.success == true) {
                                           context.push('/');
                                         } else {

@@ -6,8 +6,6 @@ import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_logout.dart';
 import '../../login/login_page.dart';
 import '../../../widgets/pop_up.dart';
-import 'package:learn_english_app/pages/profile/profile_screen.dart';
-import 'package:learn_english_app/services/api_avatar.dart';
 import '../../../models/avatar.dart';
 import '../../notification/NotificationAlarmScreen.dart';
 import 'Info.dart';

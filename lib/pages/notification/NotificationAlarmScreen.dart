@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -49,14 +50,11 @@ class _AlarmPageState extends State<AlarmPage> {
   }
 
   Future<void> onSelectNotification(payload) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+    context.push("/decks");
   }
 
   Future _showNotification() async {
-    var time=Time (22,34,0);//15h50ph0s
+    var time=Time (0,5,0);//10h0ph0s
     var androidDetails = new AndroidNotificationDetails(
       "channelId",
       "local",

@@ -48,11 +48,7 @@ class _MyBottomNavBarState extends State<MyBottomNavBar> {
             icon: SvgPicture.asset('assets/icons/home.svg',
                 color: Color(0xFFD1D4D4)),
           ),
-          IconButton(
-            onPressed: () => context.push("/"),
-            icon: SvgPicture.asset('assets/icons/home.svg',
-                color: Color(0xFFD1D4D4)),
-          ),
+
           IconButton(
             onPressed: () => context.push("/vision"),
             icon: SvgPicture.asset('assets/icons/camera.svg',

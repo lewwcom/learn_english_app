@@ -43,3 +43,10 @@ const kTextstyle = TextStyle(
   color: kTitleTextColor,
   fontWeight: FontWeight.bold,
 );
+
+
+const kUserstyle = TextStyle(
+  fontSize: 28,
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+);
