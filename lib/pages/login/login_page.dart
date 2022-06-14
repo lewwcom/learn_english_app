@@ -210,7 +210,10 @@ class _LoginPageState extends State<LoginPage> {
                                 style: ButtonStyle(),
                               ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    print("test quên mật khẩu");
+                                      context.push('/forgotpassword');
+                                  },
                                   child: Text(
                                     'Forgot Password',
                                     style: TextStyle(

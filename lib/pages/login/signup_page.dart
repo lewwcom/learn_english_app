@@ -109,36 +109,7 @@ class _SignupPageState extends State<SignupPage> {
                                       borderSide: BorderSide(
                                         color: Colors.black,
                                       ),
-                                    ),
-                                    hintText: "Email",
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                                onChanged: (text) {
-                                  this.setState(() {
-                                    signupRequest.email = text;
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),
+                                     ),
                                     hintText: "Phone",
                                     hintStyle: TextStyle(color: Colors.white),
                                     border: OutlineInputBorder(
