@@ -1,9 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:learn_english_app/api/api_client.dart' as api_client;
-import 'package:learn_english_app/api/serializer.dart';
-import 'package:learn_english_app/main.dart';
 import 'package:learn_english_app/models/deck.dart';
 import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/word.dart';
@@ -18,11 +15,13 @@ import 'package:learn_english_app/pages/login/signup_page.dart';
 import 'package:learn_english_app/pages/login/splash.dart';
 import 'package:learn_english_app/pages/profile/profile_screen.dart';
 import 'package:learn_english_app/pages/search/search_page.dart';
+import 'package:learn_english_app/pages/search/widgets/search_history.dart';
 import 'package:learn_english_app/pages/vision/vision_page.dart';
 import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/pages/flashcard/flashcard_page.dart';
 import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 import 'package:learn_english_app/services/api_learn.dart' as api_learn;
+import 'package:learn_english_app/services/api_word.dart' as api_word;
 import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +29,10 @@ import 'package:provider/provider.dart';
 const String initialLocation = "/login";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
+DecksNotifier _decksNotifier = DecksNotifier(fetchOnCreate: false);
+LoadingNotifier<List<Word>> _wordsOfTheDayNotifier =
+    LoadingNotifier(() => api_word.readRandom(5), fetchOnCreate: false);
+SearchHistoryNotifier _searchHistoryNotifier = SearchHistoryNotifier();
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
@@ -45,16 +48,26 @@ final GoRouter router = GoRouter(
       routeObserver
     ],
     routes: [
-      GoRoute(path: "/search", builder: (context, state) => const SearchPage()),
+      GoRoute(
+        path: "/search",
+        builder: (context, state) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: _wordsOfTheDayNotifier),
+            ChangeNotifierProvider.value(value: _searchHistoryNotifier),
+          ],
+          child: const SearchPage(),
+        ),
+      ),
       GoRoute(
         path: "/words/:word",
         builder: (context, state) => LoadingPage<Word>(
           initialValue: state.extra is Word ? state.extra as Word : null,
-          fetchResult: () async => (await api_client.get(
-                  "words/?word=${state.params["word"]}",
-                  ListSerializer(WordSerializer())))
-              .first,
-          builder: (context, data) => WordPage(data),
+          fetchResult: () async =>
+              ((await api_word.readAll(query: state.params["word"])).first),
+          builder: (context, data) => ChangeNotifierProvider.value(
+            value: _searchHistoryNotifier,
+            child: WordPage(data),
+          ),
         ),
       ),
       GoRoute(
@@ -64,7 +77,7 @@ final GoRouter router = GoRouter(
           GoRoute(
             path: "decks",
             builder: (context, state) => LoadingPage<List<Deck>>(
-              loadingNotifier: decksNotifier,
+              loadingNotifier: _decksNotifier,
               equality: DeepCollectionEquality.unordered(DeckEquality()),
               notifyAboutChangeText: "Decks updated from server!",
               builder: (context, decks) => DecksPage(decks),
@@ -77,7 +90,7 @@ final GoRouter router = GoRouter(
       GoRoute(
         path: "/create-deck",
         builder: (context, state) => ChangeNotifierProvider.value(
-            value: decksNotifier, child: const NewDeckPage()),
+            value: _decksNotifier, child: const NewDeckPage()),
       ),
       GoRoute(path: "/youtube", builder: (context, state) => YoutubeScreen()),
       // GoRoute(
@@ -110,7 +123,7 @@ List<GoRoute> deckRoute = [
   GoRoute(
       path: ":deckId",
       builder: (context, state) => LoadingPage<Deck>(
-            loadingNotifier: decksNotifier
+            loadingNotifier: _decksNotifier
                 .getDeckNotifier(int.parse(state.params["deckId"]!)),
             willDisposeNotifier: true,
             builder: (context, deck) =>
@@ -121,7 +134,7 @@ List<GoRoute> deckRoute = [
         GoRoute(
           path: ":cardId",
           builder: (context, state) => LoadingPage<Deck>(
-            loadingNotifier: decksNotifier
+            loadingNotifier: _decksNotifier
                 .getDeckNotifier(int.parse(state.params["deckId"]!)),
             willDisposeNotifier: true,
             builder: (context, decks) => LoadingPage<Flashcard>(
