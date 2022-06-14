@@ -58,7 +58,8 @@ class DecksNotifier extends LoadingNotifier<List<Deck>>
 
   Map<int, Deck>? _decks;
 
-  DecksNotifier() : super(_fetchAll);
+  DecksNotifier({bool fetchOnCreate = true})
+      : super(_fetchAll, fetchOnCreate: fetchOnCreate);
 
   @override
   Future<void> fetch({bool willNotify = true}) async {
