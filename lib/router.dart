@@ -10,6 +10,7 @@ import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/deck/decks_page.dart';
 import 'package:learn_english_app/pages/deck/new_deck_page.dart';
 import 'package:learn_english_app/pages/deck/flashcards_page.dart';
+import 'package:learn_english_app/pages/login/forgot_password.dart';
 import 'package:learn_english_app/pages/home/home_screen.dart';
 import 'package:learn_english_app/pages/learn/learn_decks_page.dart';
 import 'package:learn_english_app/pages/loading/loading_page.dart';
@@ -27,7 +28,7 @@ import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
-const String initialLocation = "/login";
+const String initialLocation = "/forgotpassword";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 
@@ -85,6 +86,7 @@ final GoRouter router = GoRouter(
       GoRoute(path: "/profile", builder: (context, state) => ProfileScreen()),
       GoRoute(path: "/login", builder: (context, state) => const LoginPage()),
       GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
+      GoRoute(path: "/forgotpassword", builder: (context, state) => const ForgotPasswordPage()),
       GoRoute(path: "/splash", builder: (context, state) => SplashScreen()),
       GoRoute(path: "/vision", builder: (context, state) => VisionPage()),
       // GoRoute(

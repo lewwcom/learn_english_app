@@ -2,35 +2,26 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:learn_english_app/models/forgot_response.dart';
-import 'package:learn_english_app/models/login_resquest.dart';
 import 'package:learn_english_app/services/api_forgotpass.dart';
-import 'package:learn_english_app/services/api_google_sign_in.dart';
-import 'package:learn_english_app/services/api_login.dart';
-import 'package:learn_english_app/services/api_signup.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:learn_english_app/utilities/loading_notifier.dart';
-import '../../models/signup_resquest.dart';
+import '../../models/forgot_request.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  LoginRequest loginRequest = new LoginRequest();
-  APILogin api = new APILogin();
-  APIForgot forgotApi = new APIForgot();
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  ForgotRequest forgotRequest = new ForgotRequest();
+  APIForgot api = new APIForgot();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/login.png'), fit: BoxFit.cover),
+            image: AssetImage('assets/forgot.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -40,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               padding: EdgeInsets.only(left: 35, top: 130),
               child: Text(
-                'Welcome\nBack',
+                'Forgot\nPassword',
                 style: TextStyle(color: Colors.white, fontSize: 33),
               ),
             ),
@@ -67,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             onChanged: (text) {
                               this.setState(() {
-                                loginRequest.username = text;
+                                forgotRequest.username = text;
                               });
                             },
                           ),
@@ -75,71 +66,29 @@ class _LoginPageState extends State<LoginPage> {
                             height: 30,
                           ),
                           TextField(
-                            style: TextStyle(),
-                            obscureText: true,
+                            style: TextStyle(color: Colors.black),
+                            //obscureText: true,
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
                                 filled: true,
-                                hintText: "Password",
+                                hintText: "Phone number",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
                             onChanged: (text) {
                               this.setState(() {
-                                loginRequest.password = text;
+                                forgotRequest.phoneNumber = text;
                               });
                             },
                           ),
                           SizedBox(
-                            height: 30,
-                          ),
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                onPrimary: Colors.black,
-                                minimumSize: const Size(double.infinity, 50)),
-                            icon: const FaIcon(
-                              FontAwesomeIcons.google,
-                              color: Colors.red,
-                            ),
-                            label: const Text('Log in with Google'),
-                            onPressed: () async {
-                              final user = await GoogleSignInApi.login();
-                              if (user == null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text('Cannot login with google')),
-                                );
-                              } else {
-                                GoogleSignInAuthentication googleKey =
-                                    await user.authentication;
-                                GoogleSignInApi.sendToBack(
-                                        googleKey.accessToken)
-                                    .then((value) {
-                                  if (value.success == true) {
-                                    context.push('/');
-                                    GoogleSignInApi.setGoogleSigin();
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              'Invalid username or password.')),
-                                    );
-                                    GoogleSignInApi.logout();
-                                  }
-                                });
-                              }
-                            },
-                          ),
-                          SizedBox(
-                            height: 30,
+                            height: 60,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Sign in',
+                                'reset pass',
                                 style: TextStyle(
                                     fontSize: 27, fontWeight: FontWeight.w700),
                               ),
@@ -149,16 +98,23 @@ class _LoginPageState extends State<LoginPage> {
                                 child: IconButton(
                                     color: Colors.white,
                                     onPressed: () {
-                                      print("test đăng nhập");
-                                      api.login(loginRequest).then((value) {
+                                      print("test đổi mật khẩu");
+                                      api
+                                          .forgotPass(forgotRequest)
+                                          .then((value) {
                                         if (value.success == true) {
-                                          context.push('/');
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                                content: Text(
+                                                    'change password success. Please check your phone')),
+                                          );
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
                                                 content: Text(
-                                                    'Invalid username or password.')),
+                                                    'Invalid username or phoneNumber.')),
                                           );
                                         }
                                       });
@@ -177,10 +133,10 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  context.push('/signup');
+                                  context.push('/login');
                                 },
                                 child: Text(
-                                  'Sign Up',
+                                  'Login',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       decoration: TextDecoration.underline,
@@ -189,19 +145,6 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 style: ButtonStyle(),
                               ),
-                              TextButton(
-                                  onPressed: () {
-                                    print("test quên mật khẩu");
-                                      context.push('/forgotpassword');
-                                  },
-                                  child: Text(
-                                    'Forgot Password',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Color(0xff4c505b),
-                                      fontSize: 18,
-                                    ),
-                                  )),
                             ],
                           )
                         ],
