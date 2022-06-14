@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 
 void main() {
-  runApp(SplashScreen());
+  runApp(const SplashScreen());
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => StartState();
 }
@@ -23,13 +25,13 @@ class StartState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var duration = Duration(seconds: 1);
-    return new Timer(duration, route);
+    var duration = const Duration(seconds: 1);
+    return Timer(duration, route);
   }
 
   route() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
   @override
@@ -42,17 +44,15 @@ class StartState extends State<SplashScreen> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-                color: new Color(0xffF5591F),
+            decoration: const BoxDecoration(
+                color: Color(0xffF5591F),
                 gradient: LinearGradient(
-                    colors: [(new Color(0x483d8b)), new Color(0xffF2861E)],
+                    colors: [(Color(0x483d8b)), Color(0xffF2861E)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter)),
           ),
           Center(
-            child: Container(
-              child: Image.asset('assets/login.png'),
-            ),
+            child: Image.asset('assets/login.png'),
           )
         ],
       ),

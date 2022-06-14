@@ -27,7 +27,7 @@ import 'package:learn_english_app/utilities/process_text_notifier.dart';
 import 'package:learn_english_app/utilities/loading_notifier.dart';
 import 'package:provider/provider.dart';
 
-const String initialLocation = "/forgotpassword";
+const String initialLocation = "/login";
 
 final ProcessTextNotifier _processTextNotifier = ProcessTextNotifier();
 DecksNotifier _decksNotifier = DecksNotifier(fetchOnCreate: false);
@@ -99,7 +99,9 @@ final GoRouter router = GoRouter(
       GoRoute(path: "/profile", builder: (context, state) => ProfileScreen()),
       GoRoute(path: "/login", builder: (context, state) => const LoginPage()),
       GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
-      GoRoute(path: "/forgotpassword", builder: (context, state) => const ForgotPasswordPage()),
+      GoRoute(
+          path: "/forgotpassword",
+          builder: (context, state) => const ForgotPasswordPage()),
       GoRoute(path: "/splash", builder: (context, state) => SplashScreen()),
       GoRoute(path: "/vision", builder: (context, state) => VisionPage()),
       // GoRoute(

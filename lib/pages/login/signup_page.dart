@@ -14,14 +14,14 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  SignupRequest signupRequest = new SignupRequest();
-  APISignup api = new APISignup();
+  SignupRequest signupRequest = SignupRequest();
+  APISignup api = APISignup();
   final GlobalKey<FormState> _formkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/register.png'), fit: BoxFit.cover),
       ),
@@ -34,8 +34,8 @@ class _SignupPageState extends State<SignupPage> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 35, top: 30),
-              child: Text(
+              padding: const EdgeInsets.only(left: 35, top: 30),
+              child: const Text(
                 'Create\nAccount',
                 style: TextStyle(color: Colors.white, fontSize: 33),
               ),
@@ -50,26 +50,27 @@ class _SignupPageState extends State<SignupPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 35, right: 35),
+                          margin: const EdgeInsets.only(left: 35, right: 35),
                           child: Column(
                             children: [
                               TextFormField(
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.white,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.black,
                                     ),
                                   ),
                                   hintText: "Username",
-                                  hintStyle: TextStyle(color: Colors.white),
+                                  hintStyle:
+                                      const TextStyle(color: Colors.white),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                 ),
@@ -87,31 +88,32 @@ class _SignupPageState extends State<SignupPage> {
                                   }
                                 },
                                 onChanged: (text) {
-                                  this.setState(() {
+                                  setState(() {
                                     signupRequest.username = text;
                                   });
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TextFormField(
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.white,
                                       ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.black,
                                       ),
-                                     ),
+                                    ),
                                     hintText: "Phone",
-                                    hintStyle: TextStyle(color: Colors.white),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     )),
@@ -123,32 +125,33 @@ class _SignupPageState extends State<SignupPage> {
                                   }
                                 },
                                 onChanged: (text) {
-                                  this.setState(() {
+                                  setState(() {
                                     signupRequest.phone_number = text;
                                   });
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TextFormField(
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.white,
                                       ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.black,
                                       ),
                                     ),
                                     hintText: "Password",
-                                    hintStyle: TextStyle(color: Colors.white),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     )),
@@ -166,32 +169,33 @@ class _SignupPageState extends State<SignupPage> {
                                   }
                                 },
                                 onChanged: (text) {
-                                  this.setState(() {
+                                  setState(() {
                                     signupRequest.password = text;
                                   });
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TextFormField(
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.white),
                                   obscureText: true,
                                   decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.white,
                                         ),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.black,
                                         ),
                                       ),
                                       hintText: "Confirmation Password",
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       )),
@@ -202,24 +206,25 @@ class _SignupPageState extends State<SignupPage> {
                                       return null;
                                     } else if (value != null &&
                                         value.isNotEmpty &&
+                                        // ignore: unrelated_type_equality_checks
                                         value != signupRequest) {
                                       return 'Incorrect';
                                     }
                                   },
                                   onChanged: (text) {
-                                    this.setState(() {
+                                    setState(() {
                                       signupRequest.password_confirmation =
                                           text;
                                     });
                                   }),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Sign Up',
                                     style: TextStyle(
                                         color: Colors.white,
@@ -228,13 +233,14 @@ class _SignupPageState extends State<SignupPage> {
                                   ),
                                   CircleAvatar(
                                     radius: 30,
-                                    backgroundColor: Color(0xff4c505b),
+                                    backgroundColor: const Color(0xff4c505b),
                                     child: IconButton(
                                         color: Colors.white,
                                         onPressed: () {
                                           if (!_formkey.currentState!
                                               .validate()) {
                                           } else {
+                                            // ignore: avoid_print
                                             print("test đăng kí");
                                             //print(signupRequest.toJson());
                                             api
@@ -257,17 +263,18 @@ class _SignupPageState extends State<SignupPage> {
                                                           'Username or phone already in use')),
                                                 );
                                               }
+                                              // ignore: avoid_print
                                               print(value.content);
                                             });
                                           }
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.arrow_forward,
                                         )),
                                   )
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 40,
                               ),
                               Row(
@@ -278,7 +285,7 @@ class _SignupPageState extends State<SignupPage> {
                                     onPressed: () {
                                       context.push('/login');
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Sign In',
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
@@ -286,7 +293,7 @@ class _SignupPageState extends State<SignupPage> {
                                           color: Colors.white,
                                           fontSize: 18),
                                     ),
-                                    style: ButtonStyle(),
+                                    style: const ButtonStyle(),
                                   ),
                                 ],
                               )

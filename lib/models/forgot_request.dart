@@ -15,5 +15,4 @@ class ForgotRequest {
     data['phoneNumber'] = this.phoneNumber;
     return data;
   }
-
 }

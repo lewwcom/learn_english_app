@@ -13,13 +13,13 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  ForgotRequest forgotRequest = new ForgotRequest();
-  APIForgot api = new APIForgot();
+  ForgotRequest forgotRequest = ForgotRequest();
+  APIForgot api = APIForgot();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/forgot.png'), fit: BoxFit.cover),
       ),
@@ -29,8 +29,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           children: [
             Container(),
             Container(
-              padding: EdgeInsets.only(left: 35, top: 130),
-              child: Text(
+              padding: const EdgeInsets.only(left: 35, top: 130),
+              child: const Text(
                 'Forgot\nPassword',
                 style: TextStyle(color: Colors.white, fontSize: 33),
               ),
@@ -43,11 +43,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 35, right: 35),
+                      margin: const EdgeInsets.only(left: 35, right: 35),
                       child: Column(
                         children: [
                           TextField(
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               fillColor: Colors.grey.shade100,
                               filled: true,
@@ -57,16 +57,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ),
                             ),
                             onChanged: (text) {
-                              this.setState(() {
+                              setState(() {
                                 forgotRequest.username = text;
                               });
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           TextField(
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             //obscureText: true,
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
@@ -76,25 +76,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   borderRadius: BorderRadius.circular(10),
                                 )),
                             onChanged: (text) {
-                              this.setState(() {
+                              setState(() {
                                 forgotRequest.phoneNumber = text;
                               });
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 60,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'reset pass',
+                              const Text(
+                                'Reset Pass',
                                 style: TextStyle(
                                     fontSize: 27, fontWeight: FontWeight.w700),
                               ),
                               CircleAvatar(
                                 radius: 30,
-                                backgroundColor: Color(0xff4c505b),
+                                backgroundColor: const Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
                                     onPressed: () {
@@ -107,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                               .showSnackBar(
                                             const SnackBar(
                                                 content: Text(
-                                                    'change password success. Please check your phone')),
+                                                    'New password was sent. Please check your phone')),
                                           );
                                         } else {
                                           ScaffoldMessenger.of(context)
@@ -119,13 +119,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                         }
                                       });
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.arrow_forward,
                                     )),
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                           ),
                           Row(
@@ -135,7 +135,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 onPressed: () {
                                   context.push('/login');
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Login',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -143,7 +143,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       color: Color(0xff4c505b),
                                       fontSize: 18),
                                 ),
-                                style: ButtonStyle(),
+                                style: const ButtonStyle(),
                               ),
                             ],
                           )

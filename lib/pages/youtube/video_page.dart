@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/models/subtitle_model.dart';
 import 'package:learn_english_app/models/subtitle_response.dart';
-import 'package:learn_english_app/models/word.dart';
-import 'package:learn_english_app/pages/word/word_page.dart';
 import 'package:learn_english_app/services/api_subtitle.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/gestures.dart';
@@ -11,7 +9,8 @@ import 'package:flutter/gestures.dart';
 class VideoScreen extends StatefulWidget {
   final String id;
 
-  VideoScreen(this.id);
+  // ignore: use_key_in_widget_constructors
+  const VideoScreen(this.id);
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -99,11 +98,12 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   _buildSubtitles() {
-    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 18.0);
-    TextStyle linkStyle = TextStyle(color: Colors.blue);
+    TextStyle defaultStyle =
+        const TextStyle(color: Colors.grey, fontSize: 18.0);
+    TextStyle linkStyle = const TextStyle(color: Colors.blue);
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        padding: EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
             child: RichText(
           text: TextSpan(
@@ -122,11 +122,11 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   _buildPreSubtitles() {
-    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 15.0);
-    TextStyle linkStyle = TextStyle(color: Colors.blue);
+    TextStyle defaultStyle =
+        const TextStyle(color: Colors.grey, fontSize: 15.0);
     return Container(
-        margin: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 10),
-        padding: EdgeInsets.all(10.0),
+        margin: const EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 10),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
             child: RichText(
           text: TextSpan(
@@ -140,11 +140,11 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   _buildNextSubtitles() {
-    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 15.0);
-    TextStyle linkStyle = TextStyle(color: Colors.blue);
+    TextStyle defaultStyle =
+        const TextStyle(color: Colors.grey, fontSize: 15.0);
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        padding: EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
             child: RichText(
           text: TextSpan(

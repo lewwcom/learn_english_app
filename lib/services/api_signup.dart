@@ -15,7 +15,6 @@ class APISignup {
           "username": requestModel.username!,
           "password": requestModel.password!,
           "password_confirmation": requestModel.password_confirmation!,
-          "email": requestModel.email!,
           "phone_number": requestModel.phone_number!,
         },
       );

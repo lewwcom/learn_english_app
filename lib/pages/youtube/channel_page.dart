@@ -6,7 +6,8 @@ import 'package:learn_english_app/services/api_youtube_service.dart';
 
 class ChannelScreen extends StatefulWidget {
   final Channel channel;
-  ChannelScreen(this.channel);
+  // ignore: use_key_in_widget_constructors
+  const ChannelScreen(this.channel);
   @override
   _ChannelScreenState createState() => _ChannelScreenState();
 }

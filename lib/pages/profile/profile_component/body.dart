@@ -6,20 +6,20 @@ import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_logout.dart';
 import '../../login/login_page.dart';
 import '../../../widgets/pop_up.dart';
-import '../../../models/avatar.dart';
-import '../../notification/NotificationAlarmScreen.dart';
-import 'Info.dart';
+import '../../notification/notification_alarm_screen.dart';
+import 'info.dart';
 import 'profile_menu_item.dart';
 import 'package:learn_english_app/size_config.dart';
 
 class Body extends StatefulWidget {
+  const Body({Key? key}) : super(key: key);
+
   @override
   State<Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-  var image;
-  APILogout apiLogout = new APILogout();
+  APILogout apiLogout = APILogout();
 
   @override
   void initState() {

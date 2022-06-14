@@ -28,16 +28,6 @@ class _Option extends State<Option> {
   bool isSelected = false;
 
   Color getRightColor() {
-    // final isCorrectAnwser = index == controller.correctAnswer;
-    // final isSelected = index == controller.selectedAnswer;
-    // final checkedAnswer =
-    //     controller.selectedAnswer != controller.correctAnswer;
-    // final isNotCorrectAnswer = isSelected && checkedAnswer;
-
-    // if (controller.isAnswered) {
-    //   if (isCorrectAnwser) return kGreenColor;
-    //   if (isNotCorrectAnswer) return kRedColor;
-    // }
     if (isSelected && isCorrect) {
       return kGreenColor;
     }
@@ -73,8 +63,8 @@ class _Option extends State<Option> {
     return InkWell(
       onTap: onSelectAnswer,
       child: Container(
-        margin: EdgeInsets.only(top: kPadding),
-        padding: EdgeInsets.all(kPadding - 10),
+        margin: const EdgeInsets.only(top: kPadding),
+        padding: const EdgeInsets.all(kPadding - 10),
         decoration: BoxDecoration(
           border: Border.all(color: getRightColor()),
           borderRadius: BorderRadius.circular(25),

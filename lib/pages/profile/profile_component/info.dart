@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/size_config.dart';
-import 'package:http/http.dart' as http;
 import 'package:learn_english_app/api/api_client.dart' as api_client;
 
 class Info extends StatefulWidget {
@@ -13,6 +11,7 @@ class Info extends StatefulWidget {
     required this.image,
   }) : super(key: key);
 
+  // ignore: prefer_typing_uninitialized_variables
   final image;
 
   @override
@@ -20,10 +19,9 @@ class Info extends StatefulWidget {
 }
 
 class _InfoState extends State<Info> {
-
-  void callback(){
+  void callback() {
     setState(() {
-      _BottomSheetState._imagefile=_BottomSheetState._imagefile;
+      _BottomSheetState._imagefile = _BottomSheetState._imagefile;
     });
   }
 
@@ -75,11 +73,12 @@ class _InfoState extends State<Info> {
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
-                    builder: ((builder) => BottomSheet(callback:this.callback)),
+                    builder: ((builder) =>
+                        BottomSheet(callback: this.callback)),
                   );
                 },
-                child:
-                    Icon(Icons.camera_alt, color: kPrimaryColor, size: 33.0)),
+                child: const Icon(Icons.camera_alt,
+                    color: kPrimaryColor, size: 33.0)),
           ),
           Positioned(
             top: 180,
@@ -87,6 +86,7 @@ class _InfoState extends State<Info> {
             child: ButtonTheme(
               minWidth: 20,
               height: 20,
+              // ignore: deprecated_member_use
               child: RaisedButton(
                 onPressed: () {
                   api_client.putImage(
@@ -95,7 +95,7 @@ class _InfoState extends State<Info> {
                       _BottomSheetState._imagefile!.path,
                       api_client.DiscardResponseContentSerializer());
                 },
-                child: Text(
+                child: const Text(
                   "Save",
                   style: TextStyle(color: Colors.white),
                 ),
@@ -140,9 +140,9 @@ class _BottomSheetState extends State<BottomSheet> {
 
   final ImagePicker _picker = ImagePicker();
 
-  void callback(){
+  void callback() {
     setState(() {
-      _imagefile=_BottomSheetState._imagefile;
+      _imagefile = _BottomSheetState._imagefile;
     });
   }
 
@@ -151,32 +151,34 @@ class _BottomSheetState extends State<BottomSheet> {
     return Container(
       height: 100.0,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         children: <Widget>[
-          Text(
+          const Text(
             "Choose profile photo",
             style: TextStyle(
               fontSize: 20.0,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              // ignore: deprecated_member_use
               FlatButton.icon(
                 onPressed: () {
                   takePhoto(ImageSource.camera);
                 },
-                icon: Icon(Icons.camera),
-                label: Text("Camera"),
+                icon: const Icon(Icons.camera),
+                label: const Text("Camera"),
               ),
+              // ignore: deprecated_member_use
               FlatButton.icon(
                 onPressed: () {
                   takePhoto(ImageSource.gallery);
                 },
-                icon: Icon(Icons.image),
-                label: Text("Gallery"),
+                icon: const Icon(Icons.image),
+                label: const Text("Gallery"),
               ),
             ],
           ),
@@ -186,10 +188,11 @@ class _BottomSheetState extends State<BottomSheet> {
   }
 
   void takePhoto(ImageSource source) async {
+    // ignore: deprecated_member_use
     final pickedFile = await _picker.getImage(source: source);
     setState(() {
       _imagefile = pickedFile;
     });
-    this.widget.callback();
+    widget.callback();
   }
 }

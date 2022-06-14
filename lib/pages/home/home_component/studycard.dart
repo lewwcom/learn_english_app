@@ -18,13 +18,13 @@ class StudyCard extends StatelessWidget {
     return InkWell(
       onTap: press,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0,10),
+              offset: const Offset(0, 10),
               blurRadius: 20,
               color: kShadowColor,
             ),
@@ -33,8 +33,8 @@ class StudyCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Image.asset(image),
-            SizedBox(height: 3),
-            Text(title,style: kTextstyle)
+            const SizedBox(height: 3),
+            Text(title, style: kTextstyle)
           ],
         ),
       ),

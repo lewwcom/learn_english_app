@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:flutter/gestures.dart';
@@ -10,6 +12,7 @@ import 'package:learn_english_app/size_config.dart';
 
 import 'widget/vision_picture.dart';
 
+// ignore: must_be_immutable
 class VisionBody extends StatefulWidget {
   VisionBody({Key? key, required this.image, required this.content})
       : super(key: key);
@@ -20,7 +23,7 @@ class VisionBody extends StatefulWidget {
 }
 
 class _VisionBodyState extends State<VisionBody> {
-  PickedFile? _image = null;
+  PickedFile? _image;
   String? _content = "cat";
   APIVision apiVision = new APIVision();
 
@@ -51,12 +54,12 @@ class _VisionBodyState extends State<VisionBody> {
                 showModalBottomSheet(
                   context: context,
                   builder: ((builder) => VisionBottomSheet(
-                        callback: this.callback,
+                        callback: callback,
                       )),
                 );
               },
               child: Row(children: <Widget>[
-                Icon(Icons.camera_alt, color: kPrimaryColor, size: 33.0),
+                const Icon(Icons.camera_alt, color: kPrimaryColor, size: 33.0),
                 Text(
                   "CHOOSE A PHOTO",
                   style: TextStyle(
@@ -77,19 +80,21 @@ class _VisionBodyState extends State<VisionBody> {
                     color: kTitleTextColor,
                   ),
                   children: <TextSpan>[
-                    TextSpan(text: "this picture is about "),
+                    const TextSpan(text: "this picture is about "),
                     TextSpan(
-                        text: _content == null ? widget.content : _content,
+                        text: _content ?? widget.content,
                         style: TextStyle(
                           fontSize: defaultSize * 4,
                           color: kPrimaryColor,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
+                            // ignore: avoid_print
                             print("Next Words page");
-                            print('${_content}');
+                            // ignore: avoid_print
+                            print('$_content');
 
-                            context.push("/words/${_content}");
+                            context.push("/words/$_content");
                           }),
                   ],
                 ),
@@ -106,7 +111,7 @@ class VisionBottomSheet extends StatefulWidget {
   //const VisionBottomSheet({Key? key}) : super(key: key);
   final VoidCallback callback;
 
-  VisionBottomSheet({Key? key, required this.callback}) : super(key: key);
+  const VisionBottomSheet({Key? key, required this.callback}) : super(key: key);
 
   @override
   State<VisionBottomSheet> createState() => _VisionBottomSheetState();
@@ -121,16 +126,16 @@ class _VisionBottomSheetState extends State<VisionBottomSheet> {
     return Container(
       height: 100.0,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         children: <Widget>[
-          Text(
+          const Text(
             "Choose photo",
             style: TextStyle(
               fontSize: 20.0,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -138,15 +143,15 @@ class _VisionBottomSheetState extends State<VisionBottomSheet> {
                 onPressed: () {
                   takePhoto(ImageSource.camera);
                 },
-                icon: Icon(Icons.camera),
-                label: Text("Camera"),
+                icon: const Icon(Icons.camera),
+                label: const Text("Camera"),
               ),
               FlatButton.icon(
                 onPressed: () {
                   takePhoto(ImageSource.gallery);
                 },
-                icon: Icon(Icons.image),
-                label: Text("Gallery"),
+                icon: const Icon(Icons.image),
+                label: const Text("Gallery"),
               ),
             ],
           ),
@@ -160,6 +165,6 @@ class _VisionBottomSheetState extends State<VisionBottomSheet> {
     setState(() {
       _imagefile = pickedFile;
     });
-    this.widget.callback();
+    widget.callback();
   }
 }

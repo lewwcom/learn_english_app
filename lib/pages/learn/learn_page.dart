@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:learn_english_app/models/deck.dart';
@@ -76,7 +75,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
         width: double.infinity,
         height: 35,
         decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFF3F4768), width: 2),
+            border: Border.all(color: const Color(0xFF3F4768), width: 2),
             borderRadius: BorderRadius.circular(50)),
         child: Stack(
           children: [

@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:learn_english_app/pages/vision/vision_component/vision_body.dart';
 import '../../constants.dart';
 import '../bottonavbar/my_bottom_nav_bar.dart';
 
 class VisionPage extends StatefulWidget {
+  const VisionPage({Key? key}) : super(key: key);
+
   @override
   State<VisionPage> createState() => _VisionPageState();
 }
@@ -19,7 +19,7 @@ class _VisionPageState extends State<VisionPage> {
         image: "assets/images/vision_sample.png",
         content: "cat",
       ),
-      bottomNavigationBar: MyBottomNavBar(),
+      bottomNavigationBar: const MyBottomNavBar(),
     );
   }
 
