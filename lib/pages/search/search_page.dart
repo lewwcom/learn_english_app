@@ -1,73 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:learn_english_app/api/api_client.dart' as api_client;
 import 'package:learn_english_app/api/api_exception.dart';
-import 'package:learn_english_app/api/serializer.dart';
 import 'package:learn_english_app/constants.dart';
-import 'package:learn_english_app/models/flashcard.dart';
 import 'package:learn_english_app/models/word.dart';
 import 'package:learn_english_app/pages/search/widgets/search_history.dart';
+import 'package:learn_english_app/pages/search/widgets/words_of_the_day.dart';
+import 'package:learn_english_app/services/api_word.dart' as api_word;
 import 'package:learn_english_app/widgets/header/header.dart';
 import 'package:learn_english_app/widgets/header/header_search.dart';
 import 'package:learn_english_app/widgets/header/search_notifier.dart';
 import 'package:learn_english_app/widgets/search_results.dart';
-import 'package:learn_english_app/widgets/word_card/word_cards_row.dart';
 import 'package:learn_english_app/widgets/word_list_entry.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   static const String _title = "Lookup";
 
-  // TODO: remove it
-  static const List<String> _words = [
-    "hello",
-    "goodbye",
-    "flutter",
-    "code",
-    "developer",
-    "visual",
-    "studio"
-  ];
-
   const SearchPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => SearchNotifier<Word>(
-              (query) async => query.isEmpty
-                  ? List.empty()
-                  : await api_client.get(
-                      "words/?word=$query", ListSerializer(WordSerializer())),
-            ),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => SearchHistoryNotifier(List.empty()),
-          )
-        ],
-        builder: (context, child) => Scaffold(
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => SearchNotifier<Word>(
+          (query) async => query.isEmpty
+              ? List.empty()
+              : await api_word.readAll(query: query),
+        ),
+        builder: (context, child) => const Scaffold(
           body: CustomScrollView(
             slivers: [
-              const Header(HeaderSearch<Word>(title: _title)),
-              const SliverPadding(
+              Header(HeaderSearch<Word>(title: _title)),
+              SliverPadding(
                 padding: EdgeInsets.all(kPadding),
                 sliver: _MainBody(),
               ),
-              FlashcardsRow(
-                title: "Words of the day",
-                flashcards: _words
-                    .sublist(0, 5)
-                    .map((word) => Flashcard(Word.fromString(word),
-                        Word.fromString(word).definitions.first))
-                    .toList(),
-                onTapFlashcard: (flashcard) {
-                  context
-                      .read<SearchHistoryNotifier>()
-                      .add(flashcard.word.word);
-                  context.push("/words/${flashcard.word.word}");
-                },
-              )
+              WordsOfTheDay(),
             ],
           ),
         ),

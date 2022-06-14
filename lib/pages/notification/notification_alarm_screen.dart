@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 import '../../constants.dart';
 import '../../size_config.dart';
-import '../home/home_screen.dart';
 
 class AlarmPage extends StatefulWidget {
   const AlarmPage({Key? key}) : super(key: key);
@@ -24,26 +22,28 @@ class _AlarmPageState extends State<AlarmPage> {
         isSwitched = true;
         _showNotification();
       });
+      // ignore: avoid_print
       print('Switch Button is ON');
     } else {
       setState(() {
         isSwitched = false;
       });
+      // ignore: avoid_print
       print('Switch Button is OFF');
     }
   }
 
   FlutterLocalNotificationsPlugin localNotification =
       FlutterLocalNotificationsPlugin();
-  final navKey = new GlobalKey<NavigatorState>();
+  final navKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
     super.initState();
-    var androidInitialize = new AndroidInitializationSettings('ic_launcher');
-    var iOSIntialize = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
-        android: androidInitialize, iOS: iOSIntialize);
+    var androidInitialize = const AndroidInitializationSettings('ic_launcher');
+    var iOSIntialize = const IOSInitializationSettings();
+    var initializationSettings =
+        InitializationSettings(android: androidInitialize, iOS: iOSIntialize);
     localNotification.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
     tz.initializeTimeZones();
@@ -54,17 +54,20 @@ class _AlarmPageState extends State<AlarmPage> {
   }
 
   Future _showNotification() async {
-    var time=Time (0,5,0);//10h0ph0s
-    var androidDetails = new AndroidNotificationDetails(
+    var time = const Time(0, 5, 0); //10h0ph0s
+    var androidDetails = const AndroidNotificationDetails(
       "channelId",
       "local",
       importance: Importance.max,
     );
-    var iosDetails = new IOSNotificationDetails();
+    var iosDetails = const IOSNotificationDetails();
     var generalNotificationDetails =
-        new NotificationDetails(android: androidDetails, iOS: iosDetails);
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
+    // ignore: deprecated_member_use
     await localNotification.showDailyAtTime(
-      0, "Learning App", "It's time to study",
+      0,
+      "Learning App",
+      "It's time to study",
       time,
       generalNotificationDetails,
     );
@@ -75,7 +78,7 @@ class _AlarmPageState extends State<AlarmPage> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               kPrimaryColor,
@@ -86,13 +89,13 @@ class _AlarmPageState extends State<AlarmPage> {
         ),
         child: Column(
           children: <Widget>[
-            SizedBox(height: 40),
-            Text("Notification", style: kScreenTitleTextstyle),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
+            const Text("Notification", style: kScreenTitleTextstyle),
+            const SizedBox(height: 40),
             Container(
               padding:
                   EdgeInsets.symmetric(horizontal: SizeConfig.defaultSize * 3),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     Colors.white,
@@ -107,7 +110,7 @@ class _AlarmPageState extends State<AlarmPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("Allow Notification", style: kTitleTextstyle),
+                      const Text("Allow Notification", style: kTitleTextstyle),
                       Switch(value: isSwitched, onChanged: toggleSwitch)
                     ],
                   ),

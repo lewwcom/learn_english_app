@@ -2,9 +2,9 @@ import '../api/serializer.dart';
 
 class SignupResponse {
   bool? success;
-  dynamic? content;
+  dynamic content;
 
-  SignupResponse({this.success = true, this.content = null});
+  SignupResponse({this.success = true, this.content});
 
   SignupResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -12,9 +12,9 @@ class SignupResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['content'] = this.content;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['content'] = content;
     return data;
   }
 }

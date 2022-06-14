@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
-import 'package:learn_english_app/pages/home/home_component/LearningYoutube.dart';
+import 'package:learn_english_app/pages/home/home_component/learning_youtube.dart';
 import 'package:learn_english_app/pages/login/login_page.dart';
-import 'package:learn_english_app/pages/profile/profile_screen.dart';
-import 'package:learn_english_app/pages/youtube/youtube_page.dart';
 import 'studycard.dart';
 
 class Body extends StatelessWidget {
+  const Body({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             kPrimaryColor,
@@ -24,16 +24,16 @@ class Body extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-
-      SizedBox(height: 20),
-      Text("Hello, "+LoginPage.username.toString(), style: kUserstyle),
-      SizedBox(height: 30),
-      Text("Study with us", style: kTitleTextstyle),
-                SizedBox(height: 10),
+                const SizedBox(height: 20),
+                Text("Hello, " + LoginPage.username.toString(),
+                    style: kUserstyle),
+                const SizedBox(height: 30),
+                const Text("Study with us", style: kTitleTextstyle),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -52,12 +52,12 @@ class Body extends StatelessWidget {
                         press: () => context.push("/search")),
                   ],
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   "Learning with video",
                   style: kTitleTextstyle,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 LearningOnYoutubeCard(
                   image: 'assets/images/video_learn.jpg',
                   press: () => context.push("/youtube"),

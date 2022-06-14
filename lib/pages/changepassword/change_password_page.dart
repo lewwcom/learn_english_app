@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:learn_english_app/models/change_password_response.dart';
+import 'package:learn_english_app/services/api_changepass.dart';
 import '../../models/change_password_request.dart';
-
-import '../../models/signup_resquest.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
@@ -13,11 +13,11 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   ChangePasswordResquest changePasswordResquest = new ChangePasswordResquest();
   final GlobalKey<FormState> _formkey = GlobalKey();
-
+  APIChangePass api = APIChangePass();
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/changepassword.png'), fit: BoxFit.cover),
       ),
@@ -30,8 +30,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         body: Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 35, top: 30),
-              child: Text(
+              padding: const EdgeInsets.only(left: 35, top: 30),
+              child: const Text(
                 'Change\nPassword',
                 style: TextStyle(color: Colors.white, fontSize: 33),
               ),
@@ -46,27 +46,28 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 35, right: 35),
+                          margin: const EdgeInsets.only(left: 35, right: 35),
                           child: Column(
                             children: [
                               TextFormField(
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.white,
                                       ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.black,
                                       ),
                                     ),
                                     hintText: "Password",
-                                    hintStyle: TextStyle(color: Colors.white),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     )),
@@ -84,32 +85,33 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   }
                                 },
                                 onChanged: (text) {
-                                  this.setState(() {
+                                  setState(() {
                                     changePasswordResquest.password = text;
                                   });
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.white,
                                       ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.black,
                                       ),
                                     ),
                                     hintText: "New Password",
-                                    hintStyle: TextStyle(color: Colors.white),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     )),
@@ -127,32 +129,33 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   }
                                 },
                                 onChanged: (text) {
-                                  this.setState(() {
+                                  setState(() {
                                     changePasswordResquest.newPassword = text;
                                   });
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               TextFormField(
-                                  style: TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.white),
                                   obscureText: true,
                                   decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.white,
                                         ),
                                       ),
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.black,
                                         ),
                                       ),
                                       hintText: "Confirmation Password",
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       )),
@@ -172,19 +175,19 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     }
                                   },
                                   onChanged: (text) {
-                                    this.setState(() {
+                                    setState(() {
                                       changePasswordResquest
                                           .passwordConfirmation = text;
                                     });
                                   }),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Change Password',
                                     style: TextStyle(
                                         color: Colors.white,
@@ -193,45 +196,44 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   CircleAvatar(
                                     radius: 30,
-                                    backgroundColor: Color(0xff4c505b),
+                                    backgroundColor: const Color(0xff4c505b),
                                     child: IconButton(
                                         color: Colors.white,
-                                        onPressed: () {
+                                        onPressed: () async {
                                           if (!_formkey.currentState!
                                               .validate()) {
                                           } else {
                                             print("test change pass");
+                                            ChangePasswordResponse value =
+                                                await api.changePass(
+                                                    changePasswordResquest);
+
+                                            if (value.success == true) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Change password succefully!')),
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Change password failed!')),
+                                              );
+                                            }
                                           }
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.arrow_forward,
                                         )),
                                   )
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 40,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, 'search');
-                                    },
-                                    child: Text(
-                                      'Home',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.white,
-                                          fontSize: 18),
-                                    ),
-                                    style: ButtonStyle(),
-                                  ),
-                                ],
-                              )
                             ],
                           ),
                         )

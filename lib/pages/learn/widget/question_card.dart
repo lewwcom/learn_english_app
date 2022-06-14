@@ -19,8 +19,9 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
-      padding: EdgeInsets.all(kPadding),
+      margin:
+          const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
+      padding: const EdgeInsets.all(kPadding),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(15)),
       child: Column(

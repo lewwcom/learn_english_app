@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/widgets/pop_up.dart';
 
@@ -90,7 +89,7 @@ class _GamePage extends State<GamePage> {
                 width: width - 2 * kPadding,
                 margin: const EdgeInsets.symmetric(
                     horizontal: kPadding, vertical: kPadding * 2),
-                padding: EdgeInsets.all(kPadding),
+                padding: const EdgeInsets.all(kPadding),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15)),
@@ -181,7 +180,7 @@ class _GamePage extends State<GamePage> {
                                             height: 40,
                                             width: 40,
                                             child: Text(character[i * 5 + j],
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Color.fromARGB(
                                                         255, 238, 241, 8),
                                                     fontSize: 35)),

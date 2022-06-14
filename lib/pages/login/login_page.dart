@@ -1,19 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:learn_english_app/models/User.dart';
-import 'package:learn_english_app/models/forgot_response.dart';
+import 'package:learn_english_app/models/login_response.dart';
 import 'package:learn_english_app/models/login_resquest.dart';
 import 'package:learn_english_app/services/api_forgotpass.dart';
 import 'package:learn_english_app/services/api_google_sign_in.dart';
 import 'package:learn_english_app/services/api_login.dart';
-import 'package:learn_english_app/services/api_signup.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:learn_english_app/services/api_username.dart';
-import 'package:learn_english_app/utilities/loading_notifier.dart';
-import '../../models/signup_resquest.dart';
 
 class LoginPage extends StatefulWidget {
   static String? username;
@@ -24,9 +19,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginRequest loginRequest = new LoginRequest();
-  APILogin api = new APILogin();
-  APIForgot forgotApi = new APIForgot();
+  LoginRequest loginRequest = LoginRequest();
+  APILogin api = APILogin();
+  APIForgot forgotApi = APIForgot();
 
   @override
   void initState() {
@@ -36,14 +31,15 @@ class _LoginPageState extends State<LoginPage> {
 
   initName() async {
     User ava = await getUserName();
-    LoginPage.username=ava.content;
-    print (LoginPage.username.toString());
+    LoginPage.username = ava.content;
+    // ignore: avoid_print
+    print(LoginPage.username.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/login.png'), fit: BoxFit.cover),
       ),
@@ -53,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Container(),
             Container(
-              padding: EdgeInsets.only(left: 35, top: 130),
-              child: Text(
+              padding: const EdgeInsets.only(left: 35, top: 130),
+              child: const Text(
                 'Welcome\nBack',
                 style: TextStyle(color: Colors.white, fontSize: 33),
               ),
@@ -67,11 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 35, right: 35),
+                      margin: const EdgeInsets.only(left: 35, right: 35),
                       child: Column(
                         children: [
                           TextField(
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               fillColor: Colors.grey.shade100,
                               filled: true,
@@ -81,16 +77,16 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             onChanged: (text) {
-                              this.setState(() {
+                              setState(() {
                                 loginRequest.username = text;
                               });
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           TextField(
-                            style: TextStyle(),
+                            style: const TextStyle(),
                             obscureText: true,
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
@@ -100,12 +96,12 @@ class _LoginPageState extends State<LoginPage> {
                                   borderRadius: BorderRadius.circular(10),
                                 )),
                             onChanged: (text) {
-                              this.setState(() {
+                              setState(() {
                                 loginRequest.password = text;
                               });
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           ElevatedButton.icon(
@@ -120,7 +116,6 @@ class _LoginPageState extends State<LoginPage> {
                             label: const Text('Log in with Google'),
                             onPressed: () async {
                               final user = await GoogleSignInApi.login();
-                              initName();
                               if (user == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -130,64 +125,65 @@ class _LoginPageState extends State<LoginPage> {
                               } else {
                                 GoogleSignInAuthentication googleKey =
                                     await user.authentication;
-                                GoogleSignInApi.sendToBack(
-                                        googleKey.accessToken)
-                                    .then((value) {
-                                  initName();
-                                  if (value.success == true) {
-                                    context.push('/');
-                                    GoogleSignInApi.setGoogleSigin();
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              'Invalid username or password.')),
-                                    );
-                                    GoogleSignInApi.logout();
-                                  }
-                                });
+                                LoginResponse value =
+                                    await GoogleSignInApi.sendToBack(
+                                        googleKey.accessToken);
+
+                                if (value.success == true) {
+                                  await initName();
+                                  GoogleSignInApi.setGoogleSigin();
+                                  context.push('/');
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Invalid username or password.')),
+                                  );
+                                  GoogleSignInApi.logout();
+                                }
                               }
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Sign in',
                                 style: TextStyle(
                                     fontSize: 27, fontWeight: FontWeight.w700),
                               ),
                               CircleAvatar(
                                 radius: 30,
-                                backgroundColor: Color(0xff4c505b),
+                                backgroundColor: const Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
-                                    onPressed: () {
+                                    onPressed: () async {
                                       print("test đăng nhập");
-                                      api.login(loginRequest).then((value) {
-                                        initName();
-                                        if (value.success == true) {
-                                          context.push('/');
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                content: Text(
-                                                    'Invalid username or password.')),
-                                          );
-                                        }
-                                      });
+                                      LoginResponse value =
+                                          await api.login(loginRequest);
+
+                                      if (value.success == true) {
+                                        await initName();
+                                        context.push('/');
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Invalid username or password.')),
+                                        );
+                                      }
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.arrow_forward,
                                     )),
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                           ),
                           Row(
@@ -197,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () {
                                   context.push('/signup');
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Sign Up',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -205,11 +201,14 @@ class _LoginPageState extends State<LoginPage> {
                                       color: Color(0xff4c505b),
                                       fontSize: 18),
                                 ),
-                                style: ButtonStyle(),
+                                style: const ButtonStyle(),
                               ),
                               TextButton(
-                                  onPressed: () {},
-                                  child: Text(
+                                  onPressed: () {
+                                    print("test quên mật khẩu");
+                                    context.push('/forgotpassword');
+                                  },
+                                  child: const Text(
                                     'Forgot Password',
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,

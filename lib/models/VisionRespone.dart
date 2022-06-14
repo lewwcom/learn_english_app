@@ -25,4 +25,3 @@ class VisionSerializer implements Serializer<VisionRespone> {
     return visionRespone;
   }
 }
-

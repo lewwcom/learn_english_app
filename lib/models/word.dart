@@ -8,9 +8,11 @@ class Word {
   final String ipa;
   final String? audioUrl;
   final String? imgUrl;
+  final String? viMeaning;
   final List<Definition> _defintions = List.empty(growable: true);
 
-  Word(this.word, this.ipa, this.audioUrl, this.imgUrl, {this.id});
+  Word(this.word, this.ipa, this.audioUrl, this.imgUrl,
+      {this.id, this.viMeaning});
 
   factory Word.fromString(String word) {
     Word result = Word(
@@ -37,9 +39,14 @@ class Word {
 class WordSerializer implements Serializer<Word> {
   @override
   Word fromJsonContentKey(dynamic content) {
-    Word word = Word(content["word"], content["ipa"], content["audio_url"],
-        content["img_url"],
-        id: content["id"]);
+    Word word = Word(
+      content["word"],
+      content["ipa"],
+      content["audio_url"],
+      content["img_url"],
+      id: content["id"],
+      viMeaning: content["vi_meaning"],
+    );
 
     word._defintions.addAll(ListSerializer(DefinitionSerializer())
         .fromJsonContentKey(content["sys_defs"]));

@@ -1,14 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:learn_english_app/constants.dart';
 import 'package:learn_english_app/size_config.dart';
 
 class VisionPicture extends StatelessWidget {
-
   const VisionPicture({
     Key? key,
-    required this.image ,
+    required this.image,
   }) : super(key: key);
 
   final dynamic image;
@@ -34,22 +30,16 @@ class VisionPicture extends StatelessWidget {
                       width: defaultSize * 0.8,
                     ),
                     image: DecorationImage(
-                      fit: BoxFit.cover,
-                      //image: _VisionBottomSheetState._imagefile== null ? AssetImage(image) as ImageProvider: FileImage(File(_VisionBottomSheetState._imagefile!.path) )
-                      image: image
-                    ),
+                        fit: BoxFit.cover,
+                        //image: _VisionBottomSheetState._imagefile== null ? AssetImage(image) as ImageProvider: FileImage(File(_VisionBottomSheetState._imagefile!.path) )
+                        image: image),
                   ),
                 ),
-
               ],
             ),
           ),
-
         ],
       ),
-
     );
-
   }
-
 }

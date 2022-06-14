@@ -15,5 +15,4 @@ class LoginRequest {
     data['password'] = this.password;
     return data;
   }
-
 }

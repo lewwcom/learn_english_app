@@ -5,7 +5,8 @@ import 'package:learn_english_app/services/api_youtube_service.dart';
 
 class SearchScreen extends StatefulWidget {
   final String searchString;
-  SearchScreen(this.searchString);
+  // ignore: use_key_in_widget_constructors
+  const SearchScreen(this.searchString);
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }

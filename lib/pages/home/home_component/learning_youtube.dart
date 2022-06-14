@@ -17,13 +17,13 @@ class LearningOnYoutubeCard extends StatelessWidget {
     return InkWell(
       onTap: press,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0,10),
+              offset: const Offset(0, 10),
               blurRadius: 20,
               color: kShadowColor,
             ),
