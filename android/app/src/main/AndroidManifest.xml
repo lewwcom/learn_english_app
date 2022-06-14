@@ -3,7 +3,7 @@
     package="com.lewwcom.learn_english_app">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="learn_english_app"
+        android:label="Aki Flash"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

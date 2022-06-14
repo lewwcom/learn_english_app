@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +6,6 @@ import '../../constants.dart';
 import '../bottonavbar/my_bottom_nav_bar.dart';
 
 class VisionPage extends StatefulWidget {
-
   @override
   State<VisionPage> createState() => _VisionPageState();
 }
@@ -22,7 +20,6 @@ class _VisionPageState extends State<VisionPage> {
         content: "cat",
       ),
       bottomNavigationBar: MyBottomNavBar(),
-
     );
   }
 
@@ -30,7 +27,7 @@ class _VisionPageState extends State<VisionPage> {
     return AppBar(
       backgroundColor: kPrimaryColor,
       leading: IconButton(
-        icon: SvgPicture.asset("assets/icons/menu.svg"),
+        icon: Image.asset("assets/images/logo.png"),
         onPressed: () {},
       ),
       centerTitle: true,
@@ -38,4 +35,3 @@ class _VisionPageState extends State<VisionPage> {
     );
   }
 }
-
