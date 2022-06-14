@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:learn_english_app/models/User.dart';
 import 'package:learn_english_app/models/forgot_response.dart';
+import 'package:learn_english_app/models/login_response.dart';
 import 'package:learn_english_app/models/login_resquest.dart';
 import 'package:learn_english_app/services/api_forgotpass.dart';
 import 'package:learn_english_app/services/api_google_sign_in.dart';
@@ -36,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
 
   initName() async {
     User ava = await getUserName();
-    LoginPage.username=ava.content;
-    print (LoginPage.username.toString());
+    LoginPage.username = ava.content;
+    print(LoginPage.username.toString());
   }
 
   @override
@@ -120,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                             label: const Text('Log in with Google'),
                             onPressed: () async {
                               final user = await GoogleSignInApi.login();
-                              initName();
+                              await initName();
                               if (user == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -130,22 +131,22 @@ class _LoginPageState extends State<LoginPage> {
                               } else {
                                 GoogleSignInAuthentication googleKey =
                                     await user.authentication;
-                                GoogleSignInApi.sendToBack(
-                                        googleKey.accessToken)
-                                    .then((value) {
-                                  initName();
-                                  if (value.success == true) {
-                                    context.push('/');
-                                    GoogleSignInApi.setGoogleSigin();
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              'Invalid username or password.')),
-                                    );
-                                    GoogleSignInApi.logout();
-                                  }
-                                });
+                                LoginResponse value =
+                                    await GoogleSignInApi.sendToBack(
+                                        googleKey.accessToken);
+
+                                initName();
+                                if (value.success == true) {
+                                  context.push('/');
+                                  GoogleSignInApi.setGoogleSigin();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Invalid username or password.')),
+                                  );
+                                  GoogleSignInApi.logout();
+                                }
                               }
                             },
                           ),
@@ -165,21 +166,22 @@ class _LoginPageState extends State<LoginPage> {
                                 backgroundColor: Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
-                                    onPressed: () {
+                                    onPressed: () async {
                                       print("test đăng nhập");
-                                      api.login(loginRequest).then((value) {
-                                        initName();
-                                        if (value.success == true) {
-                                          context.push('/');
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                content: Text(
-                                                    'Invalid username or password.')),
-                                          );
-                                        }
-                                      });
+                                      LoginResponse value =
+                                          await api.login(loginRequest);
+
+                                      await initName();
+                                      if (value.success == true) {
+                                        context.push('/');
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Invalid username or password.')),
+                                        );
+                                      }
                                     },
                                     icon: Icon(
                                       Icons.arrow_forward,
