@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchHistory extends StatelessWidget {
   const SearchHistory({Key? key}) : super(key: key);
@@ -14,10 +13,7 @@ class SearchHistory extends StatelessWidget {
               .watch<SearchHistoryNotifier>()
               .history
               .map((word) => TextButton.icon(
-                    onPressed: () {
-                      context.read<SearchHistoryNotifier>().add(word);
-                      context.push("/word/" + word);
-                    },
+                    onPressed: () => context.push("/words/$word"),
                     icon: const Icon(
                       Icons.history,
                       color: Colors.grey,
@@ -38,10 +34,20 @@ class SearchHistory extends StatelessWidget {
 
 class SearchHistoryNotifier with ChangeNotifier {
   static const int _max = 3;
+  static SharedPreferences? _prefs;
   final Set<String> _history = {};
 
-  SearchHistoryNotifier(List<String> history) {
-    _history.addAll(history.getRange(0, min(history.length, _max)));
+  SearchHistoryNotifier() {
+    _init();
+  }
+
+  Future<void> _init() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    _prefs = _prefs ?? await SharedPreferences.getInstance();
+    List<String> history =
+        _prefs?.getStringList("search_history") ?? List.empty();
+    _history.addAll(history);
+    notifyListeners();
   }
 
   void add(String word) {
@@ -50,6 +56,7 @@ class SearchHistoryNotifier with ChangeNotifier {
     if (_history.length > _max) {
       _history.remove(_history.first);
     }
+    _prefs?.setStringList("search_history", _history.toList());
     notifyListeners();
   }
 
