@@ -50,11 +50,11 @@ class _AlarmPageState extends State<AlarmPage> {
   }
 
   Future<void> onSelectNotification(payload) async {
-    context.push("/decks");
+    context.push("/learn");
   }
 
   Future _showNotification() async {
-    var time = const Time(0, 5, 0); //10h0ph0s
+    var time = const Time(10, 0, 0); //10h0ph0s
     var androidDetails = const AndroidNotificationDetails(
       "channelId",
       "local",
