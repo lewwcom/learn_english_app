@@ -1,88 +1,35 @@
 # Learn English App
 
-## Sử dụng API
+## Giới thiệu
 
-[`api_client.dart`](lib/api/api_client.dart) cài đặt sử dụng thư viện [`http`](https://pub.dev/packages/http) và dùng thư viện [`shared_preferences`](https://pub.dev/packages/shared_preferences) để lưu cookie vào bộ nhớ lưu trữ của thiết bị.
+Ứng dụng giúp tiếng Anh hiệu quả bằng việc học qua flashcard. Ứng dụng cung cấp nguồn từ vựng tiếng Anh, các bài học qua video, cho phép tra cứu bằng cách chụp hình các đồ vật.
 
-Code mẫu:
+## Công nghệ sử dụng
 
-```dart
-import 'package:learn_english_app/api/api_client.dart' as api_client;
+- **Mobile client**: [Flutter](https://flutter.dev/)
+  - Đăng nhập bằng Google: [google_sign_in](https://pub.dev/packages/google_sign_in)
+  - Thông báo: [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
+  - Youtube player: [youtube_player_flutter](https://pub.dev/packages/youtube_player_flutter)
+  - ...
+- **Backend server**: [Flask](https://flask.palletsprojects.com/)
+  - Backend repo: [BuiChiTrung/EFlask](https://github.com/BuiChiTrung/EFlask)
+  - CSDL: [MySQL](https://www.mysql.com/)
+  - Nhận diện hình ảnh: [Google Cloud Vision AI](https://cloud.google.com/vision)
+  - Liên hệ bằng SMS (dùng khi người dùng quên mật khẩu): [Twilio](https://www.twilio.com/)
 
-Future<void> testApiClient() async {
-  try {
-    await api_client.post(
-      "auth/signup",
-      api_client.DiscardResponseContentSerializer(),
-      formData: {
-        "username": "test_account",
-        "password": "12345678",
-        "password_confirmation": "12345678",
-      },
-    );
-  } on ApiException catch (e) {
-    debugPrint(e.toString());
-  }
-
-  try {
-    await api_client.post(
-      "auth/login",
-      api_client.DiscardResponseContentSerializer(),
-      formData: {
-        "username": "test_account",
-        "password": "12345678",
-        "remember_me": "true"
-      },
-    );
-  } on ApiException catch (e) {
-    debugPrint(e.toString());
-  }
-
-  try {
-    // [WordsSerializer] implement [Serializer<List<Word>>] dùng để đọc key 
-    // `content` của json object trong reponse từ dạng [dynamic] (có thể là 
-    // [Map<String, dynamic>] tương ứng với json object, [List<dynamic>] hoặc 
-    // [dynamic]) thành [List<Word>].
-    List<Word> words =
-        await api_client.get("words/?word=ca", WordsSerializer());
-    debugPrint(words.first.word);
-  } on ApiException catch (e) {
-    debugPrint(e.toString());
-  }
-}
-```
-
-Cài đặt mẫu class [`WordSerializer`](lib/models/word.dart) implement interface [`Serializer<Word>`](lib/api/serializer.dart):
-
-```dart
-class Word {
-  final String word;
-  final String ipa;
-  final String? audioUrl;
-  final String? imgUrl;
-  final List<Definition> _defintions = List.empty(growable: true);
-
-  Word(this.word, this.ipa, this.audioUrl, this.imgUrl);
-}
-
-class WordSerializer implements Serializer<Word> {
-  @override
-  Word fromJsonContentKey(dynamic content) {
-    Word word = Word(content["word"], content["ipa"], content["audio_url"],
-        content["img_url"]);
-
-    final DefinitionSerializer definitionSerializer = DefinitionSerializer();
-    word._defintions.addAll((content["sys_defs"] as List<dynamic>)
-        .map((def) => definitionSerializer.fromJsonContentKey(def))
-        .toList());
-    return word;
-  }
-}
-```
+## Thực thi
 
 Khi chạy flutter, định nghĩa biến `API_BASE_URL` là đường dẫn đến server:
 
 ```bash
 # AVD trỏ tới địa chỉ của host bằng 10.0.2.2
 flutter run --dart-define=API_BASE_URL=http://10.0.2.2:5001/
+```
+
+Chạy server:
+
+```bash
+git clone https://github.com/BuiChiTrung/EFlask.git
+cd EFlask
+docker compose up
 ```
