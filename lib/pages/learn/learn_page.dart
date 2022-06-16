@@ -105,9 +105,9 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
         ));
   }
 
-  Question genQuestion() {
+  Question genQuestion(Deck deck) {
     List<String> option = [];
-    option.add(widget.currentDeck.flashcards[0].word.word);
+    option.add(deck.flashcards[0].word.word);
     Random random = Random();
     int randNumber = random.nextInt(words.length);
     option.add(words[randNumber]);
@@ -129,10 +129,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
       option[0] = tg;
     }
     Question question = Question(
-        1,
-        widget.currentDeck.flashcards[0].word.definitions[0].meaning,
-        randNumber,
-        option);
+        1, deck.flashcards[0].word.definitions[0].meaning, randNumber, option);
     return question;
   }
 
@@ -207,9 +204,9 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
                         if (widget.countUpdate > 0) {
                           updateLearnCard(deck.flashcards[0].id, quality);
                         }
-                        if (deck.flashcards.isNotEmpty) {
-                          Question question = genQuestion();
+                        if (deck.flashcards.length >= 2) {
                           deck.removeFirst();
+                          Question question = genQuestion(deck);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

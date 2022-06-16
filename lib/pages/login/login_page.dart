@@ -130,6 +130,10 @@ class _LoginPageState extends State<LoginPage> {
                                         googleKey.accessToken);
 
                                 if (value.success == true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Login successfully!')),
+                                  );
                                   await initName();
                                   GoogleSignInApi.setGoogleSigin();
                                   context.push('/');
@@ -166,6 +170,12 @@ class _LoginPageState extends State<LoginPage> {
                                           await api.login(loginRequest);
 
                                       if (value.success == true) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content:
+                                                  Text('Login successfully!')),
+                                        );
                                         await initName();
                                         context.push('/');
                                       } else {
