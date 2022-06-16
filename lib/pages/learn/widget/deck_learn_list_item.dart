@@ -44,13 +44,15 @@ class DeckLearnListItem extends StatelessWidget {
         onTap: () {
           if (_deck.flashcards.isNotEmpty) {
             Question question = genQuestion();
+            Deck deck = _deck;
+            deck.removeFirst();
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (_) => LearnScreen(
                         question: question,
                         initDeck: _deck,
-                        currentDeck: _deck,
+                        currentDeck: deck,
                         countUpdate: _deck.flashcards.length)));
           }
         },

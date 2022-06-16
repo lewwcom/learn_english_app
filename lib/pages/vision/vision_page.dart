@@ -31,7 +31,7 @@ class _VisionPageState extends State<VisionPage> {
         onPressed: () {},
       ),
       centerTitle: true,
-      title: Text("Vision"),
+      title: const Text("Vision"),
     );
   }
 }

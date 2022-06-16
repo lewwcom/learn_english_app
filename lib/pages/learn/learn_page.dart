@@ -207,7 +207,7 @@ class _LearnScreen extends State<LearnScreen> with TickerProviderStateMixin {
                         if (widget.countUpdate > 0) {
                           updateLearnCard(deck.flashcards[0].id, quality);
                         }
-                        if (deck.flashcards.length >= 2) {
+                        if (deck.flashcards.isNotEmpty) {
                           Question question = genQuestion();
                           deck.removeFirst();
                           Navigator.pushReplacement(

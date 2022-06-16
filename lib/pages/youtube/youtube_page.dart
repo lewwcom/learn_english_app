@@ -5,6 +5,8 @@ import 'package:learn_english_app/services/api_youtube_service.dart';
 import 'package:learn_english_app/pages/youtube/channel_page.dart';
 
 class YoutubeScreen extends StatefulWidget {
+  const YoutubeScreen({Key? key}) : super(key: key);
+
   @override
   _YoutubeScreenState createState() => _YoutubeScreenState();
 }
