@@ -2,7 +2,7 @@
 
 ## Giới thiệu
 
-Ứng dụng giúp tiếng Anh hiệu quả bằng việc học qua flashcard. Ứng dụng cung cấp nguồn từ vựng tiếng Anh, các bài học qua video, cho phép tra cứu bằng cách chụp hình các đồ vật.
+Ứng dụng giúp học tiếng Anh hiệu quả bằng việc học qua flashcard. Ứng dụng cung cấp nguồn từ vựng tiếng Anh, các bài học qua video, cho phép tra cứu bằng cách chụp hình các đồ vật.
 
 ## Công nghệ sử dụng
 
