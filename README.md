@@ -32,4 +32,7 @@ Chạy server:
 git clone https://github.com/BuiChiTrung/EFlask.git
 cd EFlask
 docker compose up
+
+## File apk sử dụng backend đã deploy online
+https://drive.google.com/file/d/17NDEIoMZqmeDbfC5ciHd2cYUYZ1juNpW/view?usp=sharing
 ```
